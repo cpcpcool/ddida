@@ -31,5 +31,16 @@ public class UserController {
 		return "user/qna/qnaList";
 	}
 	
+	@GetMapping("/qna/qnaDetail")
+	public String qnaDetail() {
+		
+		return "user/qna/qnaDetail";
+	}
+	
+	@GetMapping("/qna/add")
+	public String qnaAddForm() {
+		
+		return "user/qna/qnaAddForm";
+	}
 
 }

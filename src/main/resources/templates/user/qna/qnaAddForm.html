@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div class="row">
+				<h4 class="col-2">문의 작성</h4>
+			</div>
+				<hr class="titleUnder my-2">			
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+</html>
