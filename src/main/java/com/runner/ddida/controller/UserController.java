@@ -18,5 +18,12 @@ public class UserController {
 
 		return "index";
 	}
+	
+	@GetMapping("/mypage/reservation")
+	public String reserveList() {
+		
+		return "user/mypage/reserveList";
+	}
+	
 
 }
