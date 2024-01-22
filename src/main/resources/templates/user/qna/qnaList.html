@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/qnaList.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div class="row">
+				<h4 class="col-2">문의 내역</h4>
+			</div>
+				<hr class="titleUnder my-2">
+			
+			<div class="row d-flex justify-content-end mt-3" style="width: 40%;">
+				<div class="btn-group col-2 me-2 " role="group">
+					<button type="button"
+						class="btn btn-outline-secondary dropdown-toggle"
+						data-bs-toggle="dropdown">제목</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">제목</a></li>
+						<li><a class="dropdown-item" href="#">내용</a></li>
+					</ul>
+				</div>
+				<input class="form-control col me-2" type="text" placeholder="검색어를 입력하세요">
+				<button type="submit" class="btn btn-outline-secondary col-3">검색하기</button>
+			</div>
+			
+			<table class="table table-hover mt-3"
+				style="width: 90%; margin-left: auto; margin-right: auto;">
+				<thead class="table-light">
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<tr class="table">
+						<td></td>
+						<td><a href="/" style="text-decoration: none"></a></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div class="d-flex justify-content-end mt-1">
+				<button type="button" class="btn btn-outline-secondary"
+					onclick="location.href='/'">문의 작성</button>
+			</div>
+			
+			<div>
+				<nav aria-label="pagination">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/" aria-label="Previous"> <span
+								aria-hidden="true">&laquo;</span>
+						</a></li>
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/">1</a></li>
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/">2</a></li>
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/">3</a></li>
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/"
+							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						</a></li>
+					</ul>
+				</nav>
+			</div>
+			
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+</html>

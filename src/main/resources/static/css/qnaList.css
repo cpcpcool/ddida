@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.titleUnder {
+	width : 100px;
+	height : 5px;
+	background-color : #37745B;
+	opacity: 100;
+	border : 0;
+	margin-left: 40px;
+}

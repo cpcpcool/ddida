@@ -25,5 +25,11 @@ public class UserController {
 		return "user/mypage/reserveList";
 	}
 	
+	@GetMapping("/qna")
+	public String qnaList() {
+		
+		return "user/qna/qnaList";
+	}
+	
 
 }
