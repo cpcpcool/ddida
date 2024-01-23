@@ -18,5 +18,23 @@ public class UserController {
 
 		return "index";
 	}
+	
+	@GetMapping("/sports")
+	public String spaceList() {
+
+		return "user/sports/spaceList";
+	}
+	
+	@GetMapping("/sports/1")
+	public String spaceDetail() {
+
+		return "user/sports/spaceDetail";
+	}
+	
+	@GetMapping("/sports/1/reserve")
+	public String reserveForm() {
+
+		return "user/sports/reserveForm";
+	}
 
 }
