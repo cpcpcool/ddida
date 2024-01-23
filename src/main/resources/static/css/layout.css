@@ -134,9 +134,10 @@ a {
 	z-index: 9999;
 }
 .sub-back {
-	position:sticky;
-	left:23.5%;
+	position:absolute;
+	left:51%;
 	top:192px;
+	transform: translate(-50%, 0);
 	background-color: #fff;
 	width: 1050px;
 }
