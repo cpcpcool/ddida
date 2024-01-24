@@ -24,7 +24,7 @@
 	background-color: #ffffff;
 }
 
-#category-btn:hover {
+#category-btn:hover, #category-btn:focus {
 	width: 400px;
 	color: #222222;
 	border-color: #37745B;
@@ -97,14 +97,14 @@ a.back-button:before {
 	border-radius: 0.9rem;
 }
 
-.list-group > a {
+.list-group>a {
 	position: relative;
 	background-color: #C1D2BF;
 	opacity: 100%;
 	height: 40px;
 }
 
-.list-group > a > #prevNext {
+.list-group>a>#prevNext {
 	position: absolute;
 	left: 30px;
 	top: 10px;
@@ -115,7 +115,7 @@ a.back-button:before {
 	text-align: left;
 }
 
-.list-group > a > #prevNextTitle {
+.list-group>a>#prevNextTitle {
 	position: absolute;
 	top: 10px;
 	font-weight: normal;

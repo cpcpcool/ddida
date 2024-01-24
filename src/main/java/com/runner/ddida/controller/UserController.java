@@ -19,11 +19,6 @@ public class UserController {
 		return "index";
 	}
 	
-	@GetMapping("/mypage/reservation")
-	public String reserveList() {
-		
-		return "user/mypage/reserveList";
-	}
 	
 	@GetMapping("/qna")
 	public String qnaList() {
@@ -41,6 +36,18 @@ public class UserController {
 	public String qnaAddForm() {
 		
 		return "user/qna/qnaAddForm";
+	}
+	
+	@GetMapping("/mypage/reservation")
+	public String reserveList() {
+		
+		return "user/mypage/reserveList";
+	}
+	
+	@GetMapping("/mypage/reservation/reserveDetail")
+	public String reserveDetail() {
+		
+		return "user/mypage/reserveDetail";
 	}
 
 }
