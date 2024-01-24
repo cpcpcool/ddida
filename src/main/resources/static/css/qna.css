@@ -121,3 +121,18 @@ a.back-button:before {
 	font-weight: normal;
 	font-size: 15px;
 }
+
+.form-control:disabled {
+	background-color: #ffffff;
+	border-radius: 0.9rem;
+	border-color: #37745B;
+}
+
+.form-label {
+	text-align: left;
+}
+
+.pwEdit {
+	font-size: 15px;
+	text-align: left;
+}

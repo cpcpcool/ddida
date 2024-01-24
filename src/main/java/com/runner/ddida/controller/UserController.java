@@ -19,7 +19,6 @@ public class UserController {
 		return "index";
 	}
 	
-	
 	@GetMapping("/qna")
 	public String qnaList() {
 		
@@ -48,6 +47,18 @@ public class UserController {
 	public String reserveDetail() {
 		
 		return "user/mypage/reserveDetail";
+	}
+	
+	@GetMapping("/mypage/userInfo")
+	public String userInfo() {
+		
+		return "user/mypage/userInfo";
+	}
+	
+	@GetMapping("/mypage/userInfo/edit")
+	public String editPassword() {
+		
+		return "user/mypage/editPassword";
 	}
 
 }
