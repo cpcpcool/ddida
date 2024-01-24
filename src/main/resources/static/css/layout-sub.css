@@ -58,16 +58,16 @@
 	border-color: #37745B;
 	border-radius: 12px;
 }
-#main-search{
-	padding-left:6px;
+
+#main-search {
+	padding-left: 6px;
 }
 
 #main-search:after {
-	content:url("/img/search.svg");
+	content: url("/img/search.svg");
 	margin-left: 8px;
 	vertical-align: middle;
 }
-
 
 /* card */
 .main-h4 {
@@ -76,10 +76,10 @@
 
 .main-h4:after {
 	content: "";
-	position: absolute; 
-	left:0;
+	position: absolute;
+	left: 0;
 	bottom: -10px;
-	width: 50px; 
+	width: 50px;
 	height: 5px;
 	background-color: #37745b;
 }
@@ -101,10 +101,23 @@
 }
 
 .card {
-	--bs-border-radius:15px;
+	--bs-border-radius: 15px;
 	--bs-card-border-radius: 15px;
 }
 
 .mainPage .card-img-top {
 	border-radius: 15px 15px 0 0
+}
+
+/* login join cert */
+#login-btn {
+	background-color: #37745b;
+	border: 0;
+	font-weight: 300;
+	color: #fff;	
+}
+
+.form-check-input:checked {
+	background-color:#37745b;
+	border-color: #aaa; 
 }
