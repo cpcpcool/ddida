@@ -32,7 +32,22 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.ant-collapse-header {
+  background-color: #37745b;
+}
+
+.ant-collapse-header-text {
+  color: #fff;
+  text-align: left;
+  font-weight: 300;
+}
+
+.ant-collapse-expand-icon {
+  color: #fff;
 }
