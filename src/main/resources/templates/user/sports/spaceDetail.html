@@ -49,6 +49,15 @@
 .table-review>thead>tr>th {
 	background-color: #C1D2BF;
 }
+
+.fc-toolbar-title {
+    font-size: .4em;
+}
+
+.fc  {
+    font-size: .6em;
+}
+
 </style>
 
 </head>
@@ -59,11 +68,7 @@
 	<!-- Content -->
 	<div class="wrap-content">
 		<div class="container">
-			<h2 class="my-3">축구장</h2>
-
-
-
-			
+			<h4 class="my-3">축구장</h4>
 			<div class="row grid column-gap-2">
 					<div class="col mr-auto" style="background-color: #F7F7F7">
 						<div class="mt-2">
@@ -111,10 +116,8 @@
 									</div>
 								</div>
 							</div>
-
 						</div>
 					</div>
-					
 					<div class="col" style="background-color: #F7F7F7">
 					<div  class="mt-2" style="background-color: #FFFFFF; height: 445px;">
 						<div id="calendar" class="py-2 px-2"></div>
@@ -133,14 +136,7 @@
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			<h3 class="mt-5 mb-2">기본정보</h3>
+			<h4 class="mt-5 mb-2">기본정보</h4>
 			<table class="table table-striped-color center">
 				<thead>
 					<tr class="line">
@@ -164,7 +160,7 @@
 				</tbody>
 			</table>
 
-			<h3 class="mt-5 mb-2">시설후기</h3>
+			<h4 class="mt-5 mb-2">시설후기</h4>
 			<table class="table table-borderless table-review center mb-5">
 				<thead>
 					<tr class="line">
@@ -187,21 +183,22 @@
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
 	
-	
 	 <script>
 	 document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-				titleFormat : function(date) {
-					return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
-				},
-				fixedWeekCount: false,
-				height: "100%",
-				locale: 'ko' // 한국어 설정
-			});
-			calendar.render();
-		});
+	        var calendarEl = document.getElementById('calendar');
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	        	headerToolbar: {
+	        		start: 'prev',
+	        		center: 'title',
+	        		 end: 'next'
+	        	},
+	        	 height: "100%", // 필수
+				fixedWeekCount: false, // 필수
+	          initialView: 'dayGridMonth', 
+			  locale: 'ko' // 한국어 설정 
+	        });
+	        calendar.render();
+	      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>

@@ -16,6 +16,45 @@
 
 <link rel="icon" href="/img/favicon.png">
 <title>뛰다</title>
+<style type="text/css">	
+
+.fc-toolbar-title {
+    font-size: .4em;
+}
+
+.fc  {
+    font-size: .6em;
+}
+
+
+label {
+	width: 100px
+}
+
+.reserveO input {
+	border: 2px solid #C1D2BF;
+	border-radius: 16px;
+	width: 250px;
+	height: 45px;
+	text-align: center;
+}
+
+.reserveT input {
+	border: 2px solid #C1D2BF;
+	border-radius: 16px;
+	width: 200px;
+	height: 50px;
+	text-align: center;
+}
+
+
+.phone input {
+	width: 80px;
+	text-align: center;
+}
+
+
+</style>
 </head>
 <body>
 	<!-- Header -->
@@ -34,15 +73,67 @@
 						<div id="calendar" class="py-2 px-2"></div>
 					</div>
 				</div>
-
-
 				<div class="col" style="background-color: #F7F7F7">
 					<div class="my-2">
 					</div>
 				</div>
 			</div>
-
-
+			
+			<form action="/sports/1/reserve/check" method="post">
+			<div style="text-align: left;" class="reserveO">
+				<div class="row grid column-gap-2 my-3">
+					<div class="col">
+						<label for="rsrcNm">시설 이름</label>
+						<input type="text" name="rsrcNm" id="rsrcNm">
+					</div>
+					
+					<div class="col">
+						<label for="useStartDate">이용 날짜</label>
+						<input type="text" name="useStartDate" id="useStartDate">
+					</div>
+				</div>
+				<div class="row grid column-gap-2 my-3">
+					<div class="col">
+						<label for="useStartTime">이용 시간</label>
+						<input type="text" name="useStartTime" id="useStartTime">
+					</div>
+					
+					<div class="col">
+						<label for="reserveFee">이용 요금</label>
+						<input type="text" name="reserveFee" id="reserveFee">
+					</div>
+				</div>
+			</div>
+			
+			<div class="mt-5 reserveT" style="text-align: left;" >
+			<h4>예약자 정보</h4>
+				<div class="row grid column-gap-2 my-3">
+					<div class="col">
+						<label for="userName">예약자 명</label>
+						<input type="text" name="userName" id="userName">
+					</div>
+				</div>
+				<div class="row grid column-gap-3 my-3">
+					<div class="col phone">
+						<label for="userPhoneOne">연락처</label>
+						<input type="text" name="userPhoneOne" id="userPhoneOne"> -
+						<input type="text" name="userPhoneTwo" id="userPhoneTwo"> -
+						<input type="text" name="userPhoneThr" id="userPhoneThr">
+					</div>
+				</div>
+				
+				<div class="row grid column-gap-3 my-3">
+					<div class="col">
+						<label for="userEmailOne">이메일</label>
+						<input type="text" name="userEmailOne" id="userEmailOne"> @
+						<input type="text" name="userEmaiTwo" id="userEmaiTwo">
+					</div>
+				</div>
+			</div>
+			<div class="mb-5" style="text-align: right;">
+				<input type="submit" value="결제 > ">
+			</div>
+			</form>
 
 		</div>
 	</div>
@@ -52,25 +143,28 @@
 	
 	<script>
 	 document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-				titleFormat : function(date) {
-					return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
-				},
-				selectable: true, 
+	        var calendarEl = document.getElementById('calendar');
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	        	headerToolbar: {
+	        		start: 'prev',
+	        		center: 'title',
+	        		 end: 'next'
+	        	},
+	    		selectable: true, 
 				dragScroll: false,
 				editable: false,
 				fixedWeekCount: false,
 				height: "100%",
-				locale: 'ko', // 한국어 설정
+			  locale: 'ko', // 한국어 설정 
 				select: function (selectionInfo) {
 				      var startDate = selectionInfo.startStr;
 				      alert('선택된 날짜: ' + startDate);
 				    },
-			});
-			calendar.render();
-		});
+	        });
+	        calendar.render();
+	      });
+	 
+	 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
