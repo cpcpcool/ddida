@@ -62,7 +62,7 @@
 				<div th:each="da:${data}">
 					<div class="col">
 						<div class="card" style="width: 283px; height: 319px">
-							<a th:href="@{/sports/1}" class="card-link">
+							<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}" class="card-link">
 								<img th:src="${#strings.isEmpty(da.imgFileUrlAddr) ? '/img/no-image.png' : da.imgFileUrlAddr}"
 									class="card-img-top" th:alt="${da.rsrcNm}">
 							</a>
@@ -78,7 +78,8 @@
 										[[${da.addr}]]</div>
 								</div>
 								<div class="row">
-									<div class="col" style="color: #37745B; max-width: 110px; text-align: center;">무료
+									<div class="col" style="color: #37745B; max-width: 110px; text-align: center;">
+										[[${da.rsrcNo}]]
 									</div>
 									<div class="col" style="font-size: 15px; line-height: 30px">
 										/ 60분</div>

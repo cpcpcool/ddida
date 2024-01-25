@@ -47,35 +47,6 @@
 		}
 	</style>
 </head>
-<script "text/javascript">
-	$(document).ready(function () {
-		var uri = 'https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/';
-		var clientKey = 'f52a97aeb3db33508088d414ae36a7b9';
-		var url = uri + clientKey;
-		var data = {
-			"rsrcNoList": [
-				"BA10A0001104",
-				"BA10A0002980",
-				"BA10A0003043"
-			],
-		};
-		$.ajax({
-			url: url
-			, type: 'post'
-			, data: data
-			, dataType: 'json'
-			, contentType: 'application/json; charset=utf-8'
-			, success: function (result) {
-				$('#content').html(JSON.stringify(result));
-			}
-			, error: function (request, status, error) {
-				alert(error);
-				alert(status);
-				alert(request.status);
-			}
-		});
-	});
-</script>
 
 <body>
 	<!-- Header -->
@@ -87,9 +58,10 @@
 			<div>
 				<h2>시설 목록</h2>
 			</div>
-			<div id="content"></div>
 		</div>
 	</div>
+	
+	<div>하이</div>
 
 
 	<!-- Footer -->
