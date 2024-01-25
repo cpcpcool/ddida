@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'SpoqaHanSansNeo';
+	src: url('/public/fonts/SpoqaHanSansNeo-Thin.woff') format('woff');
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: 'SpoqaHanSansNeo';
+	src: url('/public/fonts/SpoqaHanSansNeo-Light.woff') format('woff');
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: 'SpoqaHanSansNeo';
+	src: url('/public/fonts/SpoqaHanSansNeo-Regular.woff') format('woff');
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'SpoqaHanSansNeo';
+	src: url('/public/fonts/SpoqaHanSansNeo-Medium.woff') format('woff');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'SpoqaHanSansNeo';
+	src: url('/public/fonts/SpoqaHanSansNeo-Bold.woff') format('woff');
+	font-weight: 500;
+}
+
+body {
+	font-family: 'SpoqaHanSansNeo', sans-serif;
+	color: #222;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+div,
+span {
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+ol,
+dl {
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}

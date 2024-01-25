@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3&libraries=services,clusterer,drawing"></script>
+<title>시설 상세</title>
+<style>
+h4 {float: left; margin-top: 20px; background-color: lightgray;}
+.inner-container {position: relative; margin-top: 70px; padding: 0px; height: 500px;}
+table {position: relative; left: 20px; clear: both; margin-top: 20px; margin-left: 20px; max-width: 55%; padding: 0px;}
+.td {border-right: 3px solid #c1d2bf; width: auto; line-height: auto; min-width: 100px;}
+th.prop, .td.prop {width: auto; padding-bottom: 8px; padding-left:-10px; padding-right: 20px; 
+text-align: left; vertical-align: middle; height: 100%; white-space: nowrap;}
+th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; vertical-align: middle;}
+.image-area {position: absolute; right: 150px; top:20px; float: right; text-align: left; width: 200px;}
+.image-area img {width: 150px; height: 100px; background-size: cover;}
+#map {width: 200px; height: 150px;}
+.backward {float: right; border-radius: 20px; margin-top: 20px; padding: 5px;
+ width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+</style>
+</head>
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/admin/adminHeader}"></div>
+	
+	<!-- Content -->	
+	<div class="wrap-content">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-12">
+					<h4>시설물 정보 상세</h4>
+					<div class=inner-container style="border: solid 5px #37745b">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th class="prop"></th>
+										<th class="desc"></th>
+									</tr>
+								</thead>
+							
+								<tbody>
+									<tr>
+										<td class="td prop">시설명</td>
+										<td class="td desc">성내유수지 축구장</td>
+									</tr>
+									<tr>
+										<td class="td prop">시설물 코드</td>
+										<td class="td desc">15</td>
+									</tr>
+									<tr>
+										<td class="td prop">분류</td>
+										<td class="td desc">축구장</td>
+									</tr>
+									<tr>
+										<td class="td prop">위치</td>
+										<td class="td desc">서울특별시 송파구 방이동 88-13(성내유수지 내)</td>
+									</tr>
+									<tr>
+										<td class="td prop">규모</td>
+										<td class="td desc">7,140m2(105m X 68m)</td>
+									</tr>
+									<tr>
+										<td class="td prop">주요시설</td>
+										<td class="td desc">축구장(인조잔디) 7,140㎡(105m × 68m)관리동, 목재데크, 화장실, 주차장</td>
+									</tr>
+									<tr>
+										<td class="td prop">관리주체</td>
+										<td class="td desc">서울시 송파구청 교육문화국 생활체육과 체육시설팀</td>
+									</tr>
+									<tr>
+										<td class="td prop">담당자</td>
+										<td class="td desc">김철수</td>
+									</tr>
+									<tr>
+										<td class="td prop">전화번호</td>
+										<td class="td desc">02-000-0000</td>
+									</tr>
+									<tr>
+										<td class="td prop">운영시작일</td>
+										<td class="td desc">2020-01-01</td>
+									</tr>
+									<tr>
+										<td class="td prop">특이사항</td>
+										<td class="td desc"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="image-area">
+							<div>
+								<div class="text-main-photo">대표 사진</div>
+								<img alt="대표 사진" src="/img/mainphoto.png">
+							</div>
+							<div>
+								<div class="text-reference-photo">참고 사진</div>
+								<!-- <img alt="참고 사진" src="/img/football1.jpg"> -->
+								<div id="carouselExample" class="carousel slide">
+									<div class="carousel-inner">
+									    <div class="carousel-item active">
+									        <img src="/img/football1.jpg" class="d-block w-100" alt="one">
+									    </div>
+									    <div class="carousel-item">
+									        <img src="/img/football2.jpg" class="d-block w-100" alt="two">
+									    </div>
+									    <div class="carousel-item">
+									        <img src="/img/football3.jpg" class="d-block w-100" alt="three">
+									    </div>
+								  	</div>
+								  	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									    <span class="visually-hidden">Previous</span>
+								  	</button>
+								 	 <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+								    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								    	<span class="visually-hidden">Next</span>
+								  	</button>
+								</div>
+							</div>
+							<div>
+								<div class="text-map">지도</div>
+								<div id="map"></div>
+							</div>
+						</div>
+					</div>
+					
+					<a href="/admin/space"><input type="button" value="목록으로" class="backward"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Footer -->
+	<div th:replace="~{component/admin/adminFooter}"></div>
+<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 5 // 지도의 확대 레벨
+	    };
+	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+</script>
+</body>
+</html>
