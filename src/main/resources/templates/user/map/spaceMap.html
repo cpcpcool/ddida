@@ -6,7 +6,9 @@
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/layout.css" rel="stylesheet">
 <link rel="icon" href="/img/favicon.png">
-<link rel="stylesheet" href="/static/css/main.961df7db.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="/js/gnb.js"></script>
+<link rel="stylesheet" href="/css/main.961df7db.css">
 <title>뛰맵</title>
 </head>
 
@@ -18,9 +20,9 @@
 	<div class="wrap-content">
 		<div class="container">
 			<h2>Main Content Area</h2>
+			<div id="root"></div>
+			<script th:src="@{/js/main.a86fb6a5.js}" type="text/javascript"></script>
 		</div>
-		<div id="root"></div>
-	    <script th:src="@{/static/js/main.9755e243.js}"></script>
 	</div>
 
 	<!-- Footer -->
