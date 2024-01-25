@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -29,8 +28,15 @@ public class UserController {
 	private final SpaceService service;
 
 	@GetMapping("/")
-	public String main() {
-		return "index";
+	public String main(Model model) {
+		
+		Map<String, Object> recmdspcaeList = new HashMap<String, Object>();
+		recmdspcaeList = service.recommendSpaceList();
+		recmdspcaeList.get("data");
+		
+		model.addAttribute("data", recmdspcaeList.get("data"));
+		
+		return "index"; 
 	}
 	
 	@GetMapping("/qna")

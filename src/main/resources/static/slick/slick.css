@@ -117,3 +117,16 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+
+
+.slick-slide {
+    margin: 0 10px; /* 슬라이드 간 간격 설정 */
+}
+
+.slide-card {
+    width: 100%; /* 슬라이드 전체 너비 설정 */
+}
+
+.card {
+    width: 100%; /* 카드 전체 너비 설정 */
+}

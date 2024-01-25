@@ -2,17 +2,17 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link href="/css/reset.css" rel="stylesheet">
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/layout.css" rel="stylesheet">
-	<link href="/css/layout-sub.css" rel="stylesheet">
-	<link rel="icon" href="/img/favicon.png">
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="slick/slick.css" />
-	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/layout-sub.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
 
-	<title>뛰다</title>
+<title>뛰다</title>
 </head>
 
 <body>
@@ -22,11 +22,13 @@
 	<!-- Content -->
 	<div class="main-search-area">
 		<div class="container">
-			<div class="search-box d-flex align-items-center justify-content-center">
+			<div
+				class="search-box d-flex align-items-center justify-content-center">
 				<form action="@{/sports/1}" class="w-100">
-					<div class="row gx-3 align-items-center justify-content-between" style="max-width: 1000px; margin: 0 auto">
+					<div class="row gx-3 align-items-center justify-content-between"
+						style="max-width: 1000px; margin: 0 auto">
 						<div class="col-md-3">
-							<select class="form-select" id="select-group">
+							<select class="form-select select-group" id="select-group1">
 								<option selected>Choose...</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
@@ -34,7 +36,7 @@
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select" id="select-group">
+							<select class="form-select select-group" id="select-group2">
 								<option selected>Choose...</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
@@ -42,7 +44,7 @@
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select" id="select-group">
+							<select class="form-select select-group" id="select-group3">
 								<option selected>Choose...</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
@@ -50,7 +52,7 @@
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select" id="select-group">
+							<select class="form-select select-group" id="select-group4">
 								<option selected>Choose...</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
@@ -58,15 +60,19 @@
 							</select>
 						</div>
 					</div>
-					<div class="row d-flex justify-content-center mt-3" style="max-width: 500px; margin: 0 auto;">
+					<div class="row d-flex justify-content-center mt-3"
+						style="max-width: 500px; margin: 0 auto;">
 						<div class="col">
-							<input id="search-input" type="text" class="form-control main-search-input" placeholder="First name"
+							<input id="search-input" type="text"
+								class="form-control main-search-input" placeholder="First name"
 								aria-label="First name">
 						</div>
 						<div class="col-4">
-							<button id="search-btn" type="submit" class="form-control btn btn-outline-secondary"
-								style="display: inline-block; border-radius: 30px; position: relative; height: 100%; border:0;">
-								<span id="main-search" style="position: absolute; top: 6px; left: 25px;">검색하기</span>
+							<button id="search-btn" type="submit"
+								class="form-control btn btn-outline-secondary"
+								style="display: inline-block; border-radius: 30px; position: relative; height: 100%; border: 0;">
+								<span id="main-search"
+									style="position: absolute; top: 6px; left: 25px;">검색하기</span>
 							</button>
 						</div>
 					</div>
@@ -75,278 +81,55 @@
 		</div>
 	</div>
 
-
 	<div class="wrap-content">
 		<div class="container">
 			<div>
-				<h4 class="mt-5 mb-4 main-h4" style="text-align: left; margin-left: 90px;">추천 체육 시설</h4>
+				<h4 class="mt-5 mb-4 main-h4"
+					style="text-align: left; margin-left: 80px;">추천 체육 시설</h4>
 			</div>
-			<div class=" mainPage " style="max-width: 1200px; margin: 0 auto; vertical-align: middle;">
-
-
+			<div class=" mainPage "
+				style="max-width: 1200px; margin: 0 auto; vertical-align: middle;">
 
 				<div class="slide-card" style="max-width: 900px; margin: 0 auto;">
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
 
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
+					<div th:each="data : ${data}">
+						<div class="col" style="display: inline-block;">
+							<div class="card"
+								style="width: 280px; height: 300px; margin: 0 auto;">
+
+								<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}" class="card-link" style="display: block;">
+									<span class="card-img-top" th:style="'background-image: url(\'' + ${#strings.isEmpty(data.imgFileUrlAddr) ? '/img/no-image.png' : data.imgFileUrlAddr} + '\')'"></span>
+								</a>
+								<div class="card-body" style="text-align: left;">
+									<h5 style="color: #212519;">
+										<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}" class="card-link">[[${data.rsrcNm}]]</a>
+									</h5>
+									<div class="row" style="align-items: center;">
+										<div class="col-1">
+											<img src="/img/map.svg" alt="icon" style="width: 12px; display: block;">
+										</div>
+										<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
+											<span th:text="${#strings.length(data.addr) &lt;= 20 ? data.addr : #strings.substring(data.addr, 0, 20) + '...'}"></span>
+										</div>
 									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 17px; max-width: 200px; text-align: left; line-height: 30px">
-										35,000원</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">
-										11,000원</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col" style="display: inline-block;">
-						<div class="card" style="width: 90%; height: 90%; margin: 0 auto;">
-							<a th:href="@{/sports/1}" class="card-link"> <img src="/img/cnr.jpg" class="card-img-top" alt="축구장">
-							</a>
-							<div class="card-body" style="text-align: left;">
-								<h5 style="color: #212519;">
-									<a th:href="@{/sports/1}" class="card-link">축구장</a>
-								</h5>
-								<div class="row">
-									<div class="col-1">
-										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-										서울시 성북구</div>
-								</div>
-								<div class="row">
-									<div class="col-5"
-										style="color: #37745B; font-size: 18px; max-width: 200px; text-align: left; line-height: 30px">무료
-									</div>
-									<div class="col" style="font-size: 15px; line-height: 30px">
-										/ 60분</div>
-									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
-										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;">
+									<div class="row d-flex align-items-flex-end">
+										<div class="col-5"
+											style="color: #37745B; font-size: 17px; max-width: 200px; text-align: left;">
+											35,000원</div>
+										<div class="col" style="font-size: 15px;">
+											/ 60분</div>
+										<div class="col"
+											style="font-size: 15px; padding-top: 1px; float: right;">
+											<img class="col" src="/img/message.svg" alt="vector" style=" display:inline-block;  width: 18px;"> 
+											<span>11</span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-
-
-
 			</div>
-
-
 		</div>
 	</div>
 

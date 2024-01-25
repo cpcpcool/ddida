@@ -1,5 +1,5 @@
 package com.runner.ddida.repository;
 
-public interface LoginRepository {
+public interface MemberRepository {
 
 }
