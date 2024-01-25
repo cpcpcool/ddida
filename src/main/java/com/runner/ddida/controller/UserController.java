@@ -132,8 +132,6 @@ public class UserController {
 	@GetMapping("/sports/{rsrcNo}")
 	public String spaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
 		
-		log.info("이거 맞음");
-		
 		SpaceDetailVo data = service.findDetail(rsrcNo).get(0);
 		
 		model.addAttribute("data", data);

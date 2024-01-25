@@ -24,14 +24,16 @@
 	background-color: #ffffff;
 }
 
-#category-btn:hover, #category-btn:focus {
+#category-btn:hover,
+#category-btn:focus {
 	width: 400px;
 	color: #222222;
 	border-color: #37745B;
 	background-color: #ffffff;
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
+.dropdown-item:focus,
+.dropdown-item:hover {
 	color: #222222;
 	border-color: #37745B;
 	background-color: #ffffff;
@@ -59,7 +61,8 @@
 	border-radius: 0.9rem;
 }
 
-#add-btn, #edit-btn {
+#add-btn,
+#edit-btn {
 	color: #FFFFFF;
 	border-color: #37745B;
 	background-color: #37745B;
@@ -125,14 +128,41 @@ a.back-button:before {
 .form-control:disabled {
 	background-color: #ffffff;
 	border-radius: 0.9rem;
-	border-color: #37745B;
+	border-color: #C1D2BF;
 }
 
-.form-label {
+.userInfo-label {
 	text-align: left;
 }
 
 .pwEdit {
 	font-size: 15px;
 	text-align: left;
+	margin-left: 150px;
+}
+
+#pw-edit-group {
+	text-align: left;
+}
+
+#pw-label {
+	font-size: medium;
+	font-weight: 300;
+}
+
+#current-pw,
+#new-pw,
+#re-pw {
+	border-radius: 0.9rem;
+	border-color: #C1D2BF;
+	height: 45px;
+}
+
+#current-pw::placeholder,
+#new-pw::placeholder,
+#re-pw::placeholder {
+	color: #d9d9d9;
+	font-weight: 300;
+	font-size: small;
+
 }
