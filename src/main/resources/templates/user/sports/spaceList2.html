@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="icon" href="/img/favicon.png">
+	<title>뛰다</title>
+	<style type="text/css">
+		.spaceList a:link {
+			color: black;
+		}
+
+		.spaceList a:visited {
+			color: black;
+		}
+
+		.spaceList a:hover {
+			color: black;
+		}
+
+		.spaceList a:active {
+			color: black;
+		}
+
+		.card {
+			border-radius: 15px
+		}
+
+		.spaceList .card-img-top {
+			border-radius: 16px 16px 0 0
+		}
+
+		.card-img-top {
+			width: 281px;
+			height: 201.75px;
+
+		}
+
+		.spaceContent {
+			width: 250px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div>
+				<h2>시설 목록</h2>
+			</div>
+		</div>
+	</div>
+	
+	<div>하이</div>
+
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+
+</html>

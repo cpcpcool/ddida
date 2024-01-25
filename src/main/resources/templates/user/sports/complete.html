@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+<style type="text/css">
+.container {
+	text-align: left;
+}
+
+.table-striped-color>tbody>tr>td:nth-child(odd), 
+.table-striped-color>tbody>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.table-striped-color>thead>tr>td:nth-child(odd), 
+.table-striped-color>thead>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.center {
+	text-align: center;
+}
+
+.line {
+	border-bottom: 2px solid #37745B;
+	border-top: 2px solid #37745B;
+}
+
+.bottom-line {
+	border-bottom: 2px solid #37745B;
+}
+</style>
+</head>
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div>
+				<h3>예약이 완료되었습니다</h3>
+			</div>
+
+
+			<h4 class="mt-5 mb-2">예약 정보</h4>
+			<table class="table table-striped-color center">
+				<tbody>
+					<tr class="line">
+						<th scope="col" style="width: 17%">시설 이름</th>
+						<td scope="col">2024-01-24</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">이용 날짜</th>
+						<td>어쩌구축구장</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">이용 시간</th>
+						<td>09:00 ~ 10:00</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">예약 일자</th>
+						<td>2024-01-20 18:39</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">결제 요금</th>
+						<td>0 원</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">결제 방식</th>
+						<td> - </td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="mb-5" style="text-align: right;">
+					<input type="submit" value="예약 내역 조회">
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+</html>
+

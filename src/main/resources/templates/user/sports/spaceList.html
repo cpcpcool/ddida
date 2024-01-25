@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<link rel="icon" href="/img/favicon.png">
+	<title>뛰다</title>
+	<style type="text/css">
+		.spaceList a:link {
+			color: black;
+		}
+
+		.spaceList a:visited {
+			color: black;
+		}
+
+		.spaceList a:hover {
+			color: black;
+		}
+
+		.spaceList a:active {
+			color: black;
+		}
+
+		.card {
+			border-radius: 15px
+		}
+
+		.spaceList .card-img-top {
+			border-radius: 16px 16px 0 0
+		}
+
+		.card-img-top {
+			width: 281px;
+			height: 201.75px;
+
+		}
+
+		.spaceContent {
+			width: 250px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div>
+				<h2>시설 목록</h2>
+			</div>
+			<div class="row row-cols-sm-1 row-cols-xl-4 g-4 row-cols-lg-3 row-cols-md-2 spaceList">
+				<div th:each="da:${data}">
+					<div class="col">
+						<div class="card" style="width: 283px; height: 319px">
+							<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}" class="card-link">
+								<img th:src="${#strings.isEmpty(da.imgFileUrlAddr) ? '/img/no-image.png' : da.imgFileUrlAddr}"
+									class="card-img-top" th:alt="${da.rsrcNm}">
+							</a>
+							<div class="card-body" style="text-align: left;">
+								<h5 style="color: #212519;" class="spaceContent">
+									<a th:href="@{/sports/1}" class="card-link">[[${da.rsrcNm}]]</a>
+								</h5>
+								<div class="row">
+									<div class="col-1">
+										<img src="/img/map-icon.png" alt="icon" style="width: 15px;">
+									</div>
+									<div class="col spaceContent" style="font-size: 15px; line-height: 35px">
+										[[${da.addr}]]</div>
+								</div>
+								<div class="row">
+									<div class="col" style="color: #37745B; max-width: 110px; text-align: center;">
+										[[${da.rsrcNo}]]
+									</div>
+									<div class="col" style="font-size: 15px; line-height: 30px">
+										/ 60분</div>
+									<div class="col" style="font-size: 15px; line-height: 30px; text-align: right;">
+										<img class="col" src="/img/vector.png" alt="vector" style="width: 15px;"> 2
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div style="text-align: center; display: inline-block;">
+				<div th:if="${totalPages > 1}" class="my-5">
+					<ul class="pagination pagination-lg">
+						<li th:if="${currentPage > 10}" class="page-item">
+							<a class="page-link" th:href="@{'?page=' + ${currentPage - 10}}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li th:if="${currentPage > 1}" class="page-item">
+							<a class="page-link" th:href="@{'?page=' + ${currentPage - 1}}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li th:if="${currentPage == 1}" class="page-item" th:attr="disabled='disabled'">
+							<span class="page-link" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</span>
+						</li>
+						<th:block th:with="pageSize=10">
+							<th:block th:with="groupNum=${((currentPage - 1) / pageSize) + 1}">
+								<th:block th:with="startPage=${(groupNum - 1) * pageSize + 1}">
+									<th:block th:with="endPage=${startPage + pageSize - 1}">
+										<th:block th:if="${endPage > totalPages}">
+											<th:block th:with="endPage=${totalPages}"></th:block>
+										</th:block>
+	
+										<th:block th:each="pageNum: ${#numbers.sequence(startPage, endPage)}">
+											<li th:class="${pageNum} == ${currentPage} ? 'page-item active' : 'page-item'">
+												<a class="page-link"
+													th:href="@{/sports(page=${pageNum})}">[[${pageNum}]]</a>
+											</li>
+										</th:block>
+									</th:block>
+								</th:block>
+							</th:block>
+						</th:block>
+						<li th:if="${currentPage < totalPages}" class="page-item">
+							<a class="page-link" th:href="@{'?page=' + ${currentPage + 1}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+						<li th:if="${currentPage == totalPages}" class="page-item" th:attr="disabled='disabled'">
+							<span class="page-link" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</span>
+						</li>
+						<li th:if="${currentPage + 10 <= totalPages}" class="page-item">
+							<a class="page-link" th:href="@{'?page=' + ${currentPage + 10}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+
+</html>

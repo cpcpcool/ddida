@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+
+	<link rel="icon" href="/img/favicon.png">
+	<title>뛰다</title>
+	<style type="text/css">
+		.container {
+			text-align: left;
+		}
+
+		.table-striped-color>tbody>tr>td:nth-child(odd),
+		.table-striped-color>tbody>tr>th:nth-child(odd) {
+			background-color: #C1D2BF;
+		}
+
+		.table-striped-color>thead>tr>td:nth-child(odd),
+		.table-striped-color>thead>tr>th:nth-child(odd) {
+			background-color: #C1D2BF;
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		.line {
+			border-bottom: 2px solid #37745B;
+			border-top: 2px solid #37745B;
+		}
+
+		.bottom-line {
+			border-bottom: 2px solid #37745B;
+		}
+
+		.table-review>thead>tr>th {
+			background-color: #C1D2BF;
+		}
+
+		.fc-toolbar-title {
+			font-size: .4em;
+		}
+
+		.fc {
+			font-size: .6em;
+		}
+
+		.center-align {
+			text-align: center;
+		}
+
+		.center-align {
+			text-align: center;
+		}
+
+		.center-vertical-align {
+			vertical-align: middle;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<h2 class="my-3">[[${data.rsrcNm}]]</h2>
+			<div class="row grid column-gap-2">
+				<div class="col mr-auto" style="background-color: #F7F7F7">
+					<div class="mt-2">
+						<div id="carouselExampleIndicators" class="carousel slide">
+							<div class="carousel-indicators">
+								<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+									class="active" aria-current="true" aria-label="Slide 1"></button>
+								<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+									aria-label="Slide 2"></button>
+								<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+									aria-label="Slide 3"></button>
+							</div>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<img th:src="${#strings.isEmpty(data.bnrImgFileUrl) ? '/img/no-image.png' : data.bnrImgFileUrl}"
+									class="card-img-top" th:alt="${data.rsrcNm}">
+								</div>
+							</div>
+							<button class="carousel-control-prev" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+						<div class="row my-2">
+							<div>
+								<div class="row row-cols-4 py-1"
+									style="margin-right: 0px; margin-left: 0px; background-color: #FFFFFF;">
+									<div class="col">
+										<img src="/img/cnr.jpg" class="img-thumbnail rounded float-start" alt="..."
+											width="100%">
+									</div>
+									<div class="col">
+										<img src="/img/cnr.jpg" class="img-thumbnail rounded" alt="...">
+									</div>
+									<div class="col">
+										<img src="/img/cnr.jpg" class="img-thumbnail rounded" alt="...">
+									</div>
+									<div class="col">
+										<img src="/img/cnr.jpg" class="img-thumbnail rounded float-end" alt="...">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col" style="background-color: #F7F7F7">
+					<div class="mt-2" style="background-color: #FFFFFF; height: 445px;">
+						<div id="calendar" class="py-2 px-2"></div>
+						<div class="my-4 d-grid">
+							<button type="button" class="btn btn-lg" style="background-color : #C1D2BF;"
+								th:onclick="|location.href='@{/sports/1/reserve}'|">
+								예약하기
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<h4 class="mt-5 mb-2">기본정보</h4>
+			<table class="table table-striped-color center" style="text-align: left;">
+				<thead>
+					<tr class="line">
+						<th scope="col" class="center-align" style="width: 17%">시설 분류</th>
+						<th scope="col">[[${data.rsrcClsNm}]]</th>
+						<th scope="col" class="center-align" style="width: 17%">요금구분</th>
+						<th scope="col" style="width: 10%">[[${data.freeYn}]]</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line">
+						<th scope="row" class="center-align">시설 이름</th>
+						<td>[[${data.rsrcNm}]]</td>
+						<td scope="row" class="center-align">이용요금</td>
+						<td style="width: 10%">[[${data.amt1}]] / [[${data.amt2}]]</td>
+					</tr>
+					<tr class="line">
+						<th scope="row" class="center-align">주소</th>
+						<td colspan="3">[[${data.addr}]] [[${data.daddr}]]</td>
+					</tr>
+					<tr class="line">
+						    <th scope="row" class="center-align center-vertical-align">시설 소개</th>
+						<td th:utext="${data.rsrcIntr}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h4 class="mt-5 mb-2">시설후기</h4>
+			<table class="table table-borderless table-review center mb-5">
+				<thead>
+					<tr class="line">
+						<th scope="col" style="width: 17%">번호</th>
+						<th scope="col">내용</th>
+						<th scope="col" style="width: 17%">작성자</th>
+						<th scope="col" style="width: 17%">등록일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="bottom-line">
+						<th colspan="4" rowspan="2">
+							<div class="my-4"> 후기가 없습니다.</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar: {
+					start: 'prev',
+					center: 'title',
+					end: 'next'
+				},
+				height: "100%", // 필수
+				fixedWeekCount: false, // 필수
+				initialView: 'dayGridMonth',
+				locale: 'ko' // 한국어 설정 
+			});
+			calendar.render();
+		});
+
+		var decodedString = "[[${data.rsrcIntr}]]";
+		var decodedHTML = new DOMParser().parseFromString(decodedString, "text/html").body.innerHTML;
+		var contentDiv = document.getElementById("spaceContent");
+		contentDiv.innerHTML = decodedHTML;
+	</script>
+</body>
+
+</html>
