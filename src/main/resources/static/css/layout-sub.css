@@ -84,6 +84,11 @@
 	background-color: #37745b;
 }
 
+.mainPage {
+	display: flex;
+	justify-content: space-between;
+}
+
 .mainPage a:link {
 	color: black;
 }
@@ -107,6 +112,11 @@
 
 .mainPage .card-img-top {
 	border-radius: 15px 15px 0 0
+}
+
+ul.slick-dots {
+	position: relative;
+	top:10px;
 }
 
 /* login join cert */
