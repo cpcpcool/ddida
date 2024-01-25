@@ -32,6 +32,48 @@ public class UserController {
 	public String main() {
 		return "index";
 	}
+	
+	@GetMapping("/qna")
+	public String qnaList() {
+		
+		return "user/qna/qnaList";
+	}
+	
+	@GetMapping("/qna/qnaDetail")
+	public String qnaDetail() {
+		
+		return "user/qna/qnaDetail";
+	}
+	
+	@GetMapping("/qna/add")
+	public String qnaAddForm() {
+		
+		return "user/qna/qnaAddForm";
+	}
+	
+	@GetMapping("/mypage/reservation")
+	public String reserveList() {
+		
+		return "user/mypage/reserveList";
+	}
+	
+	@GetMapping("/mypage/reservation/reserveDetail")
+	public String reserveDetail() {
+		
+		return "user/mypage/reserveDetail";
+	}
+	
+	@GetMapping("/mypage/userInfo")
+	public String userInfo() {
+		
+		return "user/mypage/userInfo";
+	}
+	
+	@GetMapping("/mypage/userInfo/edit")
+	public String editPassword() {
+		
+		return "user/mypage/editPassword";
+	}
 
 	@GetMapping("/login")
 	public String login() {
