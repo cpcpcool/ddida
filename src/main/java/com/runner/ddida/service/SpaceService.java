@@ -104,19 +104,16 @@ public class SpaceService {
 		return recmdSpaceList;
 	  }
 	
-	public Map<String, Object> findSpaceList() {
+	public Map<String, Object> findSpaceList(int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 		
-		int page = 1; // 1 페이지당
-		int pageSize = 12; // 12개의 데이터
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
 		
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("numOfRows", 1000);
 			obj.put("pageNo", 1);
-			obj.put("ctpvCd", 11);
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
 			HttpGetEntity getRequest = new HttpGetEntity(apiURI); //get method 생성
@@ -143,25 +140,20 @@ public class SpaceService {
 				 
 				 List<ApiVo> filteredData = new ArrayList<>();
 				 for (ApiVo apiVo : data) {
-				     if (apiVo.getRsrcNm().contains("축구장")) {
-				         filteredData.add(apiVo);
-				     }
+						 filteredData.add(apiVo);
 				 }
+				 
 				 int totaldata = filteredData.size();
-				 int currentPage = (int) Math.ceil((double) totaldata / pageSize);
+				 int totalPages = (int) Math.ceil((double) totaldata / pageSize);
 				 
 					int fromIndex = (page - 1) * pageSize;
 					int toIndex = Math.min(page * pageSize, totaldata);
 					List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
 					
-					System.out.println("totaldata : " + totaldata);
-					System.out.println("currentPage : " + currentPage);
-					System.out.println("fromIndex : " + fromIndex);
-					System.out.println("toIndex : " + toIndex);
 					
 					spcaeList.put("dataPage", dataPage);
 					spcaeList.put("currentPage", page);
-					spcaeList.put("totalPages", currentPage);
+					spcaeList.put("totalPages", totalPages);
 			}
 			
 		} catch (Exception e) {
@@ -170,18 +162,126 @@ public class SpaceService {
 		return spcaeList;
 	}
 	
-	
-	
-	
-	public Map<String, Object> findSpaceDetail() {
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
+	public Map<String, Object> findSeachList(int page, int pageSize, String search) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
+		
+		Map<String, Object> spcaeList = new HashMap<String, Object>();
+		
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 1000);
+			obj.put("pageNo", 1);
+			
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); //get method 생성
+			getRequest.setHeader("Content-Type", "application/json");//type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+			
+			//response 
+			CloseableHttpResponse response = client.execute(getRequest);
+			if(response.getStatusLine().getStatusCode() == 200) {
+			    org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); //정상 호출
+				 
+				 ObjectMapper objectMapper = new ObjectMapper();
+				 ApiMetaVo apiMetaVo = null;
+
+				 try {
+					 apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+					} catch (JsonProcessingException e) {
+						e.printStackTrace();
+					}
+				 
+				 List<ApiVo> data = apiMetaVo.getData();
+				 
+				 List<ApiVo> filteredData = new ArrayList<>();
+				 for (ApiVo apiVo : data) {
+					 if(apiVo.getRsrcNm().contains(search)) {
+						 filteredData.add(apiVo);
+					 }
+				 }
+				 int totaldata = filteredData.size();
+				 int totalPages = (int) Math.ceil((double) totaldata / pageSize);
+				 
+					int fromIndex = (page - 1) * pageSize;
+					int toIndex = Math.min(page * pageSize, totaldata);
+					List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
+					
+					System.out.println("totaldata : " + totaldata);
+					System.out.println("totalPages : " + totalPages);
+					System.out.println("fromIndex : " + fromIndex);
+					System.out.println("toIndex : " + toIndex);
+					
+					spcaeList.put("dataPage", dataPage);
+					spcaeList.put("currentPage", page);
+					spcaeList.put("totalPages", totalPages);
+			}
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return spcaeList;
+	}
+	
+	public List<String> findApiVoIdList(int page, int pageSize) {
+		String clientSecretKey = "00d4e0aa728e31deb3ee7293fcda8670";
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+		
+		List<String> ApiVoIdList = new ArrayList<String>();
 
 		try {
-			JSONObject obj = new JSONObject(); // Request parameter
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 1000);
+			obj.put("pageNo", 1);
+			
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); //get method 생성
+			getRequest.setHeader("Content-Type", "application/json");//type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+			
+			//response 
+			CloseableHttpResponse response = client.execute(getRequest);
+			if(response.getStatusLine().getStatusCode() == 200) {
+			    org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); //정상 호출
+				 
+				 ObjectMapper objectMapper = new ObjectMapper();
+				 ApiMetaVo apiMetaVo = null;
 
-			ArrayList<String> rsrc = new ArrayList<String>();
-			rsrc.add("BA10A0001104");
+				 try {
+					 apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+					} catch (JsonProcessingException e) {
+						e.printStackTrace();
+					}
+				 
+				 List<ApiVo> data = apiMetaVo.getData();
+				 
+				 ApiVoIdList = new ArrayList<String>();
+				 for (ApiVo Api : data) {
+					 ApiVoIdList.add(Api.getRsrcNo());
+				 }
+			}
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return ApiVoIdList;
+	}
+	
+	
+	public List<SpaceDetailVo> findSports(List<String> ApiVoIdList, String sportsNm) {
+		String clientSecretKey = "00d4e0aa728e31deb3ee7293fcda8670";
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
+		String result = "";
+		List<SpaceDetailVo> data = new ArrayList<SpaceDetailVo>();
+		
+		try {
+			JSONObject obj = new JSONObject(); // Request parameter
+			List<String> rsrc = ApiVoIdList;
 			obj.put("rsrcNoList", rsrc);
 
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -196,26 +296,26 @@ public class SpaceService {
 				result = EntityUtils.toString(entity); // 정상 호출
 				ObjectMapper objectMapper = new ObjectMapper();
 				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
-
 				try {
 					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
-				List<SpaceDetailVo> data = spaceDetaiMetaVo.getData();
-				System.out.println(data);
+				
+				for(SpaceDetailVo list : spaceDetaiMetaVo.getData()) {
+					if(list.getRsrcClsNm().equals(sportsNm)) {
+						data.add(list);
+					}
+				}
 				
 			} else {
 				System.out.println("Response Error:");
 				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
 			}
-			System.out.println(result); // 결과 출력
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		
-		
-		return null;
+		return data;
 	}
 	
 	
@@ -243,20 +343,19 @@ public class SpaceService {
 				result = EntityUtils.toString(entity); // 정상 호출
 				ObjectMapper objectMapper = new ObjectMapper();
 				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
-
 				try {
 					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
 				data = spaceDetaiMetaVo.getData();
-				System.out.println(data);
-				
 			} else {
 				System.out.println("Response Error:");
 				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
 			}
 			System.out.println(result); // 결과 출력
+			
+			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
