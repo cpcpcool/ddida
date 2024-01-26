@@ -14,6 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,8 +43,10 @@ public class SpaceService {
 		}
 	}
 	
+	@Value("${api.key}")
+	private String clientSecretKey;
 	public Map<String, Object> recommendSpaceList() {
-		String clientSecretKey = "f52a97aeb3db33508088d414ae36a7b9";
+		
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 		
@@ -102,7 +105,6 @@ public class SpaceService {
 	  }
 	
 	public Map<String, Object> findSpaceList() {
-		String clientSecretKey = "f52a97aeb3db33508088d414ae36a7b9";
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 		
@@ -172,7 +174,6 @@ public class SpaceService {
 	
 	
 	public Map<String, Object> findSpaceDetail() {
-		String clientSecretKey = "f52a97aeb3db33508088d414ae36a7b9";
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
 
@@ -219,7 +220,6 @@ public class SpaceService {
 	
 	
 	public List<SpaceDetailVo> findDetail(String spaceNo) {
-		String clientSecretKey = "f52a97aeb3db33508088d414ae36a7b9";
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
 		List<SpaceDetailVo> data = null;
