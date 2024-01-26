@@ -19,25 +19,27 @@
 		<a href="/"
 			style="display: block; width: 200px; height: 100%; margin: 40px auto; position: relative; right: 5px;"><img
 			src="/img/user-logo-full.svg"></a>
+		<form th:action="@{/login}" method="post">
 		<div class="container"
 			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
 
 			<div id="login-box" style="width: 400px; margin: 0 auto;">
 				<div class="mb-3 mt-5">
-					<input type="text" class="form-control" style="border-color: #aaa;"
+					<input type="text" class="form-control" name="username" style="border-color: #aaa;"
 						id="search-input" placeholder="아이디를 입력">
 				</div>
 				<div class="mb-3">
-					<input type="password" class="form-control"
+					<input type="password" class="form-control" name="password"
 						style="border-color: #aaa;" id="search-input"
 						placeholder="비밀번호를 입력">
 				</div>
 
 				<button type="submit" id="login-btn" class="btn btn-primary form-control mt-3">로그인</button>
 				<hr style="margin: 10px auto;">
-				<a href="/join"  class="form-control mb-5" style="display:block; background-color: #fff; border-color: #37745b; color:#37745b; font-weight: 300;">회원가입</a>
+				<a th:href="@{/join}"  class="form-control mb-5" style="display:block; background-color: #fff; border-color: #37745b; color:#37745b; font-weight: 300;">회원가입</a>
 			</div>
 		</div>
+		</form>
 
 		<div class="copyright mt-3" style="border: 0;">
 			<span>Copyright &copy; 2024 CodeRunner. All rights reserved.</span>
