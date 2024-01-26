@@ -43,7 +43,7 @@ public class SpaceService {
 		}
 	}
 	
-	@Value("${api.key}")
+//	@Value("${api.key}")
 	private String clientSecretKey;
 	public Map<String, Object> recommendSpaceList() {
 		

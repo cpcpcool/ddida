@@ -1,3 +1,5 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
 <header class="user-Header">
 	<div class="top-area">
 		<div class="header-center">
@@ -5,12 +7,15 @@
 				<a href="/"><img src="/img/user-logo.svg" alt="뛰다 로고"></a>
 			</h1>
 		</div>
-		<div class="header-right">
 			<!-- 비로그인 -->
-			<a href="/join" class="join"><span>회원가입</span></a>
-			<a href="/login" class="login"><span>로그인</span></a>
+		<div class="header-right" sec:authorize="isAnonymous()">
+			<a th:href="@{/join}" class="join"><span>회원가입</span></a>
+			<a th:href="@{/login}" class="login"><span>로그인</span></a>
+		</div>
 			<!-- 로그인 -->
-			<a href="" class="user"><span> ㅇㅇㅇ 님</span></a>
+		<div class="header-right" sec:authorize="isAuthenticated()">
+			<a th:href="@{/logout}" class="user"><span> ㅇㅇㅇ 님</span></a>
+			<a th:href="@{/logout}" class="logout"><span> 로그아웃</span></a>
 		</div>
 	</div>
 	<nav class="user-nav">
@@ -20,13 +25,12 @@
 					<li><a href="#" class="menu2">통합 검색</a></li>
 				</ul>
 			</li>
-			<!-- 			<li><a href="http://localhost:3000"><span class="menu1">뛰맵</span></a> -->
-			<li><a href="/api/ddimap"><span class="menu1">뛰맵</span></a>
+			<li><a th:href="@{/api/ddimap}"><span class="menu1">뛰맵</span></a>
 				<ul>
 					<li><a href="#"> </a></li>
 				</ul>
 			</li>
-			<li><a href=""><span class="menu1">Q&amp;A</span></a>
+			<li><a th:href="@{#}"><span class="menu1">Q&amp;A</span></a>
 				<ul>
 					<li><a href="#" class="menu2">문의게시판</a></li>
 				</ul>
@@ -39,5 +43,5 @@
 			</li>
 		</ul>
 	</nav>
-	<div class="sub-back"></div>
+	<div class="sub-back" style="z-index: 10;"></div>
 </header>

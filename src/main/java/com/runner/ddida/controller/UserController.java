@@ -29,87 +29,68 @@ public class UserController {
 
 	@GetMapping("/")
 	public String main(Model model) {
-		
+
 		Map<String, Object> recmdspcaeList = new HashMap<String, Object>();
-		recmdspcaeList = service.recommendSpaceList();
+//		recmdspcaeList = service.recommendSpaceList();
 		recmdspcaeList.get("data");
-		
+
 		model.addAttribute("data", recmdspcaeList.get("data"));
-		
-		return "index"; 
+
+		return "index";
 	}
-	
+
 	@GetMapping("/qna")
 	public String qnaList() {
-		
+
 		return "user/qna/qnaList";
 	}
-	
+
 	@GetMapping("/qna/qnaDetail")
 	public String qnaDetail() {
-		
+
 		return "user/qna/qnaDetail";
 	}
-	
+
 	@GetMapping("/qna/add")
 	public String qnaAddForm() {
-		
+
 		return "user/qna/qnaAddForm";
 	}
-	
+
 	@GetMapping("/mypage/reservation")
 	public String reserveList() {
-		
+
 		return "user/mypage/reserveList";
 	}
-	
+
 	@GetMapping("/mypage/reservation/reserveDetail")
 	public String reserveDetail() {
-		
+
 		return "user/mypage/reserveDetail";
 	}
-	
+
 	@GetMapping("/mypage/userInfo")
 	public String userInfo() {
-		
+
 		return "user/mypage/userInfo";
 	}
-	
+
 	@GetMapping("/mypage/userInfo/edit")
 	public String editPassword() {
-		
+
 		return "user/mypage/editPassword";
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
-
-	@GetMapping("/join")
-	public String join() {
-		return "join";
-	}
-
-	@GetMapping("/admin")
-	public String certificate() {
-		return "certificate";
-	}
-	
 	@GetMapping("/ddimap")
 	public String ddimap() {
 		return "user/map/spaceMap";
 	}
-	
+
 	@GetMapping("/api/ddimap")
 	public String api() {
 		return "user/map/spaceMap";
 	}
-	
-	
-	
-	
-	
+
 	@GetMapping("/sports")
 	public String spaceList(Model model) {
 
@@ -126,22 +107,21 @@ public class UserController {
 
 	@GetMapping("/sports2")
 	public String spaceList2(Model model) {
-		
+
 		service.findSpaceDetail();
-		
+
 		model.addAttribute("data", null);
-		
+
 		return "user/sports/spaceList2";
 	}
-	
-	
+
 	@GetMapping("/sports/{rsrcNo}")
 	public String spaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
-		
+
 		log.info("이거 맞음");
-		
+
 		SpaceDetailVo data = service.findDetail(rsrcNo).get(0);
-		
+
 		model.addAttribute("data", data);
 
 		return "user/sports/spaceDetail";
