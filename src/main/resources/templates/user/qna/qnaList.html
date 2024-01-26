@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-	crossorigin="anonymous">
-<link href="/css/reset.css" rel="stylesheet">
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link href="/css/layout.css" rel="stylesheet">
-<link href="/css/qna.css" rel="stylesheet">
-<link rel="icon" href="/img/favicon.png">
-<title>뛰다</title>
-<style type="text/css">
-.page-link {
-	color: #222222;
-	border-color: #D9D9D9;
-}
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<link href="/css/qna.css" rel="stylesheet">
+	<link rel="icon" href="/img/favicon.png">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script type="text/javascript" src="/js/gnb.js"></script>
+	<title>뛰다</title>
+	<style type="text/css">
+		.page-link {
+			color: #222222;
+			border-color: #D9D9D9;
+		}
 
-.page-item.active .page-link {
-	z-index: 1;
-	color: white;
-	font-weight: bold;
-	background-color: #37745B;
-	border-color: #D9D9D9;
-}
+		.page-item.active .page-link {
+			z-index: 1;
+			color: white;
+			font-weight: bold;
+			background-color: #37745B;
+			border-color: #D9D9D9;
+		}
 
-.page-link:focus, .page-link:hover {
-	color: white;
-	background-color: #37745B;
-	border-color: #D9D9D9;
-}
-
-</style>
+		.page-link:focus,
+		.page-link:hover {
+			color: white;
+			background-color: #37745B;
+			border-color: #D9D9D9;
+		}
+	</style>
 </head>
 
 <body>
@@ -49,18 +49,15 @@
 			<div id="wrap-search-group">
 				<div id="search-group" class="row d-flex mt-3" style="width: 40%;">
 					<div class="btn-group col-3 " role="group">
-						<button id="category-btn" type="button"
-							class="btn btn-outline-secondary dropdown-toggle"
-							data-bs-toggle="dropdown" style="border-radius: 0.9rem;">제목</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">제목</a></li>
-							<li><a class="dropdown-item" href="#">내용</a></li>
-						</ul>
+						<select id="category-btn" type="button" class="form-select dropdown-toggle"
+							data-bs-toggle="dropdown" style="border-radius: 0.9rem;">
+							<option value="qnaSearchOption" selected>제목</option>
+							<option value="qnaSearchOprion">내용</option>
+						</select>
 					</div>
-					<input id="search-input" class="form-control col me-2" type="text"
-						placeholder="검색어를 입력하세요" style="border-radius: 0.9rem;">
-					<button id="search-btn" type="submit"
-						class="btn btn-outline-secondary col-3">검색하기</button>
+					<input id="search-input" class="form-control col me-2" type="text" placeholder="검색어를 입력하세요"
+						style="border-radius: 0.9rem;">
+					<button id="search-btn" type="submit" class="btn btn-outline-secondary col-3">검색하기</button>
 				</div>
 			</div>
 
@@ -93,18 +90,15 @@
 			<div>
 				<nav aria-label="pagination">
 					<ul class="pagination justify-content-center">
-						<li class="page-item"><a id="pagination" class="page-link"
-							href="/" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li class="page-item"><a id="pagination" class="page-link"
-							href="/">1</a></li>
-						<li class="page-item"><a id="pagination" class="page-link"
-							href="/">2</a></li>
-						<li class="page-item"><a id="pagination" class="page-link"
-							href="/">3</a></li>
-						<li class="page-item"><a id="pagination" class="page-link"
-							href="/" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
+						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Previous"> <span
+									aria-hidden="true">&laquo;</span>
+							</a></li>
+						<li class="page-item"><a id="pagination" class="page-link" href="/">1</a></li>
+						<li class="page-item"><a id="pagination" class="page-link" href="/">2</a></li>
+						<li class="page-item"><a id="pagination" class="page-link" href="/">3</a></li>
+						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Next"> <span
+									aria-hidden="true">&raquo;</span>
+							</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -115,9 +109,9 @@
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
 		crossorigin="anonymous"></script>
 </body>
+
 </html>
