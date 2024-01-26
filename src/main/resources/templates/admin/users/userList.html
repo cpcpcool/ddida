@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<title>문의 목록</title>
+<style>
+thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
+.searchTool {margin: 30px auto 15px auto;}
+.input-group {width: 43%;}
+.input-group .dropdown {margin-right: 10px; border: 1px solid #c1d2bf;}
+.input-group input {margin-right: 10px; border: 1px solid #c1d2bf;}
+.input-group button {background-color: #37745b; padding: 8px 16px;}
 
+.paging-bar {margin-bottom: 100px; height: 0 !important;}
+.pagination {height: 0px;}
+
+.custom-pagination {display: flex; justify-content: center; margin-bottom: 100px;}
+.page-item {list-style: none; margin: 0 5px;}
+.page-link {text-decoration: none; color: #37745b; background-color: transparent;
+    border: 1px solid #c1d2bf; border-radius: 5px; padding: 5px 10px;}
+.page-link:hover {background-color: #37745b; color: white;}
+</style>
+</head>
+<body data-page="/admin/users">
+
+	<!-- Header -->
+	<div th:replace="~{component/admin/adminHeader}"></div>
+	<div class="wrap-content">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-12">
+				    <form class="searchTool h-10">
+				    	<div class="input-group">
+				            <select class="dropdown form-select form-select-sm" aria-label="Small select example" style="border-radius: 15px;">
+				                <option value="userId" selected>아이디</option>
+				                <option value="userName" >이름</option>
+				                <option value="qnaCount">작성 문의글 수</option>
+				                <option value="reviewCount">작성 후기 수</option>
+				                <option value="usageCount">이용 횟수</option>
+				                <option value="joinDate">가입일</option>
+				                <option value="authority">권한상태</option>
+				            </select>
+         				    <input type="search" style="border-radius: 15px;">
+            				<button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
+            			</div>
+       				</form>
+       				
+					<table class="table caption-top">
+						<thead>
+							<tr>
+								<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
+								<th scope="col" class="th">아이디</th>
+								<th scope="col" class="th">이름</th>
+								<th scope="col" class="th">작성 문의글 수</th>
+								<th scope="col" class="th">작성 후기 수</th>
+								<th scope="col" class="th">이용 횟수</th>
+								<th scope="col" class="th">가입일</th>
+								<th scope="col" class="th">권한상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- 
+                            <tr th:each="row, rowStat : ${arr}" th:limit="10">
+						        <td th:each="e : ${row}" th:text="${e}"></td>
+						    </tr>
+						     -->
+						    
+						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/users/1')">
+						        <td th:each="e : ${row}" th:text="${e}"></td>
+						    </tr>
+                            
+						</tbody>
+					</table>
+					 
+				<div class="custom-pagination">
+				  <ul class="pagination">
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li class="page-item"><a class="page-link" href="#">1</a></li>
+				    <li class="page-item"><a class="page-link" href="#">2</a></li>
+				    <li class="page-item"><a class="page-link" href="#">3</a></li>
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
+					 
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Footer -->
+	<div th:replace="~{component/admin/adminFooter}" class="footer"></div>
+<script>
+    function navigateToFacilityDetailPage(targetUrl) {
+        window.location.href = targetUrl;
+    }
+</script>
 </body>
+
 </html>

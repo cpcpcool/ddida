@@ -45,9 +45,9 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-12">
-					<h4>회원 정보 상세</h4>
+					<h4>회원 정보 상세2222</h4>
 					<div class=inner-container style="border: solid 5px #37745b">
-						<div>
+						<div style="background-color: antiquewhite">
 							<table class="desc-table">
 								<thead>
 									<tr>
@@ -115,14 +115,36 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 										<td class="td prop"></td>
 										<td class="td desc"></td>
 									</tr>
-									<th:block th:each="tr : ${#numbers.sequence(1,13)}">
-										<tr>
-											<td class="td prop"></td>
-											<td class="td desc"></td>
-										</tr>	
-									</th:block>
 								</tbody>
 							</table>
+							
+							<div>
+								<div class="qna-area">
+									<h6>작성 문의글 내역2222</h6>
+									<table class="qna-list list">
+										<thead>
+											<tr>
+												<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
+												<th scope="col" class="th">글번호</th>
+												<th scope="col" class="th">제목</th>
+												<th scope="col" class="th">작성일자</th>
+												<th scope="col" class="th">답변여부</th>
+											</tr>
+										</thead>
+										<tbody id="addRowQna">
+				                            <tr>
+				                            	<td th:each="e : ${arr[0]}" th:text="${e}" class="list-row" ></td>
+				                            </tr>
+										</tbody>
+										    <tr>
+										    	<td colspan="4" style="text-align: center; background-color: #c1d2bf">
+										    		<button class="showmore" data-table="addRowQna">+2개 더보기</button>
+										    	</td>
+										    </tr>
+									</table>
+								</div>
+							</div>
+							
 						</div>
 						
 						<div class="list-container">
@@ -207,8 +229,21 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 		</div>
 	</div>
 	
+	
+	<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+	  <div class="offcanvas-header">
+	    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+	    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	  </div>
+	  <div class="offcanvas-body">
+	    <p>Try scrolling the rest of the page to see this option in action.</p>
+	  </div>
+	</div>
+
+	
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
-<script src="/js/admin/userDetail.js"></script>
+<script src="/js/admin/userDetail2.js"></script>
 </body>
 </html>
