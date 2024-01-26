@@ -110,16 +110,6 @@ public class UserController {
 		return "user/sports/spaceList";
 	}
 
-	@GetMapping("/sports2")
-	public String spaceList2(Model model) {
-
-		service.findSpaceDetail();
-
-		model.addAttribute("data", null);
-
-		return "user/sports/spaceList2";
-	}
-
 	@GetMapping("/sports/search")
 	public String spaceSearch(Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,
