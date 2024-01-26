@@ -22,7 +22,7 @@
 		<ul class="menu-box">
 			<li><a th:href="@{/sports}"><span class="menu1">시설 검색 · 예약</span></a>
 				<ul>
-					<li><a href="#" class="menu2">통합 검색</a></li>
+					<li><a th:href="@{/sports}" class="menu2">통합 검색</a></li>
 				</ul>
 			</li>
 			<li><a th:href="@{/api/ddimap}"><span class="menu1">뛰맵</span></a>
@@ -30,15 +30,15 @@
 					<li><a href="#"> </a></li>
 				</ul>
 			</li>
-			<li><a th:href="@{#}"><span class="menu1">Q&amp;A</span></a>
+			<li><a th:href="@{/qna}"><span class="menu1">Q&amp;A</span></a>
 				<ul>
-					<li><a href="#" class="menu2">문의게시판</a></li>
+					<li><a th:href="@{/qna}" class="menu2">문의게시판</a></li>
 				</ul>
 			</li>
-			<li><a href=""><span class="menu1">마이페이지</span></a>
+			<li><a th:href="@{/mypage/reservation}"><span class="menu1">마이페이지</span></a>
 				<ul>
-					<li><a href="#" class="menu2">예약 내역 조회</a></li>
-					<li><a href="#" class="menu2">내 정보 수정</a></li>
+					<li><a th:href="@{/mypage/reservation}" class="menu2">예약 내역 조회</a></li>
+					<li><a th:href="@{/mypage/userInfo}" class="menu2">내 정보 수정</a></li>
 				</ul>
 			</li>
 		</ul>
