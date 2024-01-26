@@ -8,7 +8,7 @@
 <link href="/css/layout.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<title>시설 목록</title>
+<title>문의 목록</title>
 <style>
 thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 .searchTool {margin: 30px auto 15px auto;}
@@ -27,7 +27,7 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 .page-link:hover {background-color: #37745b; color: white;}
 </style>
 </head>
-<body data-page="/admin/space">
+<body data-page="/admin/qna">
 
 	<!-- Header -->
 	<div th:replace="~{component/admin/adminHeader}"></div>
@@ -38,11 +38,13 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 				    <form class="searchTool h-10">
 				    	<div class="input-group">
 				            <select class="dropdown form-select form-select-sm" aria-label="Small select example" style="border-radius: 15px;">
-				                <option value="facCode" selected>시설물 코드</option>
-				                <option value="sort" >종류</option>
-				                <option value="facName">시설명</option>
-				                <option value="address">주소</option>
-				                <option value="inChargeDept">관리주체</option>
+				                <option value="userId" selected>번호</option>
+				                <option value="userName" >제목</option>
+				                <option value="qnaCount">작성자</option>
+				                <option value="reviewCount">아이디</option>
+				                <option value="usageCount">작성일</option>
+				                <option value="joinDate">답변여부</option>
+				                <option value="authority">조회수</option>
 				            </select>
          				    <input type="search" style="border-radius: 15px;">
             				<button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
@@ -53,17 +55,26 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 						<thead>
 							<tr>
 								<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
-								<th scope="col" class="th">시설물 코드</th>
-								<th scope="col" class="th">종류</th>
-								<th scope="col" class="th">시설명</th>
-								<th scope="col" class="th">주소</th>
-								<th scope="col" class="th">관리주체</th>
+								<th scope="col" class="th">번호</th>
+								<th scope="col" class="th">제목</th>
+								<th scope="col" class="th">작성자</th>
+								<th scope="col" class="th">아이디</th>
+								<th scope="col" class="th">작성일</th>
+								<th scope="col" class="th">답변여부</th>
+								<th scope="col" class="th">조회수</th>
 							</tr>
 						</thead>
 						<tbody>
-						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/space/detail')">
+							<!-- 
+                            <tr th:each="row, rowStat : ${arr}" th:limit="10">
 						        <td th:each="e : ${row}" th:text="${e}"></td>
 						    </tr>
+						     -->
+						     
+						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/qna/1')">
+						        <td th:each="e : ${row}" th:text="${e}"></td>
+						    </tr>
+                            
 						</tbody>
 					</table>
 					 
@@ -92,11 +103,11 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 	
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}" class="footer"></div>
-<script src="/js/admin/adminHeader.js"></script>
 <script>
     function navigateToFacilityDetailPage(targetUrl) {
         window.location.href = targetUrl;
     }
 </script>
 </body>
+
 </html>

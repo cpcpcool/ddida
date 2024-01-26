@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3&libraries=services,clusterer,drawing"></script>
+<title>시설 상세</title>
+<style>
+h4 {float: left; margin-top: 20px; background-color: lightgray;}
+.inner-container {position: relative; margin-top: 70px; height: 500px;}
+.basic-info {height: 25%; border-bottom: 3px solid #c1d2bf; font-size: medium}
+.qna-text {height: 55%; border-bottom: 3px solid #c1d2bf;}
+.btn-area {height: 20%;}
+.aaa {padding: 0px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: large;}
+
+.answer-btn {float: left; border-radius: 20px; margin-top: 20px; margin-left: 30px; padding: 5px;
+ width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+.backward {float: right; border-radius: 20px; margin-top: 20px;  margin-bottom: 10px; padding: 5px;
+ width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+</style>
+</head>
+<body data-page="/admin/qna/1">
+	<!-- Header -->
+	<div th:replace="~{component/admin/adminHeader}"></div>
+	
+	<!-- Content -->	
+	<div class="wrap-content">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-12">
+					<h4>문의 상세</h4>
+					<div class=inner-container style="border: solid 5px #37745b">
+						<div class="basic-info">
+							<div style="padding-left: 20px; margin-top: 10px; clear: right;">
+								<div style="float: left; min-width: 100px; text-align: left;">제목</div>
+							</div>
+							<div class="aaa">
+								아차산수지체육공원 테니스코트 이용 관련    아차산수지체육공원 테니스코트 이용 관련    아차산수지체육공원 테니스코트 이용 관련
+							</div>
+							<div style="float: left; padding-left: 20px;">
+								<div style="margin: 10px 0 10px 0;">
+									<div style="display: inline-block; min-width: 100px; text-align: left;">아이디</div>
+									<span>hongkd123</span>
+								</div>
+								<div style="text-align: left;">
+									<div style="display: inline-block; min-width: 100px;">이름</div>
+									<span>홍길동</span>
+								</div>
+							</div>
+							<div style="float: right; text-align: left; margin-right: 400px; margin-top: 9px;">
+								<div>
+									<div style="display: inline-block; min-width: 100px;">작성일자</div>
+									<span>2024-01-01 14:38:28</span>
+								</div>
+								<div style="margin-top: 10px; ">
+									<div style="display: inline-block; min-width: 100px;">조회수</div>
+									<span>3</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="qna-text">
+							<div style="padding: 20px; text-align: left;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi ab necessitatibus ad sunt, aut ut, natus dolorum reiciendis fugit temporibus fugiat ex odit quo. Animi laudantium aut laborum deserunt odio.
+							In dolores, facilis suscipit nihil, reprehenderit nulla perferendis cupiditate temporibus totam, aperiam consequatur! Esse ex voluptatum temporibus in excepturi! Asperiores blanditiis hic veniam assumenda. Vitae dolorem doloremque fugit earum distinctio?
+							Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo</div>
+						</div>
+						<div class="btn-area">
+							<form action="/admin/qna/1" method="get">
+								<input type="submit" name="answered" value="답변하기" class="answer-btn">
+							</form>	
+						</div>
+					</div>
+
+					<a href="/admin/qna"><input type="button" value="목록으로" class="backward"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Footer -->
+	<div th:replace="~{component/admin/adminFooter}"></div>
+</body>
+</html>
