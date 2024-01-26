@@ -1,7 +1,5 @@
 package com.runner.ddida.model;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
