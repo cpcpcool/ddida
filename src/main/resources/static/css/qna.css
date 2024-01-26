@@ -22,17 +22,22 @@
 	width: 400px;
 	border-color: #37745B;
 	background-color: #ffffff;
-	color: #37745B;
 }
 
 #category-btn:hover,
 #category-btn:focus {
 	width: 400px;
-	color: #37745B;
+	color: #222222;
 	border-color: #37745B;
 	background-color: #ffffff;
 }
 
+.dropdown-item:focus,
+.dropdown-item:hover {
+	color: #222222;
+	border-color: #37745B;
+	background-color: #ffffff;
+}
 
 #search-input {
 	color: #37745B;

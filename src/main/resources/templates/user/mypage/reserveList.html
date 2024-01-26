@@ -12,8 +12,6 @@
 <link href="/css/layout.css" rel="stylesheet">
 <link href="/css/qna.css" rel="stylesheet">
 <link rel="icon" href="/img/favicon.png">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script type="text/javascript" src="/js/gnb.js"></script>
 <title>뛰다</title>
 <style type="text/css">
 .page-link {
@@ -48,13 +46,16 @@
 			<hr class="titleUnder my-2">
 
 			<div id="wrap-search-group">
-				<div id="search-group" class="row d-flex mt-3" style="width: 50%;">
+				<div id="search-group" class="row d-flex mt-3" style="width: 40%;">
 					<div class="btn-group col-3 " role="group">
-						<select id="category-btn" type="button" class="form-select dropdown-toggle"
-							data-bs-toggle="dropdown" style="border-radius: 0.9rem;">
-							<option value="reservationSearchOption" selected>시설 이름</option>
-							<option value="reservationSearchOprion">예약 번호</option>
-						</select>
+						<button id="category-btn" type="button"
+							class="btn btn-outline-secondary dropdown-toggle"
+							data-bs-toggle="dropdown" style="border-radius: 0.9rem;"
+							aria-expanded="false">시설 이름</button>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">시설 이름</a></li>
+							<li><a class="dropdown-item" href="#">예약 번호</a></li>
+						</ul>
 					</div>
 					<input id="search-input" class="form-control col me-2" type="text"
 						placeholder="검색어를 입력하세요" style="border-radius: 0.9rem;">

@@ -8,7 +8,6 @@
 <link href="/css/qna.css" rel="stylesheet">
 <link rel="icon" href="/img/favicon.png">
 <title>뛰다</title>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -60,29 +59,5 @@
 
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
-	
-	<script>
-		$(document).ready(function() {
-			$('#title').on('keyup', function() {
-				$('#titleCnt').html("(" + $(this).val().length + " / 100)");
-
-				if ($(this).val().length > 100) {
-					$(this).val($(this).val().substring(0, 100));
-					$('#titleCnt').html("(100 / 100)");
-					alert('제목은 최대 100자 까지 입력 가능합니다.');
-				}
-			});
-		});
-		$(document).ready(function() {
-			$('#description').on('keyup', function() {
-				$('#descCnt').html("(" + $(this).val().length + " / 1000)");
-
-				if ($(this).val().length > 1000) {
-					$(this).val($(this).val().substring(0, 1000));
-					$('#descCnt').html("(1000 / 1000)");
-				}
-			});
-		});
-	</script>
 </body>
 </html>
