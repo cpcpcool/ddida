@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<link href="/css/reset.css" rel="stylesheet">
@@ -40,14 +41,13 @@
 			height: 201.75px;
 
 		}
-		
+
 		.spaceContent {
 			width: 250px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-
 	</style>
 </head>
 
@@ -56,58 +56,54 @@
 	<div th:replace="~{component/user/userHeader}"></div>
 
 	<!-- Content -->
-	
-	
-	
-	
+
+
 	<div class="wrap-content">
 		<div class="container">
 			<div class="search-box d-flex align-items-center justify-content-center my-5" style="background-color: #F7F7F7;">
-				<form action="/sports/search" class="w-100">
-					<div class="row gx-3 align-items-center justify-content-between" style="max-width: 1000px; margin: 0 auto">
+				<form action="" class="w-100">
+					<div class="row gx-3 align-items-center justify-content-between"
+						style="max-width: 1000px; margin: 0 auto">
 						<div class="col-md-3">
-							<select class="form-select" name="sports" id="select-group" required>
-							    <option disabled selected value="">시설 분류 선택 *</option>
-							    <option value="soccer">축구장</option>
-							    <option value="futsal">풋살장</option>
-							    <option value="tennis">테니스장</option>
-							    <option value="badminton">배드민턴장</option> 
-							</select>
-						</div>
-						<div class="col-md-3">
-							<select class="form-select" name="free" id="select-group">
-							    <option value="A">요금 구분</option>
-							    <option value="Y">무료</option>
-							    <option value="N">유료</option>
-							</select>
-						</div>
-						<div class="col-md-3">
-							<select class="form-select" name="sido" id="select-group" >
-								<option disabled selected value="">시 · 도 선택 *</option>
-								<option value="11">서울특별시</option>
-								<option value="28">인천광역시</option>
-								<option value="41">경기도</option>
+							<select class="form-select" id="select-group">
+								<option selected>Choose...</option>
+								<option value="1">One</option>
+								<option value="2">Two</option>
+								<option value="3">Three</option>
 							</select>
 						</div>
 						<div class="col-md-3">
 							<select class="form-select" id="select-group">
-								<option disabled selected value="">시 · 군 · 구 선택</option>
+								<option selected>Choose...</option>
+								<option value="1">One</option>
+								<option value="2">Two</option>
+								<option value="3">Three</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<select class="form-select" id="select-group">
+								<option selected>Choose...</option>
+								<option value="1">One</option>
+								<option value="2">Two</option>
+								<option value="3">Three</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<select class="form-select" id="select-group">
+								<option selected>Choose...</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
 								<option value="3">Three</option>
 							</select>
 						</div>
 					</div>
-					<div class="row d-flex justify-content-center mt-3"
-						style="max-width: 500px; margin: 0 auto;">
+					<div class="row d-flex justify-content-center mt-3" style="max-width: 500px; margin: 0 auto;">
 						<div class="col">
-							<input id="search-input" type="text"
-								class="form-control main-search-input" name="search" placeholder="검색어를 입력해주세요"
-								aria-label="First name">
+							<input id="search-input" type="text" class="form-control main-search-input"
+								placeholder="First name" aria-label="First name">
 						</div>
 						<div class="col-4">
-							<button id="search-btn" type="submit"
-								class="form-control btn btn-outline-secondary"
+							<button id="search-btn" type="submit" class="form-control btn btn-outline-secondary"
 								style="display: inline-block; border-radius: 30px; position: relative; height: 100%; border:0;">
 								<span id="main-search" style="position: absolute; top: 6px; left: 25px;">검색하기</span>
 							</button>
@@ -115,12 +111,15 @@
 					</div>
 				</form>
 			</div>
-			
+
+
+
+
 			<div class="row row-cols-sm-1 row-cols-xl-4 g-4 row-cols-lg-3 row-cols-md-2 spaceList">
 				<div th:each="da:${data}">
 					<div class="col">
 						<div class="card" style="width: 283px; height: 319px">
-							<a th:if="${da.imgFileUrlAddr}" th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}" class="card-link">
+							<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}" class="card-link">
 								<img th:src="${#strings.isEmpty(da.imgFileUrlAddr) ? '/img/no-image.png' : da.imgFileUrlAddr}"
 									class="card-img-top" th:alt="${da.rsrcNm}">
 							</a>
@@ -152,7 +151,7 @@
 			</div>
 
 			<div style="text-align: center; display: inline-block;">
-				<div th:if="${totalPages >= 1}" class="my-5">
+				<div th:if="${totalPages > 1}" class="my-5">
 					<ul class="pagination pagination-lg">
 						<li th:if="${currentPage > 10}" class="page-item">
 							<a class="page-link" th:href="@{'?page=' + ${currentPage - 10}}" aria-label="Previous">

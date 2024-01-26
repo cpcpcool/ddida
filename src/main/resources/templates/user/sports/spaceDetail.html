@@ -111,20 +111,10 @@
 						</div>
 						<div class="row my-2">
 							<div>
-								<div class="row row-cols-4 py-1"
-									style="margin-right: 0px; margin-left: 0px; background-color: #FFFFFF;">
+								<div class="row row-cols-4 py-1" style="margin-right: 0px; margin-left: 0px; background-color: #FFFFFF;">
 									<div class="col">
-										<img src="/img/cnr.jpg" class="img-thumbnail rounded float-start" alt="..."
-											width="100%">
-									</div>
-									<div class="col">
-										<img src="/img/cnr.jpg" class="img-thumbnail rounded" alt="...">
-									</div>
-									<div class="col">
-										<img src="/img/cnr.jpg" class="img-thumbnail rounded" alt="...">
-									</div>
-									<div class="col">
-										<img src="/img/cnr.jpg" class="img-thumbnail rounded float-end" alt="...">
+										<img th:src="${#strings.isEmpty(data.bnrImgFileUrl) ? '/img/no-image.png' : data.bnrImgFileUrl}"
+										class="card-img-top" th:alt="${data.rsrcNm}" style="width: 100%; height: 100%;">
 									</div>
 								</div>
 							</div>
