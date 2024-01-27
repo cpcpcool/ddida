@@ -13,8 +13,8 @@
 			<a th:href="@{/login}" class="login"><span>로그인</span></a>
 		</div>
 			<!-- 로그인 -->
-		<div class="header-right" sec:authorize="isAuthenticated()">
-			<a th:href="@{/logout}" class="user"><span> ㅇㅇㅇ 님</span></a>
+		<div class="header-right" sec:authorize="isAuthenticated() ">
+			<a th:href="@{/mypage/reservation}" class="user" ><span th:text="${user.name} + ' 님'"></span></a>
 			<a th:href="@{/logout}" class="logout"><span> 로그아웃</span></a>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 					<li><a th:href="@{/sports}" class="menu2">통합 검색</a></li>
 				</ul>
 			</li>
-			<li><a th:href="@{/api/ddimap}"><span class="menu1">뛰맵</span></a>
+			<li><a th:href="@{/ddimap}"><span class="menu1">뛰맵</span></a>
 				<ul>
 					<li><a href="#"> </a></li>
 				</ul>

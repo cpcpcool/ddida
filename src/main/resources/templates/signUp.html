@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>회원가입 성공</title>
+</head>
+
+<body>
+	<h1>join-success.html</h1>
+	<h2>회원가입 성공!</h2>
+	<h2 th:text="|회원 순번: ${member.userNo}">userNo</h2>
+	<h2 th:text="|회원 아이디: ${member.username}">username</h2>
+	<h2 th:text="|회원 비밀번호: ${member.password}">password</h2>
+	<h2 th:text="|회원 권한: ${member.role}">1 </h2>
+	<h2 th:text="|회원 이름: ${member.name}">2 </h2>
+	<h2 th:text="|회원 폰: ${member.phone}"> 3</h2>
+	<h2 th:text="|회원 이메일: ${member.email}">4 </h2>
+	<h2 th:text="|회원 이메일: ${member.signDate}">5 </h2>
+</body>
+ 

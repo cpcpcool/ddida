@@ -75,36 +75,46 @@ a {
 .header-right a span {
 	color: #37745B;
 	font-weight: 400;
-	margin-left: 30px;
+	margin-left: 20px;
 }
 
 .header-right a.join span:before {
 	content: url("/img/join.svg");
 	margin-right: 6px;
 	vertical-align: top;
+	position: relative;
+	top: 2px;
 }
 
 .header-right a.login span:before {
 	content: url("/img/login.svg");
 	margin-right: 6px;
 	vertical-align: top;
+	position: relative;
+	top: 2px;
 }
 
 /* 로그인 시 */
-.header-right a.user {
-	display: none;
-}
-
 .header-right a.user span:before {
 	content: url("/img/profile.svg");
 	margin-right: 6px;
 	vertical-align: top;
+	position: relative;
+	top: 2px;
 }
 
-.header-right a.user span:after {
+/* .header-right a.user span:after {
 	content: url("/img/down-arrow-circle.svg");
 	margin-left: 6px;
 	vertical-align: top;
+} */
+
+.header-right a.logout span:after {
+	content: url("/img/logout.svg");
+	margin-left: 6px;
+	vertical-align: top;
+	position: relative;
+	top: 3px;
 }
 
 /* navigation =================================================================  */

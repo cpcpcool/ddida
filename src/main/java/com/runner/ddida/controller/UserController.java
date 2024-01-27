@@ -5,44 +5,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.SpaceService;
-import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author 박재용
- * @editDate 24.01.22 ~
+ * @author 박재용f
  */
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@ControllerAdvice(annotations = Controller.class)
 public class UserController {
 
-	private final SpaceService service;
-
-	@GetMapping("/")
-	public String main(Model model) {
-
-		Map<String, Object> recmdspcaeList = new HashMap<String, Object>();
-//		recmdspcaeList = service.recommendSpaceList();
-		recmdspcaeList.get("data");
-
-		model.addAttribute("data", recmdspcaeList.get("data"));
-
-		return "index";
+	@ModelAttribute("user")
+	public UserDetails getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+		return userDetails;
 	}
-
+	
+	private final SpaceService spaceService;
 	@GetMapping("/qna")
 	public String qnaList() {
 
@@ -62,7 +57,9 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage/reservation")
-	public String reserveList() {
+	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		
+		model.addAttribute("user", userDetails);
 
 		return "user/mypage/reserveList";
 	}
@@ -85,24 +82,14 @@ public class UserController {
 		return "user/mypage/editPassword";
 	}
 
-	@GetMapping("/ddimap")
-	public String ddimap() {
-		return "user/map/spaceMap";
-	}
-
-	@GetMapping("/api/ddimap")
-	public String api() {
-		return "user/map/spaceMap";
-	}
-	
 	@GetMapping("/sports")
-	public String spaceList(Model model,
-			@RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
+	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
 
+		model.addAttribute("user", userDetails);		
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
-		spcaeList = service.findSpaceList(page, pageSize);	
-		
+		spcaeList = spaceService.findSpaceList(page, pageSize);
+
 		model.addAttribute("data", spcaeList.get("dataPage"));
 		model.addAttribute("currentPage", spcaeList.get("currentPage"));
 		model.addAttribute("totalPages", spcaeList.get("totalPages"));
@@ -111,46 +98,46 @@ public class UserController {
 	}
 
 	@GetMapping("/sports/search")
-	public String spaceSearch(Model model,
-			@RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "pageSize", defaultValue = "12") int pageSize,
-            @RequestParam(name = "sports") String sportsNm)  {
+	public String spaceSearch(Model model, @RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "pageSize", defaultValue = "12") int pageSize,
+			@RequestParam(name = "sports") String sportsNm) {
 
 		switch (sportsNm) {
-	    case "soccer": sportsNm = "축구장";
-	        break;
-	    case "futsal": sportsNm = "풋살장";
-	        break;
-	    case "tennis": sportsNm = "테니스장";
-	        break;
-	    case "badminton": sportsNm = "배드민턴장";
-	        break;
+		case "soccer":
+			sportsNm = "축구장";
+			break;
+		case "futsal":
+			sportsNm = "풋살장";
+			break;
+		case "tennis":
+			sportsNm = "테니스장";
+			break;
+		case "badminton":
+			sportsNm = "배드민턴장";
+			break;
 		}
-		
-		
-		List<String> apiVoIdList = service.findApiVoIdList(page, pageSize);	
+
+		List<String> apiVoIdList = spaceService.findApiVoIdList(page, pageSize);
 		ArrayList<SpaceDetailVo> searchSportsList = new ArrayList<>();
-		
+
 		int batchSize = 100;
 		int totalIterations = 10;
-		
+
 		for (int j = 0; j < totalIterations; j++) {
 			List<String> searchList = new ArrayList<>();
-		    int startIdx = j * batchSize;
-		    int endIdx = Math.min((j + 1) * batchSize, apiVoIdList.size());
-		    for (int i = startIdx; i < endIdx; i++) {
-		        searchList.add(apiVoIdList.get(i));
-		    }
-		    searchSportsList.addAll(service.findSports(searchList, sportsNm));
+			int startIdx = j * batchSize;
+			int endIdx = Math.min((j + 1) * batchSize, apiVoIdList.size());
+			for (int i = startIdx; i < endIdx; i++) {
+				searchList.add(apiVoIdList.get(i));
+			}
+			searchSportsList.addAll(spaceService.findSports(searchList, sportsNm));
 		}
-		
+
 		model.addAttribute("data", searchSportsList);
-		
-		
+
 		return "user/sports/spaceList";
 	}
-	
-	
+
 	/*
 	 * @GetMapping("/sports/search") public String spaceSearch(Model model,
 	 * 
@@ -172,20 +159,19 @@ public class UserController {
 	 * 
 	 * return "user/sports/spaceList"; }
 	 */
-	
-	
+
 	@GetMapping("/sports/{rsrcNo}")
 	public String spaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
 
 		log.info("이거 맞음");
 
-		SpaceDetailVo data = service.findDetail(rsrcNo).get(0);
-		
+		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
+
 		System.out.println(data.getAmt1());
 		System.out.println(data.getAmt2());
 		System.out.println(data.getBnrImgFileUrl());
 		System.out.println(data.getBnrImgFileUrlAddr());
-		
+
 		model.addAttribute("data", data);
 
 		return "user/sports/spaceDetail";
@@ -205,8 +191,6 @@ public class UserController {
 
 	@PostMapping("/sports/1/complete")
 	public String complete() {
-		
-		
 
 		return "user/sports/complete";
 	}

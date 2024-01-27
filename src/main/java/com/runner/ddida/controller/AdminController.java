@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.runner.ddida.service.SpaceService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,10 @@ public class AdminController {
 	private final SpaceService spaceService;
 
 	@GetMapping("/qna")
-	public String adminQnaList(Model model) {
+	public String adminQnaList(Model model, HttpSession session) {
+		
+		session.getAttribute("userDtails");
+		
 		int[][] arr = new int[10][7];
 		for(int i=1; i<10; i++) {
 		    for(int j=0; j<7; j++) {
