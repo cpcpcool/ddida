@@ -27,7 +27,12 @@ public class MemberController {
 
 	@GetMapping("/join")
 	public String join() {
-		return "join";
+		return "join/join";
+	}
+	
+	@GetMapping("/join/admin")
+	public String adminJoin() {
+		return "join/adminJoin";
 	}
 
 	@PostMapping("/join/{role}")
@@ -43,7 +48,7 @@ public class MemberController {
 
 	@GetMapping("/login")
 	public String login() {
-		return "login";
+		return "login/login";
 	}
 
 	@PostMapping("/login")
@@ -59,6 +64,6 @@ public class MemberController {
 
 	@GetMapping("/login/admin")
 	public String certificate() {
-		return "certificate";
+		return "login/adminLogin";
 	}
 }
