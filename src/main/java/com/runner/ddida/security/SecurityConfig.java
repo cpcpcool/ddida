@@ -33,7 +33,7 @@ public class SecurityConfig {
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable())
 				.authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-						.requestMatchers("/", "/join/**", "/login", "/login/**", "/logout", "/sports", "/ddimap/**").permitAll()
+						.requestMatchers("/", "/manage","/admin","/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**").permitAll()
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**")
 						.permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
@@ -50,20 +50,20 @@ public class SecurityConfig {
 
 				.logout(logout -> logout
 						.logoutUrl("/logout")	
-						.logoutSuccessUrl("/login?logoute")
+						.logoutSuccessUrl("/login")
 						.invalidateHttpSession(true)
-						.deleteCookies("JSESSIONID")) // 로그아웃 후 쿠키삭제
+						.deleteCookies("JSESSIONID")); // 로그아웃 후 쿠키삭제
 				
-				.rememberMe(remember -> remember // 자동 로그인 
-						.key("ddida")
-						.tokenValiditySeconds(1800)
-						.userDetailsService(memberService)
-						.rememberMeParameter("remember-me"))
-					
-				.sessionManagement(session -> session
-						.maximumSessions(1)
-						.maxSessionsPreventsLogin(false)
-						.expiredUrl("/")); // 세션만료 이동url
+//				.rememberMe(remember -> remember // 자동 로그인 
+//						.key("ddida")
+//						.tokenValiditySeconds(1800)
+//						.userDetailsService(memberService)
+//						.rememberMeParameter("remember-me"))
+//					
+//				.sessionManagement(session -> session
+//						.maximumSessions(1)
+//						.maxSessionsPreventsLogin(false)
+//						.expiredUrl("/")); // 세션만료 이동url
 								
 		
 		return http.build();
@@ -74,7 +74,7 @@ public class SecurityConfig {
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
 			.withUser("admin")
-			.password("{noop}1111")
+			.password("{bcrypt}1111")
 			.roles("ADMIN");
 	}
 

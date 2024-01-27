@@ -23,18 +23,27 @@
 			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
 
 			<div id="login-box" style="width: 400px; margin: 0 auto;">
-				<h6 class="form-control mt-4" style="text-align: left; border: 0;">
-					관리 코드를 입력하세요</h6>
-				<div class="">
-					<input type="password" class="form-control"
-						style="border-color: #aaa;" id="search-input"
-						placeholder="관리코드 입력">
-				</div>
-				<hr style="margin: 10px auto;">
-				<button type="submit" id="login-btn"
-					class="btn btn-primary form-control mb-3">관리자 인증</button>
-				<a href="/login" class="form-control mb-5"
-					style="display: block; background-color: #fff; border-color: #37745b; color: #37745b; font-weight: 300;">이용자 모드로</a>
+				<form th:action="@{/login/manage}" method="post"
+					id="admin-login-form">
+					<h6 class="form-control mt-4" style="text-align: left; border: 0;">
+						관리자 모드 정보 입력</h6>
+					<div class="">
+						<input type="text" class="form-control search-input mb-3 mt-2"
+							style="border-color: #aaa;" id="search-input1"
+							placeholder="관리섹터 입력">
+					</div>
+					<div class="">
+						<input type="password" class="form-control search-input"
+							style="border-color: #aaa;" id="search-input2"
+							placeholder="관리코드 입력">
+					</div>
+					<hr style="margin: 10px auto;">
+					<button type="submit" id="login-btn"
+						class="btn btn-primary form-control">관리자 인증</button>
+					<a th:href="@{/login}" class="form-control mt-2 mb-5" style="display: block; background-color: #fff; border-color: #37745b; color: #37745b; font-weight: 300; border:0;">
+						<span class="pb-1" style="border-bottom:1px solid #37745b;">이용자 모드로</span>
+					</a>
+				</form>
 			</div>
 		</div>
 

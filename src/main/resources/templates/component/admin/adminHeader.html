@@ -1,3 +1,4 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <header class="admin-header">
 	<div class="admin-header-container">
 		<div class="admin-header-left">
@@ -13,9 +14,10 @@
 			</ul>
 		</div>
 		<div class="admin-header-right">
-			<a href="/login" class="admin-logout"><span>관리자 모드 해제</span></a>
+			<a th:href="@{/logout}" class="admin-logout"><span>관리자 모드 해제</span></a>
 		</div>
 	</div>
 	<!-- 헤더 메뉴 투명도 변환 -->
 	<script src="/js/admin/adminHeader.js"></script>
 </header>
+</html>

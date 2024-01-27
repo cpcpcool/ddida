@@ -41,6 +41,21 @@
 	font-weight: 300;
 }
 
+.search-input {
+	color: #37745B;
+	border-color: #37745B;
+}
+
+.search-input::placeholder {
+	color: #37745B;
+	font-weight: 300;
+}
+
+.search-input::-webkit-input-placeholder {
+	color: #37745B;
+	font-weight: 300;
+}
+
 #search-btn {
 	color: #FFFFFF;
 	font-weight: 300;

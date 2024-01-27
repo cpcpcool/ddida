@@ -23,7 +23,7 @@
 			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
 
 			<div id="login-box" style="width: 400px; margin: 0 auto;">
-				<form th:action="@{/login}" method="post" id="form">
+				<form th:action="@{/login}" method="post" id="login-form">
 					<div class="mb-3 mt-5">
 						<input type="text" class="form-control search-input" name="username"
 							style="border-color: #aaa;" id="id"
@@ -40,7 +40,7 @@
 					<div class="form-check" style="text-align: left;">
 						<input class="form-check-input" type="checkbox" name="remember-me"
 							id="rememberMe"> <label class="form-check-label"
-							for="flexCheckDefault"> 자동 로그인 </label>
+							for="rememberMe"> 자동 로그인 </label>
 					</div>
 					<button type="submit" id="login-btn"
 						class="btn btn-primary form-control mt-3">로그인</button>
@@ -52,7 +52,7 @@
 		</div>
 
 		<div class="copyright mt-3" style="border: 0;">
-			<span>Copyright &copy; 2024 CodeRunner. All rights reserved.</span>
+			<a th:href="@{/login/manage}"><span>Copyright &copy; 2024 CodeRunner. All rights reserved.</span></a>
 		</div>
 	</div>
 

@@ -4,15 +4,16 @@ import java.util.Date;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.runner.ddida.dto.MemberDto;
+import com.runner.ddida.enums.MemberRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,16 +42,16 @@ public class Member {
 	@Column(name = "role")
 	private String role;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = true)
 	private String name;
 	
-	@Column(name = "phone")
+	@Column(name = "phone", nullable = true)
 	private String phone;
 
-	@Column(name = "email")
+	@Column(name = "email", nullable = true)
 	private String email;
 
-	@Column(name = "sign_date")
+	@Column(name = "sign_date", nullable = true)
 	private String signDate = new Date().toString();
 
 //	private int active;
@@ -59,7 +60,13 @@ public class Member {
 //
 //	private String permissions = "";
 
-	@Builder
+//	public Member(Long userNo, String username, String password, String role) {
+//		this.userNo = userNo;
+//		this.username = username;
+//		this.password = password;
+//		this.role = role;
+//	}
+	
 	public Member(Long userNo, String username, String password, String role, String name, String phone, String email,
 			String signDate) {
 		this.userNo = userNo;
@@ -92,16 +99,16 @@ public class Member {
 //		return new ArrayList<>();
 //	}
 
-	public static Member createMember(MemberDto memberDto, PasswordEncoder passwordEncoder) {
-        Member member = Member.builder()
-        		.username(memberDto.getUsername())
-        		.password(passwordEncoder.encode(memberDto.getPassword()))  //암호화처리
-                .name(memberDto.getName())
-                .email(memberDto.getEmail())
-                .role(memberDto.getRole())
-                .build();
-        return member;
-        }
+//	public static Member createMember(MemberDto memberDto, PasswordEncoder passwordEncoder) {
+//        Member member = Member.builder()
+//        		.username(memberDto.getUsername())
+//        		.password(passwordEncoder.encode(memberDto.getPassword()))  //암호화처리
+//                .name(memberDto.getName())
+//                .email(memberDto.getEmail())
+//                .role(memberDto.getRole())
+//                .build();
+//        return member;
+//        }
 	
 	public void encodePassword(PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(this.password);

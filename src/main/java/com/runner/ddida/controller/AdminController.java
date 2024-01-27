@@ -1,8 +1,12 @@
 package com.runner.ddida.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.runner.ddida.service.SpaceService;
@@ -14,11 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+//@ControllerAdvice(annotations = Controller.class)
 @RequestMapping("/admin")
 public class AdminController {
 	
 	private final SpaceService spaceService;
-
+	
+//	@ModelAttribute("ADMIN")
+//	public UserDetails getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+//		return userDetails;
+//	}
+	
 	@GetMapping("/qna")
 	public String adminQnaList(Model model, HttpSession session) {
 		
@@ -33,12 +43,12 @@ public class AdminController {
 		    System.out.println("");
 		}
 		model.addAttribute("arr", arr);
-		return "admin//qna/adminQnaList";
+		return "admin/qna/adminQnaList";
 	}
 	
 	@GetMapping("/qna/1")
 	public String adminQnaDetail() {
-		return "admin//qna/adminQnaDetail";
+		return "admin/qna/adminQnaDetail";
 	}
 	
 	@GetMapping("/users")

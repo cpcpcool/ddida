@@ -57,7 +57,7 @@
 							id="flexCheckDefault"> <label class="form-check-label"
 							for="flexCheckDefault"> 이용 약관 동의 </label>
 						<!-- 모달 버튼 -->
-						<a href="#" style="display: inline-block; float: right; position: relative; bottom: 1px;" data-bs-toggle="modal"
+						<a href="#" style="display: block; float: right; position: relative; bottom: 1px;" data-bs-toggle="modal"
 							data-bs-target="#myModal"> <img alt="더보기"
 							src="/img/right-arrow-circle.svg">
 						</a>
@@ -141,7 +141,10 @@
 
 					<hr style="margin: 10px auto;">
 					<button type="submit" id="login-btn"
-						class="btn btn-primary form-control mt-2 mb-5">회원 가입</button>
+						class="btn btn-primary form-control mt-2">회원 가입</button>
+					<a th:href="@{/join/manage}" class="form-control mt-2 mb-5" style="display: block; background-color: #fff; border-color: #37745b; color: #37745b; font-weight: 300; border:0;">
+						<span class="pb-1" style="border-bottom:1px solid #37745b;">관리자 등록 모드</span>
+					</a>
 				</div>
 			</form>
 		</div>
