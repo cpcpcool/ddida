@@ -24,16 +24,15 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 
 	private final SpaceService spaceService;
-	private final MemberService memberService;
 
 	@GetMapping("/")
 	public String main(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		// 추천 시설
 		Map<String, Object> recmdspcaeList = new HashMap<String, Object>();
 		recmdspcaeList = spaceService.recommendSpaceList();
-		recmdspcaeList.get("data");
+		Object recmdData = recmdspcaeList.get("data");
 
-		model.addAttribute("data", recmdspcaeList.get("data"));
+		model.addAttribute("data", recmdData);
 
 		// 로그인 정보
 		model.addAttribute("user", userDetails);
