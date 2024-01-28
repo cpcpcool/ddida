@@ -45,7 +45,7 @@ dependencies {
 	
 	//modelMapper
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'	
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
 	
 	//open-api
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
@@ -53,6 +53,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.4'
 	
+	//직렬화 역직렬화
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {

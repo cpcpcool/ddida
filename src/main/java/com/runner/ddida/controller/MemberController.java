@@ -1,9 +1,12 @@
 package com.runner.ddida.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,23 +41,22 @@ public class MemberController {
 	}
 
 	@PostMapping("/join/{role}")
-	public String signUp(@ModelAttribute MemberDto memberDto, @PathVariable(value = "role") String role, Model model) {
+	public String signUp(@ModelAttribute @Valid MemberDto memberDto, @PathVariable(value = "role") String role, Model model, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			return "join";
+		}
 		
 		log.info("role : {}", role);
+		memberDto.setRole(role);
+		Member entity = memberConverter.convertToEntity(memberDto);
+		Member savedEntity = memberService.saveMember(entity);
+		MemberDto savedDto = memberConverter.convertToDto(savedEntity);
+		model.addAttribute("user", savedDto);
 		
 		if("ADMIN".equals(role)) {
-			memberDto.setRole(role);
-			Member entity = memberConverter.convertToEntity(memberDto);
-			Member savedEntity = memberService.saveMember(entity);
-			MemberDto savedDto = memberConverter.convertToDto(savedEntity);
-			model.addAttribute("user", savedDto);
 			return "adminLogin";
 		}else {
-			memberDto.setRole(role);
-			Member entity = memberConverter.convertToEntity(memberDto);
-			Member savedEntity = memberService.saveMember(entity);
-			MemberDto savedDto = memberConverter.convertToDto(savedEntity);
-			model.addAttribute("user", savedDto);
 			return "login";
 		}
 		

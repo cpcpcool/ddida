@@ -1,18 +1,18 @@
 package com.runner.ddida.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.runner.ddida.enums.MemberRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class) // 변경될때 자동기록
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
 
@@ -38,21 +39,26 @@ public class Member {
 //	@Column(name = "role")
 //	@Enumerated(EnumType.STRING)
 //	private MemberRole role;
-	
+
 	@Column(name = "role")
 	private String role;
-	
+
 	@Column(name = "name", nullable = true)
 	private String name;
-	
+
 	@Column(name = "phone", nullable = true)
 	private String phone;
 
 	@Column(name = "email", nullable = true)
 	private String email;
 
-	@Column(name = "sign_date", nullable = true)
-	private String signDate = new Date().toString();
+	@Column(name = "sign_date", updatable = false)
+	private String signDate;
+	
+	@PrePersist
+	public void onPrePersist() {
+		this.signDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+	}
 
 //	private int active;
 //
@@ -66,7 +72,7 @@ public class Member {
 //		this.password = password;
 //		this.role = role;
 //	}
-	
+
 	public Member(Long userNo, String username, String password, String role, String name, String phone, String email,
 			String signDate) {
 		this.userNo = userNo;
@@ -76,7 +82,7 @@ public class Member {
 		this.name = name;
 		this.phone = phone;
 		this.email = email;
-		this.signDate = new Date().toString();
+		this.signDate = signDate;
 
 //		this.roles = roles;
 //		this.permissions = permissions;
@@ -109,9 +115,9 @@ public class Member {
 //                .build();
 //        return member;
 //        }
-	
+
 	public void encodePassword(PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(this.password);
 	}
-        
+
 }

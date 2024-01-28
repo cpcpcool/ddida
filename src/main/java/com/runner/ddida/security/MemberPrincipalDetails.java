@@ -1,5 +1,6 @@
 package com.runner.ddida.security;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -87,8 +88,7 @@ public class MemberPrincipalDetails implements UserDetails {
 		memberDto.setName(member.getName());
 		memberDto.setPhone(member.getPhone());
 		memberDto.setEmail(member.getEmail());
-		String date = new Date().toString();
-		memberDto.setSignDate(date);
+		memberDto.setSignDate(member.getSignDate());
 		return memberDto;
 	}
 

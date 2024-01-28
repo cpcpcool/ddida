@@ -2,11 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-	crossorigin="anonymous">
 <link href="/css/reset.css" rel="stylesheet">
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/layout.css" rel="stylesheet">
@@ -30,28 +25,28 @@
 			<div class="userInfo" style="width: 50%;">
 				<div class="mt-5 mb-3 row">
 					<label class="userInfo-label form-label col-3">아이디</label>
-					<input id="user-id" class="form-control col" placeholder="아이디"
+					<input id="user-id" class="form-control col" th:value="${user.username}"
 						disabled="disabled">
 				</div>
 				<div class="mb-3 row">
 					<label class="userInfo-label form-label col-3">이름</label>
-					<input id="user-name" class="form-control col" placeholder="이름"
+					<input id="user-name" class="form-control col" th:value="${user.name}"
 						disabled="disabled">
 				</div>
 				<div class="mb-3 row">
 					<label class="userInfo-label form-label col-3">e-mail</label>
-					<input id="user-email" class="form-control col"
-						placeholder="e-mail" disabled="disabled">
+					<input id="user-email" class="form-control col" th:value="${user.email}"
+					disabled="disabled">
 				</div>
 				<div class="mb-3 row">
 					<label class="userInfo-label form-label col-3">휴대폰 번호</label>
-					<input id="user-phone" class="form-control col"
-						placeholder="휴대폰 번호" disabled="disabled">
+					<input id="user-phone" class="form-control col" th:value="${user.phone}"
+						disabled="disabled">
 				</div>
 				<div class="mb-3 row">
 					<label class="userInfo-label form-label col-3">가입일</label>
-					<input id="user-date" class="form-control col"
-						placeholder="가입일" disabled="disabled">
+					<input id="user-date" class="form-control col" th:value="${user.signDate}"
+						disabled="disabled">
 				</div>
 				<div class="pwEdit">
 				<a href="/mypage/userInfo/edit" id="pwEdit" style="color: #37745B;">비밀번호 변경</a>
@@ -62,10 +57,5 @@
 
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-		crossorigin="anonymous"></script>
 </body>
 </html>
