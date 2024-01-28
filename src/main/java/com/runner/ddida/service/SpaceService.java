@@ -43,8 +43,9 @@ public class SpaceService {
 		}
 	}
 	
-//	@Value("${api.key}")
+	@Value("${api.key}")
 	private String clientSecretKey;
+	
 	public Map<String, Object> recommendSpaceList() {
 		
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
@@ -107,6 +108,8 @@ public class SpaceService {
 	public Map<String, Object> findSpaceList(int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
+		
+		System.out.println(apiURI);
 		
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
 		

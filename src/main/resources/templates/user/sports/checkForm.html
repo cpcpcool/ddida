@@ -55,19 +55,19 @@
 				<tbody>
 					<tr class="line">
 						<th scope="col" style="width: 17%">시설 이름</th>
-						<td scope="col">2024-01-24</td>
+						<td scope="col">[[${data.rsrcNm}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">이용 날짜</th>
-						<td>어쩌구축구장</td>
+						<td>[[${data.useStartDate}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">이용 시간</th>
-						<td>09:00 ~ 10:00</td>
+						<td>[[${data.useStartTime}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">이용 요금</th>
-						<td>무료</td>
+						<td>[[${data.reserveFee}]]</td>
 					</tr>
 				</tbody>
 			</table>
@@ -77,19 +77,15 @@
 				<tbody>
 					<tr class="line">
 						<th scope="col" style="width: 17%">예약자 명</th>
-						<td scope="col">홍길동</td>
+						<td scope="col">[[${data.userName}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">연락처</th>
-						<td>010-9999-9999</td>
+						<td>[[${phone}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">이메일</th>
-						<td>ddida@hemedia.com</td>
-					</tr>
-					<tr class="line">
-						<th scope="row">이용 요금</th>
-						<td>무료</td>
+						<td>[[${email}]]</td>
 					</tr>
 				</tbody>
 			</table>
@@ -99,7 +95,7 @@
 				<thead>
 					<tr class="line">
 						<th scope="col" style="width: 17%">결제 요금</th>
-						<td scope="col">0 원</td>
+						<td scope="col">[[${data.reserveFee}]] 원</td>
 					</tr>
 				</thead>
 			</table>

@@ -8,12 +8,13 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.runner.ddida.model.Reserve;
 import com.runner.ddida.service.SpaceService;
-import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
@@ -99,6 +100,7 @@ public class UserController {
 	public String spaceList(Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
+		System.out.println("테스트");
 
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
 		spcaeList = service.findSpaceList(page, pageSize);	
@@ -191,14 +193,29 @@ public class UserController {
 		return "user/sports/spaceDetail";
 	}
 
-	@GetMapping("/sports/1/reserve")
-	public String reserveForm() {
+	@GetMapping("/sports/{rsrcNo}/reserve")
+	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
+		
+		SpaceDetailVo data = service.findDetail(rsrcNo).get(0);
+		
 
+		model.addAttribute("data", data);
+		model.addAttribute("rsrcNo", rsrcNo);
+		
 		return "user/sports/reserveForm";
 	}
 
-	@PostMapping("/sports/1/reserve/check")
-	public String checkForm() {
+	@PostMapping("/sports/{rsrcNo}/reserve/check")
+	public String checkForm(@ModelAttribute Reserve reserve, Model model) {
+		
+		System.out.println(reserve);
+		
+		String phone = reserve.getUserPhoneOne() + "-" + reserve.getUserPhoneTwo() + "-" + reserve.getUserPhoneThr(); 
+		String email = reserve.getUserEmailOne() + "@" + reserve.getUserEmailTwo(); 
+		
+		model.addAttribute("data", reserve);
+		model.addAttribute("phone", phone);
+		model.addAttribute("email", email);
 
 		return "user/sports/checkForm";
 	}
