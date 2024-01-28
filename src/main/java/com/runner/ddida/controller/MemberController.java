@@ -35,7 +35,7 @@ public class MemberController {
 		return "join";
 	}
 
-	@GetMapping("/join/manage")
+	@GetMapping("/join/admin")
 	public String adminJoin() {
 		return "adminJoin";
 	}
@@ -60,7 +60,7 @@ public class MemberController {
 			return "login";
 		}
 		
-	}
+	}	
 	
 	@GetMapping("/login")
 	public String login() {
@@ -78,12 +78,12 @@ public class MemberController {
 //		return "redirect:/";
 //	}
 
-	@GetMapping("/login/manage")
+	@GetMapping("/login/admin")
 	public String adminLogin() {
 		return "adminLogin";
 	}
 
-//	@PostMapping("/login/manage")
+//	@PostMapping("/login/admin")
 //	public String adminLoginPost(Model model, HttpSession session) {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //

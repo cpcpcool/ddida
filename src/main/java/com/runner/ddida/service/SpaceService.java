@@ -43,8 +43,9 @@ public class SpaceService {
 		}
 	}
 	
-//	@Value("${api.key}")
+//	@Value("${api.key}")h
 	private String clientSecretKey;
+
 	public Map<String, Object> recommendSpaceList() {
 		
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;

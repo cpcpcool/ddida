@@ -1,9 +1,7 @@
 package com.runner.ddida.security;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -48,7 +46,7 @@ public class MemberPrincipalDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(member.getRole()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + member.getRole()));
 		return authorities;
 	}
 

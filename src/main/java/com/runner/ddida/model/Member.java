@@ -2,18 +2,28 @@ package com.runner.ddida.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.runner.ddida.enums.MemberRole;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,13 +46,29 @@ public class Member {
 	@Column(name = "password")
 	private String password;
 
-//	@Column(name = "role")
-//	@Enumerated(EnumType.STRING)
-//	private MemberRole role;
-
 	@Column(name = "role")
 	private String role;
 
+	
+	// enum 관련
+//	@Builder.Default
+//	@Enumerated(EnumType.STRING)
+//	@CollectionTable(name = "role")
+//	@ElementCollection(fetch = FetchType.EAGER)
+//	private Set<MemberRole> role = new HashSet<>();
+//	public Member addRole(MemberRole memberRole) {
+//		role.add(memberRole);
+//		return this;
+//	}
+//	
+//	public String getRoleName() {
+//		String roleName = null;
+//		for(MemberRole memberRole : role) {
+//			roleName = memberRole.roleName();
+//		}
+//		return roleName; 
+//	}
+//	
 	@Column(name = "name", nullable = true)
 	private String name;
 
