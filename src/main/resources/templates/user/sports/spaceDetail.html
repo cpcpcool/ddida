@@ -125,15 +125,15 @@
 					<div class="mt-2" style="background-color: #FFFFFF; height: 445px;">
 						<div id="calendar" class="py-2 px-2"></div>
 						<div class="my-4 d-grid">
-							<button type="button" class="btn btn-lg" style="background-color : #C1D2BF;"
-								th:onclick="|location.href='@{/sports/1/reserve}'|">
-								예약하기
-							</button>
+							<a th:href="@{/sports/{rsrcNo}/reserve(rsrcNo=${data.rsrcNo})}">
+								<button type="button" class="btn btn-lg" style="background-color : #C1D2BF; width: 100%;">
+									예약하기
+								</button>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
-
 
 			<h4 class="mt-5 mb-2">기본정보</h4>
 			<table class="table table-striped-color center" style="text-align: left;">

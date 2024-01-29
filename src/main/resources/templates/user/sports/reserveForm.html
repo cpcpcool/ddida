@@ -1,61 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/reset.css" rel="stylesheet">
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link href="/css/layout.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
 
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
 
-<link rel="icon" href="/img/favicon.png">
-<title>뛰다</title>
-<style type="text/css">	
+	<link rel="icon" href="/img/favicon.png">
+	<title>뛰다</title>
+	<style type="text/css">
+		.fc-toolbar-title {
+			font-size: .4em;
+		}
 
-.fc-toolbar-title {
-    font-size: .4em;
-}
-
-.fc  {
-    font-size: .6em;
-}
-
-
-label {
-	width: 100px
-}
-
-.reserveO input {
-	border: 2px solid #C1D2BF;
-	border-radius: 16px;
-	width: 250px;
-	height: 45px;
-	text-align: center;
-}
-
-.reserveT input {
-	border: 2px solid #C1D2BF;
-	border-radius: 16px;
-	width: 200px;
-	height: 50px;
-	text-align: center;
-}
+		.fc {
+			font-size: .6em;
+		}
 
 
-.phone input {
-	width: 80px;
-	text-align: center;
-}
+		label {
+			width: 100px
+		}
+
+		.reserveO input {
+			border: 2px solid #C1D2BF;
+			border-radius: 16px;
+			width: 250px;
+			height: 45px;
+			text-align: center;
+		}
+
+		.reserveT input {
+			border: 2px solid #C1D2BF;
+			border-radius: 16px;
+			width: 200px;
+			height: 50px;
+			text-align: center;
+		}
 
 
-</style>
+		.phone input {
+			width: 80px;
+			text-align: center;
+		}
+		
+		
+		    .table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .table .selected {
+      background-color: #BCE8F14D;
+    }
+	</style>
 </head>
+
 <body>
 	<!-- Header -->
 	<div th:replace="~{component/user/userHeader}"></div>
@@ -75,64 +89,106 @@ label {
 				</div>
 				<div class="col" style="background-color: #F7F7F7">
 					<div class="my-2">
+						<table class="table my-3" id="reserveTime">
+							<tbody>
+								<tr>
+									<td id="time1">06:00 ~ 07:00</td>
+									<td id="time2">07:00 ~ 08:00</td>
+								</tr>
+								<tr>
+									<td id="time3">08:00 ~ 09:00</td>
+									<td id="time4">09:00 ~ 10:00</td>
+								</tr>
+								<tr>
+									<td id="time5">10:00 ~ 11:00</td>
+									<td id="time6">11:00 ~ 12:00</td>
+								</tr>
+								<tr>
+									<td id="time7">12:00 ~ 13:00</td>
+									<td id="time8">13:00 ~ 14:00</td>
+								</tr>
+								<tr>
+									<td id="time9">14:00 ~ 15:00</td>
+									<td id="time10">15:00 ~ 16:00</td>
+								</tr>
+								<tr>
+									<td id="time11">16:00 ~ 17:00</td>
+									<td id="time12">17:00 ~ 18:00</td>
+								</tr>
+								<tr>
+									<td id="time13">18:00 ~ 19:00</td>
+									<td id="time14">19:00 ~ 20:00</td>
+								</tr>
+								<tr>
+									<td id="time15">20:00 ~ 21:00</td>
+									<td id="time16">21:00 ~ 22:00</td>
+								</tr>
+								<tr>
+									<td id="time17">22:00 ~ 23:00</td>
+									<td id="time18">23:00 ~ 24:00</td>
+								</tr>
+							</tbody>
+						</table>
+
+
 					</div>
 				</div>
 			</div>
-			
-			<form action="/sports/1/reserve/check" method="post">
-			<div style="text-align: left;" class="reserveO">
-				<div class="row grid column-gap-2 my-3">
-					<div class="col">
-						<label for="rsrcNm">시설 이름</label>
-						<input type="text" name="rsrcNm" id="rsrcNm">
+
+			<form th:action="@{/sports/{rsrcNo}/reserve/check(rsrcNo=${rsrcNo})}" method="post" th:object="${Reserve}">
+				<div style="text-align: left;" class="reserveO">
+					<div class="row grid column-gap-2 my-3">
+						<div class="col">
+							<label for="rsrcNm">시설 이름</label>
+							<input type="text" name="rsrcNm" id="rsrcNm" th:value="${data.rsrcNm}"
+								th:title="${data.rsrcNm}" style="font-size: small;" readonly>
+						</div>
+						<div class="col">
+							<label for="useStartDate">이용 날짜</label>
+							<input type="text" name="useStartDate" id="useStartDate" readonly>
+						</div>
 					</div>
-					
-					<div class="col">
-						<label for="useStartDate">이용 날짜</label>
-						<input type="text" name="useStartDate" id="useStartDate">
-					</div>
-				</div>
-				<div class="row grid column-gap-2 my-3">
-					<div class="col">
-						<label for="useStartTime">이용 시간</label>
-						<input type="text" name="useStartTime" id="useStartTime">
-					</div>
-					
-					<div class="col">
-						<label for="reserveFee">이용 요금</label>
-						<input type="text" name="reserveFee" id="reserveFee">
-					</div>
-				</div>
-			</div>
-			
-			<div class="mt-5 reserveT" style="text-align: left;" >
-			<h4>예약자 정보</h4>
-				<div class="row grid column-gap-2 my-3">
-					<div class="col">
-						<label for="userName">예약자 명</label>
-						<input type="text" name="userName" id="userName">
+					<div class="row grid column-gap-2 my-3">
+						<div class="col">
+							<label for="useStartTime">이용 시간</label>
+							<input type="text" name="useStartTime" id="useStartTime" readonly>
+						</div>
+
+						<div class="col">
+							<label for="reserveFee">이용 요금</label>
+							<input type="text" name="reserveFee" id="reserveFee" value="10" readonly>
+						</div>
 					</div>
 				</div>
-				<div class="row grid column-gap-3 my-3">
-					<div class="col phone">
-						<label for="userPhoneOne">연락처</label>
-						<input type="text" name="userPhoneOne" id="userPhoneOne"> -
-						<input type="text" name="userPhoneTwo" id="userPhoneTwo"> -
-						<input type="text" name="userPhoneThr" id="userPhoneThr">
+
+				<div class="mt-5 reserveT" style="text-align: left;">
+					<h4>예약자 정보</h4>
+					<div class="row grid column-gap-2 my-3">
+						<div class="col">
+							<label for="userName">예약자 명</label>
+							<input type="text" name="userName" id="userName">
+						</div>
+					</div>
+					<div class="row grid column-gap-3 my-3">
+						<div class="col phone">
+							<label for="userPhoneOne">연락처</label>
+							<input type="text" name="userPhoneOne" id="userPhoneOne"> -
+							<input type="text" name="userPhoneTwo" id="userPhoneTwo"> -
+							<input type="text" name="userPhoneThr" id="userPhoneThr">
+						</div>
+					</div>
+
+					<div class="row grid column-gap-3 my-3">
+						<div class="col">
+							<label for="userEmailOne">이메일</label>
+							<input type="text" name="userEmailOne" id="userEmailOne"> @
+							<input type="text" name="userEmailTwo" id="userEmailTwo">
+						</div>
 					</div>
 				</div>
-				
-				<div class="row grid column-gap-3 my-3">
-					<div class="col">
-						<label for="userEmailOne">이메일</label>
-						<input type="text" name="userEmailOne" id="userEmailOne"> @
-						<input type="text" name="userEmaiTwo" id="userEmaiTwo">
-					</div>
+				<div class="mb-5" style="text-align: right;">
+					<input type="submit" value="결제 > ">
 				</div>
-			</div>
-			<div class="mb-5" style="text-align: right;">
-				<input type="submit" value="결제 > ">
-			</div>
 			</form>
 
 		</div>
@@ -140,33 +196,59 @@ label {
 
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
-	
+
 	<script>
-	 document.addEventListener('DOMContentLoaded', function() {
-	        var calendarEl = document.getElementById('calendar');
-	        var calendar = new FullCalendar.Calendar(calendarEl, {
-	        	headerToolbar: {
-	        		start: 'prev',
-	        		center: 'title',
-	        		 end: 'next'
-	        	},
-	    		selectable: true, 
+		
+	const table = document.getElementById('reserveTime');
+	const cells = table.getElementsByTagName('td');
+
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].addEventListener('click', function() {
+      this.classList.toggle('selected');
+      getSelectedCells();
+    });
+  }
+
+  // 선택된 셀을 확인하는 함수
+  function getSelectedCells() {
+	  
+	  const selectedCells = Array.from(table.getElementsByClassName('selected'));
+	const selectedCellTexts = selectedCells.map(cell => cell.innerText.trim());
+	console.log('선택된 셀:', selectedCellTexts);
+	alert('선택된 셀: ' + selectedCellTexts.join(', '));
+
+    document.getElementById("useStartTime").value = selectedCellTexts.join(', ');
+  }
+  
+		document.addEventListener('DOMContentLoaded', function () {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar: {
+					start: 'prev',
+					center: 'title',
+					end: 'next'
+				},
+				selectable: true,
 				dragScroll: false,
 				editable: false,
 				fixedWeekCount: false,
 				height: "100%",
-			  locale: 'ko', // 한국어 설정 
+				locale: 'ko', // 한국어 설정 
 				select: function (selectionInfo) {
-				      var startDate = selectionInfo.startStr;
-				      alert('선택된 날짜: ' + startDate);
-				    },
-	        });
-	        calendar.render();
-	      });
-	 
-	 
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-</body>
-</html>
+					var startDate = selectionInfo.startStr;
+					alert('선택된 날짜: ' + startDate);
+					document.getElementById("useStartDate").value = startDate;
+				},
+			});
+			calendar.render();
+		});
 
+
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

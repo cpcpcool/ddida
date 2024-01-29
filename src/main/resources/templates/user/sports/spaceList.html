@@ -124,9 +124,10 @@
 								<img th:src="${#strings.isEmpty(da.imgFileUrlAddr) ? '/img/no-image.png' : da.imgFileUrlAddr}"
 									class="card-img-top" th:alt="${da.rsrcNm}">
 							</a>
+							
 							<div class="card-body" style="text-align: left;">
 								<h5 style="color: #212519;" class="spaceContent">
-									<a th:href="@{/sports/1}" class="card-link">[[${da.rsrcNm}]]</a>
+									<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}" class="card-link">[[${da.rsrcNm}]]</a>
 								</h5>
 								<div class="row">
 									<div class="col-1">

@@ -46,6 +46,7 @@ public class SpaceService {
 	@Value("${api.key}")
 	private String clientSecretKey;
 
+	
 	public Map<String, Object> recommendSpaceList() {
 		
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
@@ -108,6 +109,8 @@ public class SpaceService {
 	public Map<String, Object> findSpaceList(int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
+		
+		System.out.println(apiURI);
 		
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
 		
@@ -227,7 +230,6 @@ public class SpaceService {
 	}
 	
 	public List<String> findApiVoIdList(int page, int pageSize) {
-		String clientSecretKey = "00d4e0aa728e31deb3ee7293fcda8670";
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 		
@@ -275,7 +277,6 @@ public class SpaceService {
 	
 	
 	public List<SpaceDetailVo> findSports(List<String> ApiVoIdList, String sportsNm) {
-		String clientSecretKey = "00d4e0aa728e31deb3ee7293fcda8670";
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
 		List<SpaceDetailVo> data = new ArrayList<SpaceDetailVo>();
