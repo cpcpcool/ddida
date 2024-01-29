@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author 박재용f
+ * @author 박재용
  */
 
 @Controller
@@ -37,8 +37,9 @@ public class UserController {
 	public UserDetails getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
 		return userDetails;
 	}
-	
+
 	private final SpaceService spaceService;
+
 	@GetMapping("/qna")
 	public String qnaList() {
 
@@ -59,7 +60,7 @@ public class UserController {
 
 	@GetMapping("/mypage/reservation")
 	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-		
+
 		model.addAttribute("user", userDetails);
 
 		return "user/mypage/reserveList";
@@ -84,10 +85,11 @@ public class UserController {
 	}
 
 	@GetMapping("/sports")
-	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(name = "page", defaultValue = "1") int page,
+	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model,
+			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
 
-		model.addAttribute("user", userDetails);		
+		model.addAttribute("user", userDetails);
 		Map<String, Object> spcaeList = new HashMap<String, Object>();
 		spcaeList = spaceService.findSpaceList(page, pageSize);
 
@@ -180,24 +182,23 @@ public class UserController {
 
 	@GetMapping("/sports/{rsrcNo}/reserve")
 	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
-		
-		SpaceDetailVo data = service.findDetail(rsrcNo).get(0);
-		
+
+		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
 
 		model.addAttribute("data", data);
 		model.addAttribute("rsrcNo", rsrcNo);
-		
+
 		return "user/sports/reserveForm";
 	}
 
 	@PostMapping("/sports/{rsrcNo}/reserve/check")
 	public String checkForm(@ModelAttribute Reserve reserve, Model model) {
-		
+
 		System.out.println(reserve);
-		
-		String phone = reserve.getUserPhoneOne() + "-" + reserve.getUserPhoneTwo() + "-" + reserve.getUserPhoneThr(); 
-		String email = reserve.getUserEmailOne() + "@" + reserve.getUserEmailTwo(); 
-		
+
+		String phone = reserve.getUserPhoneOne() + "-" + reserve.getUserPhoneTwo() + "-" + reserve.getUserPhoneThr();
+		String email = reserve.getUserEmailOne() + "@" + reserve.getUserEmailTwo();
+
 		model.addAttribute("data", reserve);
 		model.addAttribute("phone", phone);
 		model.addAttribute("email", email);
