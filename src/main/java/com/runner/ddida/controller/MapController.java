@@ -23,22 +23,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MapController {
-	
+
 	private final SpaceService spaceService;
-	
+
 	@GetMapping("/ddimap")
-	public String ddimap(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-		// 로그인 정보
-		model.addAttribute("user", userDetails);
-		
+	public String ddimap(Model model) {
 		// 시설 정보
 		Map<String, Object> recmdspcaeList = new HashMap<String, Object>();
 		recmdspcaeList = spaceService.recommendSpaceList();
 		Object recmdData = recmdspcaeList.get("data");
 
 		model.addAttribute("data", recmdData);
-		
-		
+
 		return "user/map/spaceMap";
 	}
 
@@ -46,12 +42,10 @@ public class MapController {
 	public String api() {
 		return "user/map/spaceMap";
 	}
-	
+
 	@GetMapping("ddimap/modal")
 	public String modal() {
 		return "testjoin";
 	}
-	
-	
-	
+
 }

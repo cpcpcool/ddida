@@ -58,6 +58,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+/*
 // 리액트앱 동시 빌드 관련 미완 
 def frontendDir = "$projectDir/src/main/frontend"
 
@@ -99,3 +100,4 @@ task copyReactBuildFiles(type: Copy) {
 	from "$frontendDir/build"
 	into "$projectDir/src/main/resources/static"
 }
+*/

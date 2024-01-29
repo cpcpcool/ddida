@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/reset.css" rel="stylesheet">
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link href="/css/layout.css" rel="stylesheet">
-<link href="/css/layout-sub.css" rel="stylesheet">
-<link rel="icon" href="/img/favicon.png">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script type="text/javascript" src="/js/gnb.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
-<title>뛰맵</title>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<link href="/css/layout-sub.css" rel="stylesheet">
+	<link rel="icon" href="/img/favicon.png">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script type="text/javascript" src="/js/gnb.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+	<title>뛰맵</title>
 </head>
 
 <body>
@@ -27,24 +26,21 @@
 					<div class="accordion" id="accordionPanelsStayOpenExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header">
-								<button class="accordion-button focus-ring" type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#panelsStayOpen-collapseOne"
-									aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+								<button class="accordion-button focus-ring" type="button" data-bs-toggle="collapse"
+									data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+									aria-controls="panelsStayOpen-collapseOne">
 									시설 검색</button>
 							</h2>
-							<div id="panelsStayOpen-collapseOne"
-								class="accordion-collapse collapse show">
+							<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+								<!-- <form action="#" method="post"> -->
 								<div class="accordion-body">
 
-									<div
-										class="row d-flex justify-content-between align-items-center g-2 focus-ring">
+									<div class="row d-flex justify-content-between align-items-center g-2 focus-ring">
 										<div class="col-3" style="font-size: 16px;">
 											<span class="float-left text-align-left">시설 분류</span>
 										</div>
 										<div class="col">
-											<select id="type" name="type"
-												class="form-select search-input focus-ring"
+											<select id="type" name="type" class="form-select search-input focus-ring"
 												aria-label="Default select example"
 												style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
 												<option selected>시설 구분</option>
@@ -55,8 +51,8 @@
 											</select>
 										</div>
 										<div class="col">
-											<select class="form-select search-input focus-ring"
-												name="pay" id="pay" aria-label="Default select example">
+											<select class="form-select search-input focus-ring" name="pay" id="pay"
+												aria-label="Default select example">
 												<option selected>요금 구분</option>
 												<option value="1">무료</option>
 												<option value="2">유료</option>
@@ -64,14 +60,12 @@
 										</div>
 									</div>
 
-									<div
-										class="row mt-2 d-flex justify-content-between align-items-center g-2 focus-ring">
+									<div class="row mt-2 d-flex justify-content-between align-items-center g-2 focus-ring">
 										<div class="col-3" style="font-size: 16px;">
 											<span class="float-left text-align-left">지역 분류</span>
 										</div>
 										<div class="col">
-											<select id="region" name="region"
-												class="form-select search-input focus-ring"
+											<select id="region" name="region" class="form-select search-input focus-ring"
 												aria-label="Default select example"
 												style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
 												<option selected>수도권 전체</option>
@@ -82,22 +76,20 @@
 										</div>
 									</div>
 
-									<div
-										class="row mt-2 d-flex justify-content-between align-items-center g-2 focus-ring">
+									<div class="row mt-2 d-flex justify-content-between align-items-center g-2 focus-ring">
 
 										<div class="col-3" style="font-size: 16px;">
 											<span class="float-left text-align-left">시설명</span>
 										</div>
 										<div class="col">
-											<input class="form-control search-input focus-ring"
-												name="name" id="name" aria-label="Defaul select example">
+											<input class="form-control search-input focus-ring" name="spaceName" id="spaceName"
+												aria-label="Defaul select example">
 										</div>
 									</div>
 
-									<div class="row mt-3"
-										style="margin: 0 auto; width: 150px; height: 37px;">
+									<div class="row mt-3" style="margin: 0 auto; width: 150px; height: 37px;">
 										<div class="col">
-											<button id="search-btn" type="submit"
+											<button id="search-btn" type="submit" onclick="searchKeyword()"
 												class="form-control btn focus-ring"
 												style="display: inline-block; margin: 0 auto; border-radius: 30px; position: relative; height: 37.6px; border: 0;">
 												<span id="main-search" style="text-align: center;">검색하기</span>
@@ -106,29 +98,27 @@
 									</div>
 
 								</div>
+								<!-- </form> -->
 							</div>
 						</div>
 						<div class="accordion-item">
 							<h2 class="accordion-header">
-								<button class="accordion-button focus-ring" type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#panelsStayOpen-collapseTwo"
-									aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+								<button class="accordion-button focus-ring" type="button" data-bs-toggle="collapse"
+									data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+									aria-controls="panelsStayOpen-collapseTwo">
 									검색 결과</button>
 							</h2>
-							<div id="panelsStayOpen-collapseTwo"
-								class="accordion-collapse collapse">
-								<div class="accordion-body"
-									style="max-height: 466px; overflow: auto;">
+							<div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+								<div class="accordion-body" style="max-height: 466px; overflow: auto;">
 
 									<div th:each="da:${data}">
 										<div class="row d-flex justify-content-between align-items-center g-1 p-0 mb-3"
 											style="height: 150px; max-height: 200px;">
 											<div class="col-5">
 												<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}"
-													style="display: block; height: 124px; width: 144px; border:2px dotted #37745b; border-radius: 8px; overflow: hidden; position: relative;">
+													style="display: block; height: 124px; width: 144px; border: 2px dotted #37745b; border-radius: 8px; overflow: hidden; position: relative;">
 													<img alt="시설 이미지" th:src="${da.imgFileUrlAddr}"
-													style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+														style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 												</a>
 											</div>
 											<div class="col ps-2 fac-info" style="text-align: left; font-size: 14px;">
@@ -146,8 +136,6 @@
 						</div>
 					</div>
 
-
-
 				</div>
 
 
@@ -159,20 +147,63 @@
 		</div>
 	</div>
 
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a902b3fed24bfa2072453467bfcdb25"></script>
-	<script type="text/javascript">
-		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-			level : 3
-		//지도의 레벨(확대, 축소 정도)
-		};
-
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-	</script>
-
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a902b3fed24bfa2072453467bfcdb25&libraries=services"></script>
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var data = /*[[${data}]]*/ [];
+
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3
+    };
+    var map = new kakao.maps.Map(container, options);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 각 주소에 대한 처리를 반복
+    data.forEach(function(item) {
+        var addr = item.addr;
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(addr, function(result, status) {
+        	// 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                iwRemoveable = true; // removeable 속성을 true로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+                
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="text-align:center; padding:5px; font-size:12px;">' + item.rsrcNm + '</div>',
+                    removable: iwRemoveable
+                });
+
+                // 마커에 클릭 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    // 마커를 클릭하면 인포윈도우가 열립니다
+                    infowindow.open(map, marker);
+                });
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        });
+    });
+    /*]]>*/
+</script>
+	
 </body>
+
 </html>
