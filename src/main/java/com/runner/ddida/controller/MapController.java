@@ -38,9 +38,8 @@ public class MapController {
 	@GetMapping("/ddimap")
 	public String ddimap(Model model) {
 		List<ApiVo> recmdspcaeList = new ArrayList<>();
-		recmdspcaeList = spaceService.mapSpaceList();
-		model.addAttribute("data", recmdspcaeList);
-		recmdspcaeList = spaceService.mapSpaceList();
+		recmdspcaeList = spaceService.recommendSpaceList();
+//		recmdspcaeList = spaceService.findDefault();
 		model.addAttribute("data", recmdspcaeList);
 
 		return "user/map/spaceMap";
@@ -58,7 +57,6 @@ public class MapController {
 		System.out.println("spaceNm: " + spaceNm);
 		
         List<ApiVo> searchResults = spaceService.searchByCriteria(type, pay, region, spaceNm);
-        System.out.println("Search Results: " + searchResults);
         medel.addAttribute("data", searchResults);
         
 //        if(pay.equals("N")) {
