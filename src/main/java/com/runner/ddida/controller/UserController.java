@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.runner.ddida.dto.ReserveDto;
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
 
@@ -192,23 +194,51 @@ public class UserController {
 	}
 
 	@PostMapping("/sports/{rsrcNo}/reserve/check")
-	public String checkForm(@ModelAttribute Reserve reserve, Model model) {
-
-		System.out.println(reserve);
-
-		String phone = reserve.getUserPhoneOne() + "-" + reserve.getUserPhoneTwo() + "-" + reserve.getUserPhoneThr();
-		String email = reserve.getUserEmailOne() + "@" + reserve.getUserEmailTwo();
-
+	public String checkForm(@ModelAttribute ReserveDto reserveDto, Model model) {
+		
+		String newString = reserveDto.getUseStartTime();
+		
+		reserveDto.setUseStartTime(newString.replace("\n", "<br>"));
+		
+		String phone = reserveDto.getUserPhoneOne() + "-" + reserveDto.getUserPhoneTwo() + "-" + reserveDto.getUserPhoneThr();
+		String email = reserveDto.getUserEmailOne() + "@" + reserveDto.getUserEmailTwo();
+		
+		Reserve reserve = new Reserve();
+		
+		reserve.setUserNo(reserveDto.getUserNo());
+		reserve.setRsrcNo(reserveDto.getRsrcNo());
+		reserve.setSpaceName(reserveDto.getRsrcNm());
+		reserve.setUseDate(reserveDto.getUseStartDate());
+		reserve.setReserveFee(reserveDto.getReserveFee());
+		reserve.setEmail(email);
+		reserve.setPhone(phone);
+		reserve.setName(reserveDto.getUserName());
+		
 		model.addAttribute("data", reserve);
-		model.addAttribute("phone", phone);
-		model.addAttribute("email", email);
+		model.addAttribute("time", reserveDto);
+		model.addAttribute("timeList", newString);
 
 		return "user/sports/checkForm";
 	}
 
-	@PostMapping("/sports/1/complete")
-	public String complete() {
-
+	@PostMapping("/sports/complete")	
+	public String complete(@ModelAttribute Reserve reserve, @RequestParam("timeList") String timeList, Model model) {
+		
+		List<ReserveTime> reserveTimeList = new ArrayList<ReserveTime>();
+		String[] timeArray = timeList.split("\n");
+		
+		for (String time : timeArray) {
+			ReserveTime reserveTime = new ReserveTime();
+			reserveTime.setUseTime(time);
+			reserveTimeList.add(reserveTime);
+		}
+		reserve.setReserveTimes(reserveTimeList);
+		
+		spaceService.saveReserve(reserve);
+		
+		model.addAttribute("data", reserve);
+		model.addAttribute("time", timeList.replace("\n", "<br>"));
+		
 		return "user/sports/complete";
 	}
 

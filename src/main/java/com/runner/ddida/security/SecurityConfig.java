@@ -34,13 +34,13 @@ public class SecurityConfig {
 		http.csrf((csrf) -> csrf.disable())
 				.authorizeHttpRequests(authorizeRequest -> authorizeRequest
 						.requestMatchers("/", "/admin","/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**").permitAll()
-						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**")
-						.permitAll()
+						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**").permitAll()
+						.requestMatchers("/sports/{rsrcNo}").permitAll()
+						.requestMatchers("/sports/{rsrcNo}/**").hasRole("USER")
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-					 	.anyRequest().authenticated())
+					 	.anyRequest().authenticated()) 
 				.exceptionHandling(error -> error
 						.accessDeniedPage("/login/admin"))
-				
 				.formLogin(login -> login
 						.loginPage("/login")
 						.loginProcessingUrl("/login/**")
