@@ -23,19 +23,17 @@
 			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
 
 			<div id="login-box" style="width: 400px; margin: 0 auto;">
-				<form th:action="@{/login/admin}" method="post"
+				<form th:action="@{/login/manage}" method="post"
 					id="admin-login-form">
 					<h6 class="form-control mt-4" style="text-align: left; border: 0;">
 						관리자 모드 정보 입력</h6>
 					<div class="">
-						<!-- Warning 해결용 -->
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<input type="text" class="form-control search-input mb-3 mt-2"
+						<input type="text" class="form-control search-input mb-3 mt-2" required
 							style="border-color: #aaa;" id="username"
 							placeholder="관리섹터 입력" name="username">
 					</div>
 					<div class="">
-						<input type="password" class="form-control search-input"
+						<input type="password" class="form-control search-input" required
 							style="border-color: #aaa;" id="password" name="password"
 							placeholder="관리코드 입력">
 					</div>

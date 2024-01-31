@@ -12,5 +12,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findByUsername(String username);
 	
 	//중복방지
-
+	boolean existsByUsername(String username);
 }

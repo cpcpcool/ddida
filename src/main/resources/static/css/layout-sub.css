@@ -143,6 +143,13 @@ ul.slick-dots {
 	color: #fff;
 }
 
+#admin-btn {
+	background-color: #37745b;
+	border: 0;
+	font-weight: 300;
+	color: #fff;
+}
+
 .form-check-input:checked {
 	background-color: #37745b;
 	border-color: #aaa;

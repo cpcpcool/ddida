@@ -4,6 +4,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.runner.ddida.model.Member;
 
+import ch.qos.logback.core.encoder.Encoder;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,14 +30,10 @@ public class MemberFormDto {
 	
 	private String role;
 	
-	@NotBlank(message = "이름을 입력해주세요")
 	private String name;
 
-	@NotBlank(message = "전화번호를 입력해주세요")
 	private String phone;
-	
-	@NotBlank(message = "이메일을 입력해주세요")
-//	@Email(message = "이메일 형식이 아닙니다")
+
 	private String email;
 
 	public Member toEntity() {
@@ -48,9 +47,8 @@ public class MemberFormDto {
 				.build();
 	}
 	
-		
 	public void encodePassword(PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(this.password);
 	}
-
+	
 }

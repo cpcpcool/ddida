@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
@@ -34,8 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
 	@ModelAttribute("user")
-	public UserDetails getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
-		return userDetails;
+	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
+		return member;
 	}
 
 	private final SpaceService spaceService;
@@ -58,6 +59,8 @@ public class UserController {
 		return "user/qna/qnaAddForm";
 	}
 
+	// ==================================================================================
+	
 	@GetMapping("/mypage/reservation")
 	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
@@ -84,6 +87,9 @@ public class UserController {
 		return "user/mypage/editPassword";
 	}
 
+	// ==================================================================================
+	
+	
 	@GetMapping("/sports")
 	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,

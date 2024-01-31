@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
 
@@ -16,14 +17,15 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final DdidaUserDetailsService ddidaUserDetailsService;
+	private final LoginSuccessHandler loginSuccessHandler;
 	
 	@Bean	
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/", "/admin", "/join", "/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**").permitAll()
-						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**")
-						.permitAll()
+						.requestMatchers("/", "/join/**", "/newAdmin", "/login/**", "/logout/**", "/success", "/sports", "/ddimap/**").permitAll()
+						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**").permitAll()
+						.requestMatchers("/admin/login").permitAll() // 별도의 관리자 로그인 페이지 허용
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 					 	.anyRequest().authenticated())
 				.exceptionHandling(error -> error
@@ -33,21 +35,9 @@ public class SecurityConfig {
 						.loginPage("/login")
 						.loginProcessingUrl("/login")
 						.failureUrl("/login?error=true")
-						// .failureHandler()
-						.defaultSuccessUrl("/", true)
 						.usernameParameter("username")	
 						.passwordParameter("password")
-						.successHandler((request, response, authentication) -> response.sendRedirect("/")))
-				
-				// 관리자 로그인 별도
-//				.formLogin(adminLogin -> adminLogin
-//						.loginPage("/login/admin")
-//						.loginProcessingUrl("/login/admin")
-//						.failureUrl("/login/admin?error=true")
-//						.defaultSuccessUrl("/admin/qna", true)
-//						.usernameParameter("username")
-//						.passwordParameter("password")
-//						.successHandler((request, response, authentication) -> response.sendRedirect("/admin/qna")))
+						.successHandler(loginSuccessHandler))
 				
 				.logout(logout -> logout
 						.logoutUrl("/logout")	

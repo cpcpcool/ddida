@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.runner.ddida.dto.MemberDto;
 import com.runner.ddida.dto.MemberFormDto;
@@ -25,6 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Getter
@@ -43,13 +45,13 @@ public class Member implements UserDetails {
 	@Column(name = "user_no")
 	private Long userNo;
 
-	@Column(name = "username", unique = true, nullable = false)
+	@Column(name = "username", unique = true, nullable = true)
 	private String username;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password", nullable = true)
 	private String password;
 
-	@Column(name = "role", nullable = false)
+	@Column(name = "role", nullable = true)
 	private String role;
 
 	// enum 관련
@@ -71,13 +73,13 @@ public class Member implements UserDetails {
 //		return roleName; 
 //	}
 //	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = true)
 	private String name;
 
-	@Column(name = "phone", nullable = false)
+	@Column(name = "phone", nullable = true)
 	private String phone;
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = true)
 	private String email;
 
 	@Column(name = "sign_date", updatable = false)

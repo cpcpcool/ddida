@@ -22,46 +22,50 @@
 		<div class="container"
 			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
 
-			
-			<form th:action="@{/join/USER}" method="post" th:object="${memberFormDto}" id="joinForm">
+
+			<form th:action="@{/join/USER}" method="post"
+				th:object="${memberFormDto}" id="joinForm">
 				<div id="login-box" style="width: 400px; margin: 0 auto;">
 					<h6 class="form-control mt-4"
 						style="text-align: left; font-weight: 400; padding-left: 5px; border: 0;">회원
 						가입 정보를 입력하세요</h6>
+					<div id="alertMessage"></div>
 					<div class="mb-2">
-						<input type="text" class="form-control search-input"
+						<input type="text" class="form-control search-input focus-ring"
 							name="username" style="border-color: #aaa;" id="username"
-							th:placeholder="${#fields.hasErrors('username')} ? '아이디를 입력해주세요' : '아이디'"
-							 th:value="${memberFormDto.username}" />
+							placeholder="아이디"
+							th:value="${memberFormDto.username}" />
 						<div th:if="${#fields.hasErrors('username')}"
 							th:errors="*{username}" style="color: red;">incorrect data</div>
 					</div>
-					
+
 					<div class="mb-2">
-						<input type="password" class="form-control search-input"
+						<input type="password" class="form-control search-input focus-ring"
 							name="password" style="border-color: #aaa;" id="password"
-							placeholder="비밀번호" >
+							placeholder="비밀번호">
 					</div>
-					<!-- <div class="mb-2">
-						<input type="password" class="form-control" name=""
-							style="border-color: #aaa;" id="search-input"
+					<div class="mb-2">
+						<input type="password" class="form-control search-input focus-ring" name="confirmPassword"
+							style="border-color: #aaa;" id="confirmPassword"
 							placeholder="비밀번호 확인">
-					</div> -->
-					<div class="mb-2">
-						<input type="text" class="form-control search-input" name="name"
-							style="border-color: #aaa;" id="name" placeholder="이름">
 					</div>
 					<div class="mb-2">
-						<input type="tel" class="form-control search-input" name="phone"
-							style="border-color: #aaa;" id="phone"
-							placeholder="휴대폰 번호">
+						<input type="text" class="form-control search-input focus-ring" name="name"
+							style="border-color: #aaa;" id="name" placeholder="이름"
+							th:value="${memberFormDto.name}">
 					</div>
 					<div class="mb-2">
-						<input type="text" class="form-control search-input" name="email"
-							style="border-color: #aaa;" id="email" placeholder="이메일">
+						<input type="tel" class="form-control search-input focus-ring" name="phone"
+							style="border-color: #aaa;" id="phone" placeholder="휴대폰 번호"
+							th:value="${memberFormDto.phone}">
+					</div>
+					<div class="mb-2">
+						<input type="email" class="form-control search-input focus-ring" name="email"
+							style="border-color: #aaa;" id="email" placeholder="이메일"
+							th:value="${memberFormDto.email}">
 					</div>
 					<div class="form-check" style="text-align: left;">
-						<input class="form-check-input" type="checkbox" value=""
+						<input class="form-check-input focus-ring" type="checkbox"
 							id="flexCheckDefault"> <label class="form-check-label"
 							for="flexCheckDefault"> 이용 약관 동의 </label>
 
@@ -151,8 +155,8 @@
 
 					<hr style="margin: 10px auto;">
 					<button type="submit" id="login-btn"
-						class="btn btn-primary form-control mt-2">회원 가입</button>
-					<a th:href="@{/join/admin}" class="form-control mt-2 mb-5"
+						class="btn btn-primary form-control mt-2 focus-ring">회원 가입</button>
+					<a th:href="@{/newAdmin}" class="form-control mt-2 mb-5 focus-ring"
 						style="display: block; background-color: #fff; border-color: #37745b; color: #37745b; font-weight: 300; border: 0;">
 						<span class="pb-1" style="border-bottom: 1px solid #37745b;">관리자
 							등록 모드</span>
@@ -169,7 +173,14 @@
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
-
+	
+	<script th:if="${welcomeMessage}" type="text/javascript">
+	    alert(/*[[${welcomeMessage}]]*/ '');
+	</script>
+	<script th:if="${errorMessage}" type="text/javascript">
+		alert(/*[[${errorMessage}]]*/'중복된 아이디가 있습니다. 다시 회원가입 해주십시오');
+	</script>
+	
 	<script type="text/javascript">
 		function openModal() {
 			// 모달 트리거
@@ -177,57 +188,48 @@
 					.getElementById('myModal'));
 			myModal.show();
 		}
+
+		// 클라이언트 validation
+		document.addEventListener('DOMContentLoaded', function() {
+			var form = document.getElementById('joinForm');
+			var checkbox = document.getElementById('flexCheckDefault');
+
+			form.addEventListener('submit',
+					function(event) {
+						var inputs = form.querySelectorAll('input');
+						var hasEmptyInput = false;
+
+				        inputs.forEach(function(input) {
+							if (input.value.trim() === '') {
+								hasEmptyInput = true;
+								input.classList.add('is-invalid');
+							} else {
+								input.classList.remove('is-invalid');
+							}
+						});
+
+						if (hasEmptyInput) {
+							alert('입력되지 않은 정보가 있습니다.');
+							event.preventDefault();
+							// 체크박스
+						} else if (!checkbox.checked) {
+							alert('이용 약관에 동의주셔야 회원 가입이 가능합니다.');
+							event.preventDefault();
+						} else {
+							var password = document.getElementById('password');
+							var confirmPassword = document
+									.getElementById('confirmPassword');
+
+							if (password.value.trim() !== confirmPassword.value
+									.trim()) {
+								alert('비밀번호가 일치하지 않습니다.');
+								event.preventDefault();
+							}
+						}
+					});
+
+		});
 	</script>
-	<script type="text/javascript">
-	// JavaScript 코드
-     document.addEventListener('DOMContentLoaded', function() {
-        // 페이지 로딩 완료 후 실행되는 코드
-
-        // 체크박스 상태 확인
-        var checkboxChecked = document.getElementById('checkbox').checked;
-
-        // 입력 필드 값 확인
-        var inputValue = document.getElementById('username').value;
-
-        // 에러가 있는지 확인
-        var hasError = checkboxChecked && inputValue.trim() === '';
-
-        if (hasError) {
-            // 에러가 있을 때 placeholder를 에러 메시지로 변경
-            document.getElementById('username').placeholder = '에러 메시지';
-            // 에러 메시지를 에러 영역에 출력
-            document.getElementById('usernameError').innerText = '에러 메시지';
-	</script>
-	<script type="text/javascript">
-	
-	 /* document.addEventListener('DOMContentLoaded', function() {
-	        var form = document.getElementById('joinForm'); // 폼의 ID를 사용하여 폼 엘리먼트 가져오기
-
-	        form.addEventListener('submit', function(event) {
-	            var inputs = form.querySelectorAll('input'); // 폼 안의 모든 input 엘리먼트 가져오기
-	            var hasEmptyInput = false;
-
-	            inputs.forEach(function(input) {
-	                if (input.value.trim() === '') {
-	                    hasEmptyInput = true;
-	                    input.classList.add('is-invalid'); // 빈 입력란이 있다면 해당 input에 'is-invalid' 클래스 추가
-	                } else {
-	                    input.classList.remove('is-invalid'); // 빈 입력란이 없다면 'is-invalid' 클래스 제거
-	                }
-	            });
-
-	            if (hasEmptyInput) {
-	                var errorMessage = document.getElementById('errorMessage');
-	                errorMessage.innerText = '빈 입력란이 있습니다. 모든 항목을 입력해주세요.'; // 빈 입력란이 있을 경우 화면에 메시지 출력
-	                errorMessage.style.display = 'block'; // 메시지 영역 보이기
-	                event.preventDefault(); // 폼 제출 방지
-	            } else {
-	                // 빈 입력란이 없는 경우 폼 전송
-	                form.submit();
-	            }
-	        });
-	    }); */
-</script>
 
 </body>
 </html>
