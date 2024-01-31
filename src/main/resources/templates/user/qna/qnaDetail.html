@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/reset.css" rel="stylesheet">
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link href="/css/layout.css" rel="stylesheet">
-<link href="/css/qna.css" rel="stylesheet">
-<link rel="icon" href="/img/favicon.png">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script type="text/javascript" src="/js/gnb.js"></script>
-<title>뛰다</title>
+	<meta charset="UTF-8">
+	<link href="/css/reset.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/layout.css" rel="stylesheet">
+	<link href="/css/qna.css" rel="stylesheet">
+	<link rel="icon" href="/img/favicon.png">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script type="text/javascript" src="/js/gnb.js"></script>
+	<title>뛰다</title>
 </head>
 
 <body>
@@ -25,33 +26,34 @@
 			<hr class="titleUnder my-2">
 
 			<div class="qnaDescription">
-				<h3 style="text-align: center">문의 제목</h3>
+				<h3 style="text-align: center" th:text="${qna.title}">문의 제목</h3>
 				<div class="d-flex mt-2">
-					<div class="ms-2 me-3">작성일 :</div>
+					<div class="ms-2 me-3">작성일 : [[${qna.qnaDate}]]</div>
 					<div class="ms-auto me-3">작성자 :</div>
-					<div class="me-2">조회수 :</div>
+					<div class="me-2">조회수 : [[${qna.qnaView}]]</div>
 				</div>
 				<hr>
 				<div>
-					<div>문의 내용</div>
+					<div th:text="${qna.description}">문의 내용</div>
 				</div>
 				<hr>
 				<div class="d-flex justify-content-end mt-1">
-					<button id="edit-btn" type="button"
-						class="btn btn-outline-secondary"
+					<button id="edit-btn" type="button" class="btn btn-outline-secondary"
 						onclick="location.href='/qna/add'">문의 수정</button>
 				</div>
 			</div>
-			
+
 			<div class="list-group mt-5">
-				<a href="/qna/qnaDetail"
-					class="list-group-item"> <span id="prevNext">다음글 : </span>
-					<span id="prevNextTitle">다음글 제목</span>
+				<a th:href="${next == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${next.qnaNo})}" class="list-group-item">
+					<span id="prevNext">다음글 : </span>
+					<span id="prevNextTitle" th:if="${next == null}"> 다음글이 없습니다.</span>
+					<span id="prevNextTitle" th:unless="${next == null}" th:text="${next.title}"> 다음글 제목</span>
 
 				</a>
-				<a href="/qna/qnaDetail"
-					class="list-group-item"> <span
-					id="prevNext">이전글 : </span> <span id="prevNextTitle" >이전글 제목</span>
+				<a th:href="${prev == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${prev.qnaNo})}" class="list-group-item">
+					<span id="prevNext">이전글 : </span>
+					<span id="prevNextTitle" th:if="${prev == null}">이전글이 없습니다.</span>
+					<span id="prevNextTitle" th:unless="${prev == null}" th:text="${prev.title}">이전글 제목</span>
 
 				</a>
 			</div>
@@ -61,4 +63,5 @@
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
 </body>
+
 </html>
