@@ -1,39 +1,27 @@
 package com.runner.ddida.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.runner.ddida.service.MemberService;
+import com.runner.ddida.service.DdidaUserDetailsService;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-	@Autowired
-	private MemberService memberService;
+	private final DdidaUserDetailsService ddidaUserDetailsService;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private MemberAuthenticatorProvider memberAuthenticatorProvider;
-
-	@Autowired
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(memberAuthenticatorProvider);
-	}
-
 	@Bean	
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable())
-				.authorizeHttpRequests(authorizeRequest -> authorizeRequest
-						.requestMatchers("/", "/admin","/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**").permitAll()
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/", "/admin", "/join", "/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**").permitAll()
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**")
 						.permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
@@ -43,11 +31,11 @@ public class SecurityConfig {
 				
 				.formLogin(login -> login
 						.loginPage("/login")
-						.loginProcessingUrl("/login/**")
+						.loginProcessingUrl("/login")
 						.failureUrl("/login?error=true")
 						// .failureHandler()
 						.defaultSuccessUrl("/", true)
-						.usernameParameter("username")
+						.usernameParameter("username")	
 						.passwordParameter("password")
 						.successHandler((request, response, authentication) -> response.sendRedirect("/")))
 				
@@ -70,7 +58,7 @@ public class SecurityConfig {
 				.rememberMe(remember -> remember // 자동 로그인 
 						.key("ddida")
 						.tokenValiditySeconds(1800)
-						.userDetailsService(memberService)
+						.userDetailsService(ddidaUserDetailsService)
 						.rememberMeParameter("remember-me"))
 					
 				.sessionManagement(session -> session
@@ -82,13 +70,13 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	//관리자계정 생성
-	@Autowired
-	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("admin")
-			.password("{bcrypt}1111")
-			.roles("ADMIN");
-	}
+//	//관리자계정 생성
+//	@Autowired
+//	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.inMemoryAuthentication()
+//			.withUser("admin")
+//			.password("{bcrypt}1111")
+//			.roles("ADMIN");
+//	}  
 
 }

@@ -2,54 +2,56 @@ package com.runner.ddida.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import com.runner.ddida.enums.MemberRole;
+import com.runner.ddida.dto.MemberDto;
+import com.runner.ddida.dto.MemberFormDto;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
-@EntityListeners(AuditingEntityListener.class) // 변경될때 자동기록
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Member {
+@Table(name = "member")
+public class Member implements UserDetails {
+
+	/**
+	 * @author 박재용
+	 */
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_no")
 	private Long userNo;
 
-	@Column(name = "username", unique = true)
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "role")
+	@Column(name = "role", nullable = false)
 	private String role;
 
-	
 	// enum 관련
 //	@Builder.Default
 //	@Enumerated(EnumType.STRING)
@@ -69,81 +71,75 @@ public class Member {
 //		return roleName; 
 //	}
 //	
-	@Column(name = "name", nullable = true)
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "phone", nullable = true)
+	@Column(name = "phone", nullable = false)
 	private String phone;
 
-	@Column(name = "email", nullable = true)
+	@Column(name = "email", nullable = false)
 	private String email;
 
 	@Column(name = "sign_date", updatable = false)
 	private String signDate;
-	
+
 	@PrePersist
 	public void onPrePersist() {
-		this.signDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+		this.signDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 
-//	private int active;
-//
-//	private String roles = "";
-//
-//	private String permissions = "";
-
-//	public Member(Long userNo, String username, String password, String role) {
-//		this.userNo = userNo;
-//		this.username = username;
-//		this.password = password;
-//		this.role = role;
-//	}
-
-	public Member(Long userNo, String username, String password, String role, String name, String phone, String email,
-			String signDate) {
-		this.userNo = userNo;
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.name = name;
-		this.phone = phone;
-		this.email = email;
-		this.signDate = signDate;
-
-//		this.roles = roles;
-//		this.permissions = permissions;
-//		this.active = 1;
+	public MemberDto toMemberDto() {
+		return MemberDto.builder()
+				.userNo(userNo)
+				.username(username)
+				.password(password)
+				.role(role)
+				.name(name)
+				.phone(phone)
+				.email(email)
+				.signDate(signDate)
+				.build();
+	}
+	
+	public MemberFormDto toMemberFormDto() {
+		return MemberFormDto.builder()
+				.username(username)
+				.password(password)
+				.name(name)
+				.phone(phone)
+				.email(email)
+				.build();
 	}
 
-//	public List<String> getRoleList() {
-//		if (this.roles.length() > 0) {
-//			return Arrays.asList(this.roles.split(","));
-//		}
-//
-//		return new ArrayList<>();
-//	}
-//
-//	public List<String> getPermissionList() {
-//		if (this.permissions.length() > 0) {
-//			return Arrays.asList(this.permissions.split(","));
-//		}
-//
-//		return new ArrayList<>();
-//	}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role));
+		return authorities;
+	}
 
-//	public static Member createMember(MemberDto memberDto, PasswordEncoder passwordEncoder) {
-//        Member member = Member.builder()
-//        		.username(memberDto.getUsername())
-//        		.password(passwordEncoder.encode(memberDto.getPassword()))  //암호화처리
-//                .name(memberDto.getName())
-//                .email(memberDto.getEmail())
-//                .role(memberDto.getRole())
-//                .build();
-//        return member;
-//        }
+	// 계정이 만료되지 않았는지를 담아두기 위해 (true: 만료안됨)
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-	public void encodePassword(PasswordEncoder passwordEncoder) {
-		this.password = passwordEncoder.encode(this.password);
+	// 계정이 잠겨있지 않았는지를 담아두기 위해 (true: 잠기지 않음)
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	// 계정의 비밀번호가 만료되지 않았는지를 담아두기 위해 (true: 만료안됨)
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	// 계정이 활성화되어있는지를 담아두기 위해 (true: 활성화됨)
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }

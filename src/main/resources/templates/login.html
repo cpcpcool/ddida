@@ -27,12 +27,12 @@
 					<div class="mb-3 mt-5">
 						<input type="text" class="form-control search-input" name="username"
 							style="border-color: #aaa;" id="username"
-							placeholder="아이디를 입력">
+							placeholder="아이디를 입력" required>
 					</div>
 					<div class="mb-3">
 						<input type="password" class="form-control search-input" name="password"
 							style="border-color: #aaa;" id="password"
-							placeholder="비밀번호를 입력">
+							placeholder="비밀번호를 입력" required>
 					</div>
 					<div th:if="${param.error}" >
 						<div class="alert alert-danger">ID 또는 비밀번호를 확인해 주세요.</div>

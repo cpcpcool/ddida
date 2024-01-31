@@ -1,24 +1,16 @@
 package com.runner.ddida.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.runner.ddida.converter.MemberConverter;
-import com.runner.ddida.dto.MemberDto;
-import com.runner.ddida.model.Member;
-import com.runner.ddida.service.MemberService;
+import com.runner.ddida.dto.MemberFormDto;
+import com.runner.ddida.service.MemberSignService;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,41 +19,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 
-	private final MemberConverter memberConverter;
-	private final MemberService memberService;
-
-	@GetMapping("/join")
-	public String join() {
-		return "join";
-	}
-
-	@GetMapping("/join/admin")
-	public String adminJoin() {
-		return "adminJoin";
-	}
-
-	@PostMapping("/join/{role}")
-	public String signUp(@ModelAttribute @Valid MemberDto memberDto, @PathVariable(value = "role") String role, Model model, BindingResult bindingResult) {
-		
-		if (bindingResult.hasErrors()) {
-			return "join";
-		}
-		
-		log.info("role : {}", role);
-		memberDto.setRole(role);
-		Member entity = memberConverter.convertToEntity(memberDto);
-		Member savedEntity = memberService.saveMember(entity);
-		MemberDto savedDto = memberConverter.convertToDto(savedEntity);
-		model.addAttribute("user", savedDto);
-		
-		if("ADMIN".equals(role)) {
-			return "adminLogin";
-		}else {
-			return "login";
-		}
-		
-	}	
+	private final MemberSignService memberSignService;
 	
+//	@GetMapping("/join/admin")
+//	public String joinAdmin(Model model) {
+//		model.addAttribute("userForm", new MemberFormDto());
+//		return "adminJoingvf";
+//	}
+	
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
@@ -93,4 +59,24 @@ public class MemberController {
 //
 //		return "redirect:/admin/qna";
 //	}
+	
+	@GetMapping("/join")
+	public String join(Model model) {
+		model.addAttribute("memberFormDto", new MemberFormDto());
+		return "join";
+	}
+	
+	@PostMapping("/join/{role}")
+	public String signUp(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+	        model.addAttribute("memberFormDto", memberFormDto);
+			return "join";
+		}
+	
+		MemberFormDto savedmemberDto = memberSignService.save(memberFormDto);
+		model.addAttribute("user", savedmemberDto);
+		
+		return "login";
+	}
 }
