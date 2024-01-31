@@ -3,6 +3,7 @@ package com.runner.ddida.controller;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.ApiVo;
-import com.runner.ddida.vo.SpaceDetailVo;	
+import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,40 +39,26 @@ public class MapController {
 	@GetMapping("/ddimap")
 	public String ddimap(Model model) {
 		List<ApiVo> recmdspcaeList = new ArrayList<>();
-		recmdspcaeList = spaceService.recommendSpaceList();
-//		recmdspcaeList = spaceService.findDefault();
+		recmdspcaeList = spaceService.findDefault();
 		model.addAttribute("data", recmdspcaeList);
 
 		return "user/map/spaceMap";
 	}
 
 	@GetMapping("/ddimap/search")
-	public String searchData(Model medel, @RequestParam(name = "type", required = false) String type,
-										@RequestParam(name = "pay", required = false) String pay,
-										@RequestParam(name = "region", required = false) String region,
-										@RequestParam(name = "spaceNm", required = false) String spaceNm) {
+	public String searchData(Model model, @RequestParam(name = "type", required = true) String type,
+			@RequestParam(name = "pay", required = false) String pay,
+			@RequestParam(name = "region", required = false) String region,
+			@RequestParam(name = "spaceNm", required = false) String spaceNm) {
+
+		model.addAttribute("type", type);
+		model.addAttribute("pay", pay);
+		model.addAttribute("region", region);
+		model.addAttribute("spaceNm", spaceNm);
 		
-		 // 동적으로 검색 쿼리를 생성하는 비즈니스 로직 호출
-		System.out.println("type: " + type);
-		System.out.println("region: " + region);
-		System.out.println("spaceNm: " + spaceNm);
-		
-        List<ApiVo> searchResults = spaceService.searchByCriteria(type, pay, region, spaceNm);
-        medel.addAttribute("data", searchResults);
-        
-//        if(pay.equals("N")) {
-//			List<ApiVo> searchList = spaceService.findDefault();
-//
-//			List<SpaceDetailVo> detailList = spaceService.findDetailList(searchList);
-//			// 무료/유료 데이터 반환 성공
-//			List<ApiVo> filteredList = spaceService.findDefault();
-//			
-//			filteredList = searchList.stream()
-//					.filter(apiVo -> detailList.stream().anyMatch(
-//							detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && "N".equals(detail.getFreeYn())))
-//					.collect(Collectors.toList());
-//			
-//			medel.addAttribute("data", filteredList);
+		List<ApiVo> searchResults = spaceService.searchByCriteria(type, pay, region, spaceNm);
+		model.addAttribute("data", searchResults);
+
 		return "user/map/spaceMap";
 	}
 

@@ -76,7 +76,7 @@ public class SpaceService {
 		try {
 			// req
 			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 1000);
+			obj.put("numOfRows", 100);
 			obj.put("ctpvCd", ctpvCd);
 
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -150,7 +150,6 @@ public class SpaceService {
 				System.out.println("Response Error:");
 				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
 			}
-			System.out.println(result); // 결과 출력
 
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -200,25 +199,26 @@ public class SpaceService {
 
 	}
 
-	// 가상의 Open API로부터 데이터를 검색하는 메서드
+	// 검색 기준필터
 	public List<ApiVo> searchByCriteria(String type, String pay, String region, String spaceNm) {
-
 		List<ApiVo> allData = findDefault();
-		
-		List<ApiVo> filteredList = allData.stream()
-				.filter(apiVo -> type == null || type.isEmpty() || apiVo.getRsrcNm().contains(type))
-				.filter(apiVo -> region == null || region.isEmpty() || apiVo.getAddr().contains(region))
-				.filter(apiVo -> spaceNm == null || spaceNm.isEmpty() || apiVo.getRsrcNm().contains(spaceNm)).collect(Collectors.toList());
 
-		if ("N".equals(pay)) {
-			List<SpaceDetailVo> detailList = findDetailList(filteredList);
-			filteredList = filteredList.stream()
-					.filter(apiVo -> detailList.stream().anyMatch(
-							detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && "N".equals(detail.getFreeYn())))
-					.collect(Collectors.toList());
-		}
+	    List<ApiVo> filteredList = allData.stream()
+	            .filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
+	            .filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
+	            .filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
+	            .collect(Collectors.toList());
 
-			return filteredList;
+	    if ("N".equals(pay) || "Y".equals(pay)) {
+	        List<SpaceDetailVo> detailList = findDetailList(filteredList);
+
+	        filteredList = filteredList.stream()
+	                .filter(apiVo -> detailList.stream()
+	                        .anyMatch(detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
+	                .collect(Collectors.toList());
+	    }
+
+		return filteredList;
 	}
 
 	// =======================================================================================================================

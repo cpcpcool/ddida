@@ -1,3 +1,4 @@
+
 .main-search-area {
 	background: url("/img/main-cover.png") no-repeat center center;
 	background-size: cover;
@@ -192,3 +193,10 @@ div.fac-info > a{
 	height: 22px;
 	line-height: 22px;
 }
+
+  .ellipsis {
+  	max-width:100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
