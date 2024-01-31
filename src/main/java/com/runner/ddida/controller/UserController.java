@@ -1,12 +1,12 @@
 package com.runner.ddida.controller;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +29,6 @@ import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
 /**
  * @author 박재용
@@ -51,11 +50,14 @@ public class UserController {
 
 	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, String searchKeyword, Model model) {
+	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, Model model) {
 		Page<Qna> qnaList = qnaService.findAll(pageable);
 		
+		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
+		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
 		int startPage = Math.max(nowPage - 4, 1);
+		// 마지막 게시글이 존재하는 페이지를 endPage로
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
 		
 		model.addAttribute("qnaList", qnaList);

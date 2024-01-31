@@ -1,13 +1,10 @@
 package com.runner.ddida.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.runner.ddida.dto.QnaDto;
 import com.runner.ddida.model.Qna;
@@ -22,7 +19,7 @@ public class QnaService {
 	private final QnaRepository qnaRepository;
 	
 	// 문의 목록
-	public Page<Qna> findAll(java.awt.print.Pageable pageable) {
+	public Page<Qna> findAll(Pageable pageable) {
 		return qnaRepository.findAll(pageable);
 	}
 	
