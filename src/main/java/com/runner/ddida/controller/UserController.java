@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
 
@@ -40,6 +42,7 @@ public class UserController {
 	}
 
 	private final SpaceService spaceService;
+	private final MemberSignService memberSignService;
 
 	@GetMapping("/qna")
 	public String qnaList() {
@@ -60,11 +63,9 @@ public class UserController {
 	}
 
 	// ==================================================================================
-	
-	@GetMapping("/mypage/reservation")
-	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-		model.addAttribute("user", userDetails);
+	@GetMapping("/mypage/reservation")
+	public String reserveList() {
 
 		return "user/mypage/reserveList";
 	}
@@ -83,13 +84,30 @@ public class UserController {
 
 	@GetMapping("/mypage/userInfo/edit")
 	public String editPassword() {
-
 		return "user/mypage/editPassword";
 	}
 
+	@PostMapping("/mypage/userInfo/edit")
+	public String editPasswordPost(
+	        @AuthenticationPrincipal Member member,
+	        @RequestParam(name = "password") String currentPassword,
+	        @RequestParam(name = "newPassword") String newPassword,
+	        RedirectAttributes redirectAttributes
+	) {
+	    // MemberService를 통해 비밀번호 체크 및 변경
+	    if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
+	        redirectAttributes.addFlashAttribute("error", "현재 비밀번호가 일치하지 않습니다!");
+	        return "redirect:/mypage/userInfo/edit";
+	    } else {
+	        // 비밀번호 변경
+	        memberSignService.updatePassword(member.getUsername(), newPassword);
+	        return "redirect:/mypage/userInfo";
+	    }
+
+	}
+
 	// ==================================================================================
-	
-	
+
 	@GetMapping("/sports")
 	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,

@@ -1,12 +1,16 @@
 package com.runner.ddida.service;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.runner.ddida.dto.MemberDto;
 import com.runner.ddida.dto.MemberFormDto;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -53,6 +57,24 @@ public class MemberSignService {
 		Member savedAdminMember = memberRepository.save(member);
 
 		return savedAdminMember.toMemberFormDto();
+	}
+	
+	// 비밀번호 비교
+	public boolean checkPassword(String username, String password) {
+		Optional<Member> optionalMember = memberRepository.findByUsername(username);
+		return optionalMember.map(member -> passwordEncoder.matches(password, member.getPassword())).orElse(false);
+		
+	}
+	
+	// 비밀번호 변경
+	@Transactional
+	public void updatePassword(String username, String newPassword) {
+		Optional<Member> optionalMember = memberRepository.findByUsername(username);
+		MemberFormDto memberFormDto = optionalMember.get().toMemberFormDto();
+		memberFormDto.setPassword(newPassword);
+		memberFormDto.encodePassword(passwordEncoder);
+		// 변경 저장
+		memberRepository.save(memberFormDto.toEntity());
 	}
 
 }

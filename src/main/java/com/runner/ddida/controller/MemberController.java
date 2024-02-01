@@ -65,7 +65,7 @@ public class MemberController {
 		}
 		try {
 			MemberFormDto savedmemberDto = memberSignService.saveAdmin(memberFormDto);
-			redirectAttributes.addFlashAttribute("welcomeMessage", "관리자 등록이 완료되었습니다! \n 세상에 뛸 곳은 많다!");
+			redirectAttributes.addFlashAttribute("welcomeMessage", "관리자 ㄴ등록이 완료되었습니다! \n 세상에 뛸 곳은 많다!");
 			model.addAttribute("user", savedmemberDto);
 			return "redirect:/success";
 
