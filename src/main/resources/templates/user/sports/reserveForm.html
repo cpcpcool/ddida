@@ -232,6 +232,21 @@ label {
 
 	<script type="text/javascript" src="/js/gnb.js"></script>
 	<script type="text/javascript" src="/js/reserve.js"></script>
+	
+		<script th:inline="javascript">
+	 	/*<![CDATA[*/
+	       			 
+        function handleDateChange(useDate) {
+            // 사용자가 날짜를 선택했을 때 호출되는 함수
+            var selectedDate = document.getElementById("useStartDate").value;
+            var date = /*[[${date}]]*/
+            alert(date);
+        }
+        /*]]>*/
+    </script>
+
+
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

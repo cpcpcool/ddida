@@ -184,9 +184,20 @@ public class UserController {
 
 	@GetMapping("/sports/{rsrcNo}/reserve")
 	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
-
 		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
-
+		
+		List<Reserve> reserveL = spaceService.findReserve();
+		
+		List<String> useDate = new ArrayList<String>(); 
+		
+		for(Reserve reserve : reserveL) {
+			if(rsrcNo.equals(reserve.getRsrcNo())) {
+				String date = reserve.getUseDate();
+				useDate.add(reserve.getUseDate());
+				model.addAttribute(date, reserve.getUseDate());
+			}
+		}
+		 
 		model.addAttribute("data", data);
 		model.addAttribute("rsrcNo", rsrcNo);
 

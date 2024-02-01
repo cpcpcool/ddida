@@ -2,8 +2,17 @@
  * @author : 김부경
  */
 
-function submitForm() {
+       					 
+function handleDateChange(useDate) {
+    var selectedDate = document.getElementById("useStartDate").value;
+
+    if ('${useDate}' == selectedDate) {
+        alert('예약마감된 날입니당');
+    }
+}
+
   // 필수값 체크
+function submitForm() {
   var requiredInputs = [
     document.getElementById('useStartTime'),
     document.getElementById('userName'),
@@ -69,13 +78,13 @@ const textarea = document.getElementById('useStartTime');
 	const selectedCells = Array.from(table.getElementsByClassName('selected'));
 	const selectedCellTexts = selectedCells.map(cell => cell.innerText.trim());
 	alert('선택된 셀: ' + selectedCellTexts.join(', '));
-
+	
 	    document.getElementById("useStartTime").value = selectedCellTexts.join('\n');
 
   }
   
 		document.addEventListener('DOMContentLoaded', function () {
-			
+			 var useDate = /*[[${useDate}]]*/ '';
 			
 			var calendarEl = document.getElementById('calendar');
 			
@@ -93,7 +102,7 @@ const textarea = document.getElementById('useStartTime');
                 textColor : "#000000"
             });
 
-            for (var i = 1; i <= 30; i++) { // 예시로 30일 동안의 날짜를 생성
+            for (var i = 1; i <= 31; i++) { // 예시로 30일 동안의 날짜를 생성
                 var currentDate = new Date(today);
                 currentDate.setDate(today.getDate() - i);
                 var formattedDate = moment(currentDate).format('YYYY-MM-DD');
@@ -122,6 +131,8 @@ const textarea = document.getElementById('useStartTime');
 					if(todayDate < startDate) {
 						document.getElementById("useStartDate").value = startDate;
 		                selectDate = startDate;
+       					 
+						handleDateChange(startDate);
 					} 
 				},
 				

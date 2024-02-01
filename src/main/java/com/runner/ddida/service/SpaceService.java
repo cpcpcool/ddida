@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.repository.ReserveRepository;
+import com.runner.ddida.repository.ReserveTimeRepository;
 import com.runner.ddida.vo.ApiMetaVo;
 import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetaiMetaVo;
@@ -50,6 +52,8 @@ public class SpaceService {
 	private String clientSecretKey;
 	
 	private final ReserveRepository reserveRepository;
+	private final ReserveTimeRepository reserveTimeRepository;
+	
 	
 	public Map<String, Object> recommendSpaceList() {
 		
@@ -374,6 +378,19 @@ public class SpaceService {
     public void saveReserve(Reserve reserve) {
         reserveRepository.save(reserve);
     }
+	
+	// 예약 중복 막기
+	@Transactional
+    public List<Reserve> findReserve() {
+        return reserveRepository.findAll();
+    }
+	
+	@Transactional
+    public List<ReserveTime> findReserveTime() {
+		return reserveTimeRepository.findAll();
+    }
+	
+	
 	
 	
 }
