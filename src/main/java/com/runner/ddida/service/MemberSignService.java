@@ -21,16 +21,19 @@ public class MemberSignService {
 
 	private final MemberRepository memberRepository;
 
-	private final MemberService memberService;
-
 	private final PasswordEncoder passwordEncoder;
+
+	// 중복검사 메서드
+	public boolean duplicatedUsername(String username) {
+		return !memberRepository.existsByUsername(username);
+	}
 
 	// 일반 회원가입
 	public MemberFormDto save(MemberFormDto memberFormDto) {
 
 		// 예외처리하기
 		String trimmedUsername = memberFormDto.getUsername().replaceAll("\\s", ""); // 공백 제거
-		if (!memberService.duplicatedUsername(trimmedUsername)) {
+		if (!duplicatedUsername(trimmedUsername)) {
 			throw new IllegalStateException("이미 사용 중인 아이디입니다.");
 		}
 
@@ -46,7 +49,7 @@ public class MemberSignService {
 	public MemberFormDto saveAdmin(MemberFormDto memberFormDto) {
 
 		String trimmedUsername = memberFormDto.getUsername().replaceAll("\\s", ""); // 공백 제거
-		if (!memberService.duplicatedUsername(trimmedUsername)) {
+		if (!duplicatedUsername(trimmedUsername)) {
 			throw new IllegalStateException("이미 사용 중인 아이디입니다.");
 		}
 

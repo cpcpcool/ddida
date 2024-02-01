@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@ControllerAdvice
 @Slf4j
 public class MemberController {
 

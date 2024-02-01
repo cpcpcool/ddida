@@ -28,7 +28,7 @@
                     <input type="hidden" name="role" value="ADMIN">
                     <div class="mb-2">
                         <input type="text" class="form-control search-input focus-ring" name="username"
-                            style="border-color: #aaa;" id="username" placeholder="관리 섹터번호 입력">
+                            style="border-color: #aaa;" id="username" placeholder="관리자 ID 입력">
                     </div>
                     <div class="mb-2">
                         <input type="password" class="form-control search-input focus-ring" name="password"
@@ -55,7 +55,7 @@
 	    alert(/*[[${welcomeMessage}]]*/ '');
 	</script>
 	<script th:if="${errorMessage}" type="text/javascript">
-		alert(/*[[${errorMessage}]]*/'이미 등록되어 있는 관리섹터 관리자입니다.');
+		alert(/*[[${errorMessage}]]*/'이미 등록되어 있는 관리자입니다.');
 	</script>
 
     <script type="text/javascript">
