@@ -24,7 +24,9 @@
 				<a href="/qna" class="back-button"> </a> 문의 내역
 			</h4>
 			<hr class="titleUnder my-2">
-			<form id="qnaAddForm" th:action="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post" enctype="multipart/form-data" class="mt-5">
+			<form id="qnaAddForm" th:action="@{/qna/edit/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post" enctype="multipart/form-data" class="mt-5">
+				<input type="hidden" name="_method" value="put" />
+				<input type="hidden" name="qnaNo" th:value="${qna.qnaNo}" />
 				<div class="row">
 					<label class="col-2 mt-2">제목</label>
 					<input id="title" name="title" type="text" class="form-control mt-1 mb-2 col"

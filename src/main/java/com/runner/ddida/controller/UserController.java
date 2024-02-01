@@ -13,10 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.dto.QnaDto;
@@ -112,19 +114,26 @@ public class UserController {
 	@GetMapping("/qna/editForm/{qnaNo}")
 	public String qnaEditForm(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
 		
-		Qna qna = qnaService.findByQnaNo(qnaNo).get();
+		QnaDto qnaDto = qnaService.getQna(qnaNo);
 		
-		model.addAttribute("qna", qna);
+		model.addAttribute("qna", qnaDto);
 		return "user/qna/qnaEditForm";
 	}
 	
 	// 문의 수정
-	@PostMapping("/qna/{qnaNo}")
-	public String editQna(@PathVariable(name = "qnaNo") Long qnaNo, @ModelAttribute Qna qna, Model model) {
-		
-		qnaService.edit(qna);
-		
-		return "redirect:/qna/{qnaNo}";
+	@PutMapping("/qna/edit/{qnaNo}")
+	public String update(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user) {
+		qnaDto.setUserName(user.getUsername());
+		qnaDto.setQnaView(qnaDto.getQnaView());
+		qnaService.save(qnaDto);
+		return "redirect:/qna";
+	}
+	
+	// 문의 삭제
+	@DeleteMapping("/qna/{qnaNo}")
+	public String deleteQna(@PathVariable(name = "qnaNo") Long qnaNo) {
+		qnaService.deleteQna(qnaNo);
+		return "redirect:/qna";
 	}
 
 	// 예약 내역 목록

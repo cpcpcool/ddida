@@ -62,8 +62,19 @@ public class QnaService {
 		return savedQna.toQnaDto();
 	}
 	
-	// 문의 수정
-	public Integer edit(Qna qna) {
-		return qnaRepository.edit(qna);
+	public QnaDto getQna(Long qnaNo) {
+		Qna qna = qnaRepository.findByQnaNo(qnaNo).get();
+		
+		QnaDto qnaDto = QnaDto.builder()
+				.qnaNo(qna.getQnaNo())
+				.title(qna.getTitle())
+				.description(qna.getDescription())
+				.build();
+		return qnaDto;
 	}
+	
+	public void deleteQna(Long qnaNo) {
+		qnaRepository.deleteById(qnaNo);
+	}
+	
 }

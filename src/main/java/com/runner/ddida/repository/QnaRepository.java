@@ -25,11 +25,6 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 	/* 문의 상세 */
 	Optional<Qna> findByQnaNo(Long qnaNo);
 	
-	/* 문의 수정 */
-	@Transactional
-	@Query(value = "update qna set title = :#{qna.title}, description = :#{qna.description} where qna_no = :#{qna.qnaNo}", nativeQuery = true)
-	Integer edit(@Param("qna") Qna qna);
-		
 	/* 이전 글 */
 	@Query(value = "select * from qna where qna_no < :qnaNo order by qna_no desc limit 1", nativeQuery = true)
 	Qna prev(@Param("qnaNo") Long qnaNo);

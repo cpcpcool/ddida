@@ -38,8 +38,15 @@
 				</div>
 				<hr>
 				<div class="d-flex justify-content-end mt-1">
-					<button th:if="${user.username == qna.userName}" id="edit-btn" type="button" class="btn btn-outline-secondary"
-						th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">문의 수정</button>
+					<button th:if="${user.username == qna.userName}" id="edit-btn" type="button"
+						class="btn btn-outline-secondary"
+						th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">수정</button>
+					<form id="delete-form" th:action="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post">
+						<input type="hidden" name="_method" value="delete" />
+						<button th:if="${user.username == qna.userName}" id="delete-btn" type="submit"
+							class="btn btn-outline-secondary ms-1">삭제</button>
+					</form>
+
 				</div>
 			</div>
 
