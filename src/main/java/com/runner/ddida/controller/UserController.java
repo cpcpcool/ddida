@@ -50,8 +50,21 @@ public class UserController {
 
 	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, Model model) {
-		Page<Qna> qnaList = qnaService.findAll(pageable);
+	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, 
+			@RequestParam(name="searchKeyword", required = false) String searchKeyword, @RequestParam(name="searchType", required = false) String searchType,
+			Model model) {
+//		Page<Qna> qnaList = qnaService.findAll(pageable);
+		
+		Page<Qna> qnaList = null;
+		
+		if(searchKeyword == null) {
+			qnaList = qnaService.findAll(pageable);
+		} else if (searchType == "title") {
+			qnaList = qnaService.findByTitleContaining(searchKeyword, pageable);
+		} else if (searchType == "description") {
+			qnaList = qnaService.findByDescriptionContaining(searchKeyword, pageable);
+		}
+		
 		
 		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
