@@ -12,13 +12,15 @@
 <title>시설 상세</title>
 <style>
 h4 {float: left; margin-top: 20px; background-color: lightgray;}
-.inner-container {position: relative; margin-top: 70px; padding: 0px; height: 500px;}
-table {position: relative; left: 20px; clear: both; margin-top: 20px; margin-left: 20px; max-width: 55%; padding: 0px;}
+.inner-container {position: relative; margin-top: 70px; padding: 0px; max-height: auto; padding-bottom: 20px;}
+table {position: relative; left: 20px; clear: both; margin-top: 20px; margin-left: 20px; max-width: 55%; padding: 0px; min-height: 440px;}
 .td {border-right: 3px solid #c1d2bf; width: auto; line-height: auto; min-width: 100px;}
 th.prop, .td.prop {width: auto; padding-bottom: 8px; padding-left:-10px; padding-right: 20px; 
 text-align: left; vertical-align: middle; height: 100%; white-space: nowrap;}
 th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; vertical-align: middle;}
-.image-area {position: absolute; right: 150px; top:20px; float: right; text-align: left; width: 200px;}
+.td.desc {font-size: medium; max-width: 500px; word-wrap: break-word; text-align: left !important;}
+.td.desc ul {text-align: left !important; padding-left: 0px !important; margin-left: 0px !important;}
+.image-area {position: absolute; right: 150px; top:20px; float: right; text-align: left; width: 200px; }
 .image-area img {width: 150px; height: 100px; background-size: cover;}
 #map {width: 200px; height: 150px;}
 .backward {float: right; border-radius: 20px; margin-top: 20px; margin-bottom: 10px; padding: 5px;
@@ -35,7 +37,7 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 			<div class="row">
 				<div class="col-md-12">
 					<h4>시설물 정보 상세</h4>
-					<div class=inner-container style="border: solid 5px #37745b">
+					<div class=inner-container style="border: solid 5px #37745b;">
 						<div>
 							<table>
 								<thead>
@@ -48,47 +50,39 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 								<tbody>
 									<tr>
 										<td class="td prop">시설명</td>
-										<td class="td desc">성내유수지 축구장</td>
+										<td class="td desc">[[${result.rsrcNm}]]</td>
 									</tr>
 									<tr>
 										<td class="td prop">시설물 코드</td>
-										<td class="td desc">15</td>
+										<td class="td desc">[[${result.rsrcNo}]]</td>
 									</tr>
 									<tr>
 										<td class="td prop">분류</td>
-										<td class="td desc">축구장</td>
+										<td class="td desc">[[${result.rsrcClsNm}]]</td>
 									</tr>
 									<tr>
-										<td class="td prop">위치</td>
-										<td class="td desc">서울특별시 송파구 방이동 88-13(성내유수지 내)</td>
+										<td class="td prop">주소</td>
+										<td class="td desc">[[${result.addr}]] [[${result.daddr}]]</td>
 									</tr>
 									<tr>
-										<td class="td prop">규모</td>
-										<td class="td desc">7,140m2(105m X 68m)</td>
-									</tr>
-									<tr>
-										<td class="td prop">주요시설</td>
-										<td class="td desc">축구장(인조잔디) 7,140㎡(105m × 68m)관리동, 목재데크, 화장실, 주차장</td>
+										<td class="td prop">시설 개요</td>
+										<td class="td desc" th:utext="${result.rsrcIntr}" style="text-align: left !important;"></td>
 									</tr>
 									<tr>
 										<td class="td prop">관리주체</td>
-										<td class="td desc">서울시 송파구청 교육문화국 생활체육과 체육시설팀</td>
+										<td class="td desc">[[${result.rsrcInstNm}]]</td>
 									</tr>
 									<tr>
-										<td class="td prop">담당자</td>
-										<td class="td desc">김철수</td>
+										<td class="td prop">예약 URL</td>
+										<td class="td desc">[[${result.instUrlAddr}]]</td>
 									</tr>
 									<tr>
-										<td class="td prop">전화번호</td>
-										<td class="td desc">02-000-0000</td>
-									</tr>
-									<tr>
-										<td class="td prop">운영시작일</td>
-										<td class="td desc">2020-01-01</td>
+										<td class="td prop">수정일</td>
+										<td class="td desc">[[${result.updYmd}]]</td>
 									</tr>
 									<tr>
 										<td class="td prop">특이사항</td>
-										<td class="td desc"></td>
+										<td class="td desc" th:utext="${result.atpn}"></td>
 									</tr>
 								</tbody>
 							</table>
