@@ -32,8 +32,7 @@ public class QnaService {
 	public Page<Qna> findByDescriptionContaining(String searchKeyword, Pageable pageable) {
 		return qnaRepository.findByDescriptionContaining(searchKeyword, pageable);
 	}
-	
-	
+		
 	// 문의 상세
 	public Optional<Qna> findByQnaNo(Long qnaNo) {
 		return qnaRepository.findByQnaNo(qnaNo);
@@ -56,14 +55,15 @@ public class QnaService {
 	
 	// 문의 등록
 	public QnaDto save(QnaDto qnaDto) {
-		
 		Qna qna = qnaDto.toEntity();
 		
 		Qna savedQna = qnaRepository.save(qna);
 		
 		return savedQna.toQnaDto();
-		
 	}
 	
-
+	// 문의 수정
+	public Integer edit(Qna qna) {
+		return qnaRepository.edit(qna);
+	}
 }

@@ -38,8 +38,8 @@
 				</div>
 				<hr>
 				<div class="d-flex justify-content-end mt-1">
-					<button id="edit-btn" type="button" class="btn btn-outline-secondary"
-						onclick="location.href='/qna/add'">문의 수정</button>
+					<button th:if="${user.username == qna.userName}" id="edit-btn" type="button" class="btn btn-outline-secondary"
+						th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">문의 수정</button>
 				</div>
 			</div>
 

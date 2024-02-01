@@ -79,13 +79,14 @@ public class UserController {
 
 	// 문의 상세
 	@GetMapping("/qna/{qnaNo}")
-	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
+	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
 
 		model.addAttribute("qna", qna);
 		model.addAttribute("prev", qnaService.prev(qnaNo));
 		model.addAttribute("next", qnaService.next(qnaNo));
+		model.addAttribute("user", user);
 
 		return "user/qna/qnaDetail";
 	}
@@ -105,6 +106,25 @@ public class UserController {
 		model.addAttribute("qna", qna);
 
 		return "redirect:/qna/" + qna.getQnaNo();
+	}
+	
+	// 문의 수정 폼
+	@GetMapping("/qna/editForm/{qnaNo}")
+	public String qnaEditForm(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
+		
+		Qna qna = qnaService.findByQnaNo(qnaNo).get();
+		
+		model.addAttribute("qna", qna);
+		return "user/qna/qnaEditForm";
+	}
+	
+	// 문의 수정
+	@PostMapping("/qna/{qnaNo}")
+	public String editQna(@PathVariable(name = "qnaNo") Long qnaNo, @ModelAttribute Qna qna, Model model) {
+		
+		qnaService.edit(qna);
+		
+		return "redirect:/qna/{qnaNo}";
 	}
 
 	// 예약 내역 목록
