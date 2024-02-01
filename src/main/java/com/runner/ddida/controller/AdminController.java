@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.AdminSpaceService;
+import com.runner.ddida.service.SpaceService;
+import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	
 	private final AdminSpaceService service;
+	private final SpaceService spaceService;
 
 	@GetMapping("/qna")
 	public String adminQnaList(Model model, HttpSession session) {
@@ -97,6 +100,8 @@ public class AdminController {
 	@GetMapping("/space")
 	public String adminSpaceList(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, Model model) {
+//		List<ApiVo> rsrc = spaceService.findDefault();
+//		List<String> rsrcNoList = rsrc.stream().filter(s->s.getRsrcNo()).toList();
 		List<String> rsrcNoList = service.getRsrcNoList();
 //		Map<String, Object> spaceList = service.findSpaceList(page, pageSize);
 		Map<String, Object> result = service.show(rsrcNoList, page, pageSize);

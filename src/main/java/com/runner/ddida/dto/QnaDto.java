@@ -1,9 +1,6 @@
 package com.runner.ddida.dto;
 
-import java.sql.Date;
 import java.time.LocalDate;
-
-import javax.validation.constraints.NotBlank;
 
 import com.runner.ddida.model.Qna;
 

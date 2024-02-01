@@ -20,13 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.runner.ddida.model.Member;
-import com.runner.ddida.model.Reserve;
-import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.dto.QnaDto;
+import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
-import com.runner.ddida.security.MemberPrincipalDetails;
+import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
@@ -94,8 +92,8 @@ public class UserController {
 	
 	// 문의 등록
 	@PostMapping("/qna/add")
-	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
-		qnaDto.setUserNo(user.getUserNo());
+	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member member, Model model) {
+		qnaDto.setUserNo(member.getUserNo());
 		
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);

@@ -54,7 +54,8 @@ public class AdminSpaceService {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("numOfRows", 100);
-			obj.put("pageNo", 1);
+//			obj.put("pageNo", 1);
+			obj.put("ctpvCd", "11");
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
 			HttpGetEntity getRequest = new HttpGetEntity(apiURI); //get method 생성
