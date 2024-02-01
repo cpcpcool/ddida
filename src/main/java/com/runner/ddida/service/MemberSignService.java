@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.runner.ddida.dto.MemberDto;
 import com.runner.ddida.dto.MemberFormDto;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.repository.MemberRepository;
@@ -66,7 +65,6 @@ public class MemberSignService {
 	public boolean checkPassword(String username, String password) {
 		Optional<Member> optionalMember = memberRepository.findByUsername(username);
 		return optionalMember.map(member -> passwordEncoder.matches(password, member.getPassword())).orElse(false);
-
 	}
 
 	// 비밀번호 변경

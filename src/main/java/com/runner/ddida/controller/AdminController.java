@@ -55,48 +55,6 @@ public class AdminController {
 		return "admin/qna/adminQnaDetail";
 	}
 	
-	@GetMapping("/users")
-	public String userList(Model model) {
-		int[][] arr = new int[10][7];
-		for(int i=1; i<10; i++) {
-		    for(int j=0; j<7; j++) {
-		        arr[i-1][j] = i*(j+1);
-		        System.out.printf("%d  ", arr[i-1][j]);
-		    }
-		    System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userList";
-	}
-	
-	@GetMapping("/users/1")
-	public String userDetail(Model model) {
-		int[][] arr = new int[3][4];
-		for(int i=1; i<3; i++) {
-		    for(int j=0; j<=3; j++) {
-		        arr[i-1][j] = i*(j+1);
-		        System.out.printf("%d  ", arr[i-1][j]);
-		    }
-		    System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userDetail";
-	}
-	
-	@GetMapping("/users/2")
-	public String userDetail2(Model model) {
-		int[][] arr = new int[3][4];
-		for(int i=1; i<3; i++) {
-			for(int j=0; j<=3; j++) {
-				arr[i-1][j] = i*(j+1);
-				System.out.printf("%d  ", arr[i-1][j]);
-			}
-			System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userDetail2";
-	}
-	
 	@GetMapping("/space")
 	public String adminSpaceList(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, Model model) {

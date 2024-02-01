@@ -399,8 +399,8 @@ public class AdminSpaceService {
 				}
 				data = spaceDetaiMetaVo.getData();
 			} else {
-//				System.out.println("Response Error:");
-//				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				System.out.println("Response Error:");
+				System.out.println(response.getStatusLine().getStatusCode());
 			}
 //			System.out.println(result); // 결과 출력
 			

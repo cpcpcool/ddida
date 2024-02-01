@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,18 +52,21 @@ public class UserController {
 	private final MemberSignService memberSignService;
 	private final QnaService qnaService;
 
+	
 	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, Model model) {
+	public String qnaList(
+			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
+			Model model) {
 		Page<Qna> qnaList = qnaService.findAll(pageable);
-		
+
 		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
 		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
 		int startPage = Math.max(nowPage - 4, 1);
 		// 마지막 게시글이 존재하는 페이지를 endPage로
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
-		
+
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
@@ -76,7 +80,7 @@ public class UserController {
 	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
-		
+
 		model.addAttribute("qna", qna);
 		model.addAttribute("prev", qnaService.prev(qnaNo));
 		model.addAttribute("next", qnaService.next(qnaNo));
@@ -89,15 +93,15 @@ public class UserController {
 	public String qnaAddForm() {
 		return "user/qna/qnaAddForm";
 	}
-	
+
 	// 문의 등록
 	@PostMapping("/qna/add")
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member member, Model model) {
 		qnaDto.setUserNo(member.getUserNo());
-		
+
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
-		
+
 		return "redirect:/qna/" + qna.getQnaNo();
 	}
 
@@ -126,25 +130,23 @@ public class UserController {
 	}
 
 	@PostMapping("/mypage/userInfo/edit")
-	public String editPasswordPost(
-	        @AuthenticationPrincipal Member member,
-	        @RequestParam(name = "password") String currentPassword,
-	        @RequestParam(name = "new-password") String newPassword,
-	        RedirectAttributes redirectAttributes
-	) {
-		
+	public String editPasswordPost(@AuthenticationPrincipal Member member,
+			@RequestParam(name = "password") String currentPassword,
+			@RequestParam(name = "new-password") String newPassword, RedirectAttributes redirectAttributes) {
+
 		log.info(": {}", currentPassword);
 		log.info(": {}", newPassword);
-		
-	    // 비밀번호 체크 및 변경
-	    if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
-	        redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
-	        return "redirect:/mypage/userInfo/edit";
-	    } else {
-	        // 비밀번호 변경
-	        memberSignService.updatePassword(member.getUsername(), newPassword);
-	        return "redirect:/mypage/userInfo";
-	    }
+
+		// 비밀번호 체크 및 변경
+		if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
+			redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
+			return "redirect:/mypage/userInfo/edit";
+		} else {
+			// 비밀번호 변경
+			memberSignService.updatePassword(member.getUsername(), newPassword);
+			redirectAttributes.addFlashAttribute("passwordChangeSuccess", "비밀번호가 변경되었습니다. 다시 로그인 해주세요");
+			return "redirect:/logout";
+		}
 
 	}
 
