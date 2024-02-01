@@ -20,6 +20,10 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 	Page<Qna> findByTitleContaining(String searchKeyword, Pageable pageable);
 	
 	/* 내용으로 검색된 글 목록 */
+	/*
+	 * @Query(value = "select * from qna where description like ':searchKeyword'",
+	 * nativeQuery = true)
+	 */
 	Page<Qna> findByDescriptionContaining(String searchKeyword, Pageable pageable);
 	
 	/* 문의 상세 */

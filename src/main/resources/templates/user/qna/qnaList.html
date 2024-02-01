@@ -67,7 +67,7 @@
 				<thead id="thead" class="table-light" style="font-weight: 400;">
 					<tr>
 						<th>번호</th>
-						<th>제목</th>
+						<th >제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
 						<th>조회수</th>
@@ -78,7 +78,7 @@
 						<td th:text="${qna.qnaNo}">번호</td>
 						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a></td>
-						<td>작성자</td>
+						<td th:text="${qna.userName}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>
 						<td th:text="${qna.qnaView}">조회수</td>
 					</tr>
@@ -97,9 +97,10 @@
 									aria-hidden="true">&laquo;</span>
 							</a></li>
 						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+							
 
 							<li class="page-item"><a th:if="${page != nowPage}"
-									th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}"
+									th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
 									th:text="${page}" id="pagination" class="page-link">1</a></li>
 							<li class="page-item"><a th:if="${page == nowPage}" th:text="${page}" id="pagination"
 									class="page-link" style="background-color: #37745B; color: #ffffff;">1</a></li>

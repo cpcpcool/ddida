@@ -50,29 +50,25 @@ public class UserController {
 
 	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, 
-			@RequestParam(name="searchKeyword", required = false) String searchKeyword, @RequestParam(name="searchType", required = false) String searchType,
-			Model model) {
-//		Page<Qna> qnaList = qnaService.findAll(pageable);
-		
+	public String qnaList(
+			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
+
 		Page<Qna> qnaList = null;
-		
-		if(searchKeyword == null) {
+
+		if (searchKeyword == null || searchType == null) {
 			qnaList = qnaService.findAll(pageable);
-		} else if (searchType == "title") {
+		} else if (searchKeyword != null && searchType.equals("title")) {
 			qnaList = qnaService.findByTitleContaining(searchKeyword, pageable);
-		} else if (searchType == "description") {
+		} else if (searchKeyword != null && searchType.equals("description")) {
 			qnaList = qnaService.findByDescriptionContaining(searchKeyword, pageable);
 		}
-		
-		
-		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
+
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
-		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
 		int startPage = Math.max(nowPage - 4, 1);
-		// 마지막 게시글이 존재하는 페이지를 endPage로
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
-		
+
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
@@ -86,7 +82,7 @@ public class UserController {
 	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
-		
+
 		model.addAttribute("qna", qna);
 		model.addAttribute("prev", qnaService.prev(qnaNo));
 		model.addAttribute("next", qnaService.next(qnaNo));
@@ -99,15 +95,15 @@ public class UserController {
 	public String qnaAddForm() {
 		return "user/qna/qnaAddForm";
 	}
-	
+
 	// 문의 등록
 	@PostMapping("/qna/add")
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
-		qnaDto.setUserNo(user.getUserNo());
-		
+		qnaDto.setUserName(user.getUsername());
+
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
-		
+
 		return "redirect:/qna/" + qna.getQnaNo();
 	}
 

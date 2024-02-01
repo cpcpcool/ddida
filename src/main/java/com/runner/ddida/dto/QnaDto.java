@@ -21,7 +21,7 @@ import lombok.Setter;
 public class QnaDto {
 	
 	private Long qnaNo;
-	private Long userNo;
+	private String userName;
 	private String title;
 	private String description;
 	private LocalDate qnaDate;
@@ -31,7 +31,7 @@ public class QnaDto {
 	public Qna toEntity() {
 		return Qna.builder()
 				.qnaNo(this.qnaNo)
-				.userNo(this.userNo)
+				.userName(userName)
 				.title(title)
 				.description(description)
 				.qnaDate(LocalDate.now())

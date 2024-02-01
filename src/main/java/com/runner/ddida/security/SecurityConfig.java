@@ -33,10 +33,11 @@ public class SecurityConfig {
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable())
 				.authorizeHttpRequests(authorizeRequest -> authorizeRequest
-						.requestMatchers("/", "/admin","/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**", "/qna/**").permitAll()
+						.requestMatchers("/", "/admin","/join/**", "/login/**", "/logout/**", "/sports", "/ddimap/**", "/qna", "/qna/{qnaNo}").permitAll()
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**")
 						.permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.requestMatchers("/qna/add").hasRole("USER")
 					 	.anyRequest().authenticated())
 				.exceptionHandling(error -> error
 						.accessDeniedPage("/login/admin"))
