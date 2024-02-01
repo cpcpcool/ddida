@@ -73,17 +73,7 @@ td {font-size: small;}
 								<td>[[${item.rsrcInstNm}]]</td>
 							</tr>
 						</tbody>
-						
-						<!-- 
-						<tbody>
-						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/space/detail')">
-						        <td th:each="e : ${row}" th:text="${e}"></td>
-						    </tr>
-						</tbody>
-						 -->
 					</table>
-					
-					
 					
 				<div style="text-align: center; display: inline-block;">
 					<div th:if="${totalPages >= 1}" class="my-5">
@@ -110,13 +100,12 @@ td {font-size: small;}
 											<th:block th:if="${endPage > totalPages}">
 												<th:block th:with="endPage=${totalPages}"></th:block>
 											</th:block>
-	
 											<th:block th:each="pageNum: ${#numbers.sequence(startPage, endPage)}">
-												<li
-													th:class="${pageNum} == ${currentPage} ? 'page-item active' : 'page-item'">
-													<a class="page-link"
-														th:href="@{/admin/space(page=${pageNum})}">[[${pageNum}]]</a>
-												</li>
+											    <li th:class="${pageNum} == ${currentPage} ? 'page-item active' : 'page-item'">
+											        <a class="page-link" th:if="${type == null and word == null}" th:href="@{/admin/space(page=${pageNum})}">[[${pageNum}]]</a>
+											        <a class="page-link" th:if="${type != null and word != null}" 
+											        th:href="@{/admin/space/search(searchType=${type},searchWord=${word},page=${pageNum})}">[[${pageNum}]]</a>
+											    </li>
 											</th:block>
 										</th:block>
 									</th:block>
@@ -139,30 +128,8 @@ td {font-size: small;}
 							</li>
 						</ul>
 					</div>
-				</div>	
-					
-					
-					
-					
-				<!-- 	 
-				<div class="custom-pagination">
-				  <ul class="pagination">
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">1</a></li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
 				</div>
-				 -->	 
+				
 				</div>
 			</div>
 		</div>
