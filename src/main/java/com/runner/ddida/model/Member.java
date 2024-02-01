@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.runner.ddida.dto.MemberDto;
 import com.runner.ddida.dto.MemberFormDto;
@@ -26,13 +26,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@DynamicUpdate
 @Table(name = "member")
 public class Member implements UserDetails {
 
@@ -119,7 +119,12 @@ public class Member implements UserDetails {
 		authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role));
 		return authorities;
 	}
-
+	
+	//비밀번호 변경용
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	// 계정이 만료되지 않았는지를 담아두기 위해 (true: 만료안됨)
 	@Override
 	public boolean isAccountNonExpired() {

@@ -1,11 +1,9 @@
 package com.runner.ddida.dto;
 
-import com.runner.ddida.enums.MemberRole;
 import com.runner.ddida.model.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

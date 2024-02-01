@@ -129,12 +129,16 @@ public class UserController {
 	public String editPasswordPost(
 	        @AuthenticationPrincipal Member member,
 	        @RequestParam(name = "password") String currentPassword,
-	        @RequestParam(name = "newPassword") String newPassword,
+	        @RequestParam(name = "new-password") String newPassword,
 	        RedirectAttributes redirectAttributes
 	) {
-	    // MemberService를 통해 비밀번호 체크 및 변경
+		
+		log.info(": {}", currentPassword);
+		log.info(": {}", newPassword);
+		
+	    // 비밀번호 체크 및 변경
 	    if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
-	        redirectAttributes.addFlashAttribute("error", "현재 비밀번호가 일치하지 않습니다!");
+	        redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
 	        return "redirect:/mypage/userInfo/edit";
 	    } else {
 	        // 비밀번호 변경

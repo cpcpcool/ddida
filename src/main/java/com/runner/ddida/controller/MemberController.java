@@ -30,8 +30,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/join/{role}")
-	public String signUp(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model,
-			RedirectAttributes redirectAttributes) {
+	public String signUp(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("memberFormDto", memberFormDto);
@@ -40,7 +39,6 @@ public class MemberController {
 
 		try {
 			MemberFormDto savedmemberDto = memberSignService.save(memberFormDto);
-			redirectAttributes.addFlashAttribute("welcomeMessage", "가입이 완료되었습니다! \n 세상에 뛸 곳은 많다!");
 			model.addAttribute("user", savedmemberDto);
 			return "redirect:/success";
 			
@@ -57,15 +55,13 @@ public class MemberController {
 	}
 
 	@PostMapping("/newAdmin")
-	public String joinAdminPost(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model,
-			RedirectAttributes redirectAttributes) {
+	public String joinAdminPost(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("memberFormDto", memberFormDto);
 			return "admin/adminJoin";
 		}
 		try {
 			MemberFormDto savedmemberDto = memberSignService.saveAdmin(memberFormDto);
-			redirectAttributes.addFlashAttribute("welcomeMessage", "관리자 ㄴ등록이 완료되었습니다! \n 세상에 뛸 곳은 많다!");
 			model.addAttribute("user", savedmemberDto);
 			return "redirect:/success";
 
