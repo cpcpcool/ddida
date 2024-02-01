@@ -303,7 +303,7 @@ a.admin-logout span:after {
 }
 
 .wrap-content {
-	min-height: calc(100vh - 200px - 160px); /* 전체화면 높이에서 헤더 높이와 푸터 높이를 뺌 */
+	min-height: calc(100vh - 250px); /* 전체화면 높이에서 헤더 높이와 푸터 높이를 뺌 */
 	font-size: 20px;
 	box-sizing: border-box;
 	max-width: 1200px;

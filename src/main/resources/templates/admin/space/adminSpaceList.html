@@ -11,6 +11,8 @@
 <title>시설 목록</title>
 <style>
 thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
+th {font-size: medium;}
+td {font-size: small;}
 .searchTool {margin: 30px auto 15px auto;}
 .input-group {width: 43%;}
 .input-group .dropdown {margin-right: 10px; border: 1px solid #c1d2bf;}
@@ -35,16 +37,17 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-12">
-				    <form class="searchTool h-10">
+				    <form class="searchTool h-10" action="/admin/space/search" method="get">
 				    	<div class="input-group">
-				            <select class="dropdown form-select form-select-sm" aria-label="Small select example" style="border-radius: 15px;">
-				                <option value="facCode" selected>시설물 코드</option>
-				                <option value="sort" >종류</option>
-				                <option value="facName">시설명</option>
-				                <option value="address">주소</option>
-				                <option value="inChargeDept">관리주체</option>
+				            <select class="dropdown form-select form-select-sm" aria-label="Small select example"
+				            name="searchType" style="border-radius: 15px;">
+				                <option value="rsrcNo" selected>시설물 코드</option>
+				                <option value="rsrcClsNm" >종류</option>
+				                <option value="rsrcNm">시설명</option>
+				                <option value="addr">주소</option>
+				                <option value="rsrcInstNm">관리주체</option>
 				            </select>
-         				    <input type="search" style="border-radius: 15px;">
+         				    <input type="search" name="searchWord" style="border-radius: 15px;">
             				<button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
             			</div>
        				</form>
@@ -60,13 +63,88 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 								<th scope="col" class="th">관리주체</th>
 							</tr>
 						</thead>
+						
+						<tbody>
+							<tr th:each="item:${list}">
+								<td><a th:href="@{'/admin/space/' + ${item.rsrcNo}}" th:text="${item.rsrcNo}"></a></td>
+								<td>[[${item.rsrcClsNm}]]</td>
+								<td>[[${item.rsrcNm}]]</td>
+								<td>[[${item.addr}]]</td>
+								<td>[[${item.rsrcInstNm}]]</td>
+							</tr>
+						</tbody>
+						
+						<!-- 
 						<tbody>
 						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/space/detail')">
 						        <td th:each="e : ${row}" th:text="${e}"></td>
 						    </tr>
 						</tbody>
+						 -->
 					</table>
-					 
+					
+					
+					
+				<div style="text-align: center; display: inline-block;">
+					<div th:if="${totalPages >= 1}" class="my-5">
+						<ul class="pagination pagination-lg">
+							<li th:if="${currentPage > 10}" class="page-item">
+								<a class="page-link" th:href="@{'?page=' + ${currentPage - 10}}" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li th:if="${currentPage > 1}" class="page-item">
+								<a class="page-link" th:href="@{'?page=' + ${currentPage - 1}}" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li th:if="${currentPage == 1}" class="page-item" th:attr="disabled='disabled'">
+								<span class="page-link" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</span>
+							</li>
+							<th:block th:with="pageSize=10">
+								<th:block th:with="groupNum=${((currentPage - 1) / pageSize) + 1}">
+									<th:block th:with="startPage=${(groupNum - 1) * pageSize + 1}">
+										<th:block th:with="endPage=${startPage + pageSize - 1}">
+											<th:block th:if="${endPage > totalPages}">
+												<th:block th:with="endPage=${totalPages}"></th:block>
+											</th:block>
+	
+											<th:block th:each="pageNum: ${#numbers.sequence(startPage, endPage)}">
+												<li
+													th:class="${pageNum} == ${currentPage} ? 'page-item active' : 'page-item'">
+													<a class="page-link"
+														th:href="@{/admin/space(page=${pageNum})}">[[${pageNum}]]</a>
+												</li>
+											</th:block>
+										</th:block>
+									</th:block>
+								</th:block>
+							</th:block>
+							<li th:if="${currentPage < totalPages}" class="page-item">
+								<a class="page-link" th:href="@{'?page=' + ${currentPage + 1}}" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+							<li th:if="${currentPage == totalPages}" class="page-item" th:attr="disabled='disabled'">
+								<span class="page-link" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</span>
+							</li>
+							<li th:if="${currentPage + 10 <= totalPages}" class="page-item">
+								<a class="page-link" th:href="@{'?page=' + ${currentPage + 10}}" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>	
+					
+					
+					
+					
+				<!-- 	 
 				<div class="custom-pagination">
 				  <ul class="pagination">
 				    <li class="page-item">
@@ -84,7 +162,7 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 				    </li>
 				  </ul>
 				</div>
-					 
+				 -->	 
 				</div>
 			</div>
 		</div>
