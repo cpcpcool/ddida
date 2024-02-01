@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.service.MemberSignService;
+import com.runner.ddida.dto.QnaDto;
+import com.runner.ddida.model.Qna;
+import com.runner.ddida.model.Reserve;
+import com.runner.ddida.security.MemberPrincipalDetails;
+import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
 
@@ -43,29 +51,61 @@ public class UserController {
 
 	private final SpaceService spaceService;
 	private final MemberSignService memberSignService;
+	private final QnaService qnaService;
 
+	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList() {
+	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, Model model) {
+		Page<Qna> qnaList = qnaService.findAll(pageable);
+		
+		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
+		int nowPage = qnaList.getPageable().getPageNumber() + 1;
+		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
+		int startPage = Math.max(nowPage - 4, 1);
+		// 마지막 게시글이 존재하는 페이지를 endPage로
+		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
+		
+		model.addAttribute("qnaList", qnaList);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 
 		return "user/qna/qnaList";
 	}
 
-	@GetMapping("/qna/qnaDetail")
-	public String qnaDetail() {
+	// 문의 상세
+	@GetMapping("/qna/{qnaNo}")
+	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
+		qnaService.viewcnt(qnaNo);
+		Qna qna = qnaService.findByQnaNo(qnaNo).get();
+		
+		model.addAttribute("qna", qna);
+		model.addAttribute("prev", qnaService.prev(qnaNo));
+		model.addAttribute("next", qnaService.next(qnaNo));
 
 		return "user/qna/qnaDetail";
 	}
 
+	// 문의 등록 폼
 	@GetMapping("/qna/add")
 	public String qnaAddForm() {
-
 		return "user/qna/qnaAddForm";
 	}
+	
+	// 문의 등록
+	@PostMapping("/qna/add")
+	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
+		qnaDto.setUserNo(user.getUserNo());
+		
+		QnaDto qna = qnaService.save(qnaDto);
+		model.addAttribute("qna", qna);
+		
+		return "redirect:/qna/" + qna.getQnaNo();
+	}
 
-	// ==================================================================================
-
+	// 예약 내역 목록
 	@GetMapping("/mypage/reservation")
-	public String reserveList() {
+	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
 		return "user/mypage/reserveList";
 	}

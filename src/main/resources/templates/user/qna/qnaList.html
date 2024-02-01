@@ -72,12 +72,12 @@
 					</tr>
 				</thead>
 				<tbody class="table-group-divider" style="font-weight: 300; font-size: 20px;">
-					<tr class="table">
-						<td>번호</td>
-						<td><a href="/qna/qnaDetail" style="color: #000000;">제목</a></td>
+					<tr class="table" th:each="qna : ${qnaList}">
+						<td th:text="${qna.qnaNo}">번호</td>
+						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}" style="color: #000000;">제목</a></td>
 						<td>작성자</td>
-						<td>작성일</td>
-						<td>조회수</td>
+						<td th:text="${qna.qnaDate}">작성일</td>
+						<td th:text="${qna.qnaView}">조회수</td>
 					</tr>
 				</tbody>
 			</table>
@@ -93,9 +93,11 @@
 						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Previous"> <span
 									aria-hidden="true">&laquo;</span>
 							</a></li>
-						<li class="page-item"><a id="pagination" class="page-link" href="/">1</a></li>
-						<li class="page-item"><a id="pagination" class="page-link" href="/">2</a></li>
-						<li class="page-item"><a id="pagination" class="page-link" href="/">3</a></li>
+							<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+								
+						<li class="page-item"><a th:if="${page != nowPage}" th:href="@{/qna(page = ${page - 1})}" th:text="${page}" id="pagination" class="page-link">1</a></li>
+						<li class="page-item"><a th:if="${page == nowPage}" th:text="${page}" id="pagination" class="page-link" style="background-color: #37745B; color: #ffffff;">1</a></li>
+							</th:block>
 						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Next"> <span
 									aria-hidden="true">&raquo;</span>
 							</a></li>
