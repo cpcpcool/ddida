@@ -6,12 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -28,12 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.runner.ddida.dto.QnaDto;
-import com.runner.ddida.dto.ReserveDto;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
-import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.ReserveService;

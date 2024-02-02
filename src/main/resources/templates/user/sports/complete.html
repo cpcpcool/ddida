@@ -2,7 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<<<<<<< HEAD
 <meta charset="UTF-8">
 
 <link href="/css/reset.css" rel="stylesheet">
@@ -15,42 +14,30 @@
 .container {
 	text-align: left;
 }
-=======
-	<meta charset="UTF-8">
-	<link href="/css/reset.css" rel="stylesheet">
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/layout.css" rel="stylesheet">
-	<link rel="icon" href="/img/favicon.png">
-	<title>뛰다</title>
-	<style type="text/css">
-		.container {
-			text-align: left;
-		}
->>>>>>> origin/2-kmh
 
-		.table-striped-color>tbody>tr>td:nth-child(odd),
-		.table-striped-color>tbody>tr>th:nth-child(odd) {
-			background-color: #C1D2BF;
-		}
+.table-striped-color>tbody>tr>td:nth-child(odd), .table-striped-color>tbody>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
 
-		.table-striped-color>thead>tr>td:nth-child(odd),
-		.table-striped-color>thead>tr>th:nth-child(odd) {
-			background-color: #C1D2BF;
-		}
+.table-striped-color>thead>tr>td:nth-child(odd), .table-striped-color>thead>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
 
-		.center {
-			text-align: center;
-		}
+.center {
+	text-align: center;
+}
 
-		.line {
-			border-bottom: 2px solid #37745B;
-			border-top: 2px solid #37745B;
-		}
+.line {
+	border-bottom: 2px solid #37745B;
+	border-top: 2px solid #37745B;
+}
 
-		.bottom-line {
-			border-bottom: 2px solid #37745B;
-		}
-	</style>
+.bottom-line {
+	border-bottom: 2px solid #37745B;
+}
+</style>
 </head>
 
 <body>
@@ -80,7 +67,8 @@
 					</tr>
 					<tr class="line">
 						<th scope="row">예약 일자</th>
-						<td>[[${data.reserveDate}]] <br> [[${data.reserveTime}]]</td>
+						<td>[[${data.reserveDate}]] <br> [[${data.reserveTime}]]
+						</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">결제 요금</th>
@@ -93,18 +81,12 @@
 				</tbody>
 			</table>
 			<div class="mb-5" style="text-align: right;">
-<<<<<<< HEAD
-			<a th:href="@{/mypage/reservation}">
-				<button type="button" style="background-color: #37745B; width: 150px; height: 40px; color: #FFF">
-						예약 내역 조회
-				</button>	
-			</a>
-=======
-				<input type="submit" value="예약 내역 조회">
-			</div>
-			<div class="mb-5" style="text-align: right;">
-				<button type="button" th:onclick="|location.href='@{/mypage/reservation/{reserveId}(reserveId=${data.reserveId})}'|">예약 내역 조회</button>
->>>>>>> origin/2-kmh
+				<a th:href="@{/mypage/reservation}">
+					<button type="button"
+						style="background-color: #37745B; width: 150px; height: 40px; color: #FFF"
+						th:onclick="|location.href='@{/mypage/reservation/{reserveId}(reserveId=${data.reserveId})}'|">
+						예약 내역 조회</button>
+				</a>
 			</div>
 		</div>
 	</div>

@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
 
 import com.runner.ddida.model.Reserve;
 
@@ -31,7 +29,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	Page<Reserve> findAll(Pageable pageable);
 	
 	/* 시설 이름으로 검색된 글 목록 */
-	Page<Reserve> findBySpaceNameContaining(String searchKeyword, Pageable pageable);
+	Page<Reserve> findByRsrcNmContaining(String searchKeyword, Pageable pageable);
 	
 	/* 예약 날짜로 검색된 글 목록 */
 	Page<Reserve> findByUseDateContaining(String searchKeyword, Pageable pageable);

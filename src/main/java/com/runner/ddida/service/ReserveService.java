@@ -29,7 +29,7 @@ public class ReserveService {
 	
 	/* 시설 이름으로 검색된 예약 목록 */
 	public Page<Reserve> findBySpaceNameContaining(String searchKeyword, Pageable pageable) {
-		return reserveRepository.findBySpaceNameContaining(searchKeyword, pageable);
+		return reserveRepository.findByRsrcNmContaining(searchKeyword, pageable);
 	}
 	
 	/* 이용 날짜로 검색된 예약 목록 */
