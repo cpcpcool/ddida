@@ -85,7 +85,3 @@ CREATE TABLE `file` (
 	`fileStoragePath`	varchar(30)	NOT NULL	COMMENT '파일이 저장되는 경로',
 	`fileSize`	varchar(255)	NOT NULL	COMMENT '첨부파일 용량'
 );
-
-show tables;
-show databases;
-

@@ -55,13 +55,6 @@ public class AdminMemberController {
 	@GetMapping("/users/{userNo}")
 	public String userDetail(@PathVariable(name = "userNo") Long userNo, Model model) {
 		Member member = memberService.findByUserNo(userNo).get();
-
-		model.addAttribute("user", member);
-		return "admin/users/userDetail";
-	}
-
-	@GetMapping("/users/2")
-	public String userDetail2(Model model) {
 		int[][] arr = new int[25][4];
 		for(int i=1; i<25; i++) {
 			for(int j=0; j<=3; j++) {
@@ -71,6 +64,7 @@ public class AdminMemberController {
 			System.out.println("");
 		}
 		model.addAttribute("arr", arr);
-		return "admin/users/userDetail2";
+		model.addAttribute("user", member);
+		return "admin/users/userDetail";
 	}
 }
