@@ -6,7 +6,7 @@ function handleDateChange(useDate) {
     var selectedDate = document.getElementById("useStartDate").value;
 
     if ('${useDate}' == selectedDate) {
-        alert('예약마감된 날입니당');
+        alert('해당 일 예약이 마감되었습니다.');
     }
 }
 
@@ -63,7 +63,7 @@ const textarea = document.getElementById('useTime');
     	      	autoResize(textarea);
     	      } 
     	} else {
-			alert('날짜를 먼저 선택해주세용');
+			alert('날짜를 먼저 선택해주세요');
 		}
     });
   }

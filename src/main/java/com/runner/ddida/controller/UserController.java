@@ -246,22 +246,15 @@ public class UserController {
 	public String spaceList(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable) {
 		
 		Page<ApiVo> spaceList = spaceService.findSpaceList(pageable);
+		 	
+		// Open-api 개수제한 이슈로 보류
+//		List<SpaceDetailVo> freeYnList = spaceService.findDetailList(spaceService.findDefault());
+//		Map<String,String> free = new HashMap<String, String>();
+//		for(SpaceDetailVo fre : freeYnList) {
+//			free.put(fre.getRsrcNo(),fre.getFreeYn());
+//		}
+//		model.addAttribute("free", free);
 		
-		List<SpaceDetailVo> freeYnList = spaceService.findDetailList(spaceService.findDefault());
-		
-//		System.out.println("확인 : " + freeYnList);
-		
-		Map<String,String> free = new HashMap<String, String>();
-		
-		for(SpaceDetailVo fre : freeYnList) {
-			free.put(fre.getRsrcNo(),fre.getFreeYn());
-		}
-		
-		model.addAttribute("free", free);
-		
-//		List<String> freeYn = freeYnList.stream().map(f->f.getFreeYn()).collect(Collectors.toList());
-	
-
 		int nowPage = spaceList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage, 1);
 		int endPage = Math.min(nowPage + 9, spaceList.getTotalPages());

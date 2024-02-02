@@ -19,7 +19,7 @@ public class ReserveDto {
 	private String rsrcNm;
 	private String useDate;
 	private String useTime;
-	private int reserveFee;
+	private String reserveFee;
 	private String userName;
 	private String userPhone;
 	private String userEmail;

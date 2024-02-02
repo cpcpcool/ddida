@@ -84,7 +84,7 @@ public class SpaceService {
 		try {
 			// req
 			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 30);
+			obj.put("numOfRows", 1000);
 			obj.put("ctpvCd", ctpvCd);
 
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -108,7 +108,9 @@ public class SpaceService {
 				ObjectMapper objectMapper = new ObjectMapper();
 				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
 
-				spaceDefault = apiMetaVo.getData().stream().filter(space -> !space.getRsrcNm().contains("테스트"))
+				spaceDefault = apiMetaVo.getData().stream()
+						.filter(space -> !space.getRsrcNm().contains("테스트"))
+						.filter(space -> !space.getRsrcNm().contains("야외운동기구"))
 						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty()).collect(Collectors.toList());
 
 				int totaldata = spaceDefault.size();

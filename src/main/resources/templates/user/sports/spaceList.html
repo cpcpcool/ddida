@@ -88,7 +88,8 @@
 								class="form-select select-group focus-ring"
 								aria-label="Default select example"
 								style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
-								<option value="" th:selected="${param.region == null or param.region == ''}"
+								<option value=""
+									th:selected="${param.region == null or param.region == ''}"
 									th:text="'수도권 전체'"></option>
 								<option th:value="서울" th:selected="${param.region == '서울'}">서울</option>
 								<option th:value="인천" th:selected="${param.region == '인천'}">인천</option>
@@ -121,7 +122,7 @@
 					<div class="col">
 						<div class="card" style="width: 283px; height: 319px">
 							<a th:if="${da.imgFileUrlAddr}"
-								th:href="@{/sports/search/{rsrcNo}(rsrcNo=${da.rsrcNo})}"
+								th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}"
 								class="card-link"> <img
 								th:src="${#strings.isEmpty(da.imgFileUrlAddr) ? '/img/no-image.png' : da.imgFileUrlAddr}"
 								class="card-img-top" th:alt="${da.rsrcNm}">
@@ -129,7 +130,7 @@
 
 							<div class="card-body" style="text-align: left;">
 								<h5 style="color: #212519;" class="spaceContent">
-									<a th:href="@{/sports/search/{rsrcNo}(rsrcNo=${da.rsrcNo})}"
+									<a th:href="@{/sports/{rsrcNo}(rsrcNo=${da.rsrcNo})}"
 										class="card-link">[[${da.rsrcNm}]]</a>
 								</h5>
 								<div class="row">
@@ -141,11 +142,12 @@
 										[[${da.addr}]]</div>
 								</div>
 
-								<div class="row">
-									<div class="col"
-										style="color: #37745B; max-width: 110px; text-align: center;"
-										th:text="${free['da'].rsrcNo}">
-										</div>
+								<div class="row align-items-center">
+									<div class="col-4"
+										style="color: #37745B; font-size: 16px; max-width: 200px; text-align: left;">
+										예약 문의
+										<!-- <span th:text="${free[da.rsrcNo] == 'Y' ? '무료' : '10,000원'}"></span> -->
+									</div>
 									<div class="col" style="font-size: 15px; line-height: 30px">
 										/ 60분</div>
 									<div class="col"

@@ -79,7 +79,7 @@
 		<div class="container">
 			<h2 class="my-3">[[${data.rsrcNm}]]</h2>
 			<div class="row grid column-gap-2">
-				<div class="col mr-auto" style="background-color: #F7F7F7">
+				<div class="col mr-auto" style="background-color: #F7F7F7; border-radius: 8px;">
 					<div class="mt-2">
 						<div id="carouselExampleIndicators" class="carousel slide">
 							<div class="carousel-indicators">
@@ -90,7 +90,7 @@
 								<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
 									aria-label="Slide 3"></button>
 							</div>
-							<div class="carousel-inner">
+							<div class="carousel-inner"  style="border-radius: 8px;">
 								<div class="carousel-item active">
 									<img th:src="${#strings.isEmpty(data.bnrImgFileUrl) ? '/img/no-image.png' : data.bnrImgFileUrl}"
 									class="card-img-top" th:alt="${data.rsrcNm}">
@@ -119,9 +119,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col" style="background-color: #F7F7F7">
-					<div class="mt-2" style="background-color: #FFFFFF; height: 445px;">
-						<div id="calendar" class="py-2 px-2"></div>
+				<div class="col" style="background-color: #F7F7F7; border-radius: 8px;">
+					<div class="mt-2" style="background-color: #FFFFFF; height: 445px; border-radius: 8px">
+						<div id="calendar" class="py-2 px-2" ></div>
 						<div class="my-4 d-grid">
 							<a th:href="@{/sports/{rsrcNo}/reserve(rsrcNo=${data.rsrcNo})}">
 								<button type="button" class="btn btn-lg" style="background-color : #C1D2BF; width: 100%;">
@@ -142,7 +142,7 @@
 						<th scope="col" class="center-align" style="width: 17%">요금구분</th>
 						<th scope="col" style="width: 10%">
 							<span th:if="${data.freeYn eq 'Y'}">무료</span>
-    						<span th:unless="${data.freeYn eq 'Y'}">12,000원</span>
+    						<span th:unless="${data.freeYn eq 'Y'}">유료</span>
 						</th>
 					</tr>
 				</thead>
@@ -151,7 +151,8 @@
 						<th scope="row" class="center-align">시설 이름</th>
 						<td>[[${data.rsrcNm}]]</td>
 						<td scope="row" class="center-align">이용요금</td>
-						<td style="width: 10%">[[${data.amt1}]] / [[${data.amt2}]]</td>
+						<!-- <td style="width: 10%">[[${data.amt1}]] / [[${data.amt2}]]</td> -->
+						<td style="width: 10%">개별 문의</td>
 					</tr>
 					<tr class="line">
 						<th scope="row" class="center-align">주소</th>
