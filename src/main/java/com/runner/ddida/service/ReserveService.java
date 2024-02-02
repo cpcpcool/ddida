@@ -40,7 +40,6 @@ public class ReserveService {
 	/* 예약 상세 */
 	public Optional<Reserve> findByReserveId(Long reserveId) {
 		return reserveRepository.findByReserveId(reserveId);
-		
 	}
-
+	
 }
