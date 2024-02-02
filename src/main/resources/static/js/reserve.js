@@ -1,7 +1,6 @@
 /**
  * @author : 김부경
  */
-
        					 
 function handleDateChange(useDate) {
     var selectedDate = document.getElementById("useStartDate").value;
@@ -14,13 +13,10 @@ function handleDateChange(useDate) {
   // 필수값 체크
 function submitForm() {
   var requiredInputs = [
-    document.getElementById('useStartTime'),
+    document.getElementById('useTime'),
     document.getElementById('userName'),
-    document.getElementById('userPhoneOne'),
-    document.getElementById('userPhoneTwo'),
-    document.getElementById('userPhoneThr'),
-    document.getElementById('userEmailOne'),
-    document.getElementById('userEmailTwo')
+    document.getElementById('userPhone'),
+    document.getElementById('userEmail'),
   ];
 
   for (var i = 0; i < requiredInputs.length; i++) {
@@ -33,14 +29,12 @@ function submitForm() {
 }
 
 
-const textarea = document.getElementById('useStartTime');
-
+const textarea = document.getElementById('useTime');
 
    function autoResize(textarea) {
-            textarea.style.height = 'auto';
+            textarea.style.height = '45px';
             textarea.style.height = (textarea.scrollHeight) + 'px';
         }
-        
 
 	function getToday(){
 	    var date = new Date();
@@ -53,33 +47,44 @@ const textarea = document.getElementById('useStartTime');
 	
 	var todayDate = getToday();
 	
-	var selectDate = document.getElementById('useStartDate').value;
+	var selectDate = document.getElementById('useDate').value;
 	var selectTime = document.getElementById('reserveTime').value;
 	
 	const table = document.getElementById('reserveTime');
 	const cells = table.getElementsByTagName('td');
 
+ // 시간 누르면 버튼 눌림
   for (let i = 0; i < cells.length; i++) {
     cells[i].addEventListener('click', function() {
     	if(selectDate.length !== 0) {
-    		console.log(selectDate);
-    		this.classList.toggle('selected');
-    	      getSelectedCells();
-    	      autoResize(textarea); 
+			if (!this.classList.contains('deadline')) {
+    			this.classList.toggle('selected');
+    	      	getSelectedCells();
+    	      	autoResize(textarea);
+    	      } 
     	} else {
 			alert('날짜를 먼저 선택해주세용');
 		}
     });
   }
+  
+  // 날짜 바꾸면 초기화
+  function cancelSelection() {
+    const cells = table.getElementsByTagName('td');
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].classList.remove('selected');
+        cells[i].classList.remove('deadline');
+    }
+}
+
 
   // 선택된 셀을 확인하는 함수
   function getSelectedCells() {
 	  
 	const selectedCells = Array.from(table.getElementsByClassName('selected'));
 	const selectedCellTexts = selectedCells.map(cell => cell.innerText.trim());
-	alert('선택된 셀: ' + selectedCellTexts.join(', '));
 	
-	    document.getElementById("useStartTime").value = selectedCellTexts.join('\n');
+	    document.getElementById("useTime").value = selectedCellTexts.join('\n');
 
   }
   
@@ -129,15 +134,40 @@ const textarea = document.getElementById('useStartTime');
 				select: function (selectionInfo) {
 					var startDate = selectionInfo.startStr;
 					if(todayDate < startDate) {
-						document.getElementById("useStartDate").value = startDate;
+						document.getElementById("useDate").value = startDate;
+						textarea.value = ""; 
+   						 autoResize(textarea);
 		                selectDate = startDate;
-       					 
-						handleDateChange(startDate);
+						cancelSelection();
+						loadAvailableTimes(startDate);
 					} 
 				},
-				
 				eventBackgroundColor: "#d6d4d4",
 				events: events,
 			});
 			calendar.render();
 		});
+		
+		function fetchReservationData(selectedDate) {
+        $.ajax({
+            url: '/api/getReservations',
+            method: 'GET',
+            data: { date: selectedDate },
+            success: function (data) {
+                markReservedSlots(data.reservedSlots);
+            },
+            error: function (error) {
+                console.error('예약 데이터를 가져오는 중 에러 발생:', error);
+            }
+        });
+    }
+    
+    function markReservedSlots(reservedSlots) {
+        // 예약된 슬롯을 'deadline'으로 표시합니다.
+        reservedSlots.forEach(function (slot) {
+            var element = document.getElementById('time' + slot); // 슬롯이 숫자라고 가정합니다.
+            if (element) {
+                element.classList.add('deadline');
+            }
+        });
+    }

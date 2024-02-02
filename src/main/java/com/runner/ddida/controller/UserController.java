@@ -1,6 +1,8 @@
 package com.runner.ddida.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
+import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.SpaceService;
@@ -47,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 public class UserController {
-
+	
 	@ModelAttribute("user")
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
@@ -264,59 +268,45 @@ public class UserController {
 	@GetMapping("/sports/{rsrcNo}/reserve")
 	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
 		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
+		
+		List<List<String>> timeSlots = Arrays.asList(
+		        Arrays.asList("06:00 ~ 07:00", "07:00 ~ 08:00"),
+		        Arrays.asList("08:00 ~ 09:00", "09:00 ~ 10:00"),
+		        Arrays.asList("10:00 ~ 11:00", "11:00 ~ 12:00"),
+		        Arrays.asList("12:00 ~ 13:00", "13:00 ~ 14:00"),
+		        Arrays.asList("14:00 ~ 15:00", "15:00 ~ 16:00"),
+		        Arrays.asList("16:00 ~ 17:00", "17:00 ~ 18:00"),
+		        Arrays.asList("18:00 ~ 19:00", "19:00 ~ 20:00"),
+		        Arrays.asList("20:00 ~ 21:00", "21:00 ~ 22:00"),
+		        Arrays.asList("22:00 ~ 23:00", "23:00 ~ 24:00")
+		);
+		
+        model.addAttribute("timeSlots", timeSlots);
+		
+		
+		List<Reserve> reserveL = spaceService.findByRsrcNo(rsrcNo);
 
-		List<Reserve> reserveL = spaceService.findReserve();
-
-		List<String> useDate = new ArrayList<String>();
-
+		List<Long> reserveId = new ArrayList<Long>();
+		
 		for (Reserve reserve : reserveL) {
-			if (rsrcNo.equals(reserve.getRsrcNo())) {
-				String date = reserve.getUseDate();
-				useDate.add(date);
-			}
+			Long id = reserve.getReserveId();
+			reserveId.add(id);
 		}
-		model.addAttribute("reserve", useDate);
-
+		
+		model.addAttribute("reserveId", reserveId);
 		model.addAttribute("data", data);
 		model.addAttribute("rsrcNo", rsrcNo);
 
 		return "user/sports/reserveForm";
 	}
-
-	@PostMapping("/sports/{rsrcNo}/reserve/check")
-	public String checkForm(@ModelAttribute ReserveDto reserveDto, Model model) {
-
-		String newString = reserveDto.getUseStartTime();
-
-		reserveDto.setUseStartTime(newString.replace("\n", "<br>"));
-
-		String phone = reserveDto.getUserPhoneOne() + "-" + reserveDto.getUserPhoneTwo() + "-"
-				+ reserveDto.getUserPhoneThr();
-		String email = reserveDto.getUserEmailOne() + "@" + reserveDto.getUserEmailTwo();
-
-		Reserve reserve = new Reserve();
-
-		reserve.setUserNo(reserveDto.getUserNo());
-		reserve.setRsrcNo(reserveDto.getRsrcNo());
-		reserve.setSpaceName(reserveDto.getRsrcNm());
-		reserve.setUseDate(reserveDto.getUseStartDate());
-		reserve.setReserveFee(reserveDto.getReserveFee());
-		reserve.setEmail(email);
-		reserve.setPhone(phone);
-		reserve.setName(reserveDto.getUserName());
-
-		model.addAttribute("data", reserve);
-		model.addAttribute("time", reserveDto);
-		model.addAttribute("timeList", newString);
-
-		return "user/sports/checkForm";
-	}
-
+	
 	@PostMapping("/sports/complete")
-	public String complete(@ModelAttribute Reserve reserve, @RequestParam("timeList") String timeList, Model model) {
-
+	public String complete(@ModelAttribute Reserve reserve, @RequestParam("useTime") String useTime, RedirectAttributes redirectAttributes) {
+		
+		String useTimes = useTime.replace("\n", "<br>");
+		
 		List<ReserveTime> reserveTimeList = new ArrayList<ReserveTime>();
-		String[] timeArray = timeList.split("\n");
+		String[] timeArray = useTime.split("\n");
 
 		for (String time : timeArray) {
 			ReserveTime reserveTime = new ReserveTime();
@@ -324,13 +314,25 @@ public class UserController {
 			reserveTimeList.add(reserveTime);
 		}
 		reserve.setReserveTimes(reserveTimeList);
-
 		spaceService.saveReserve(reserve);
 
-		model.addAttribute("data", reserve);
-		model.addAttribute("time", timeList.replace("\n", "<br>"));
+		redirectAttributes.addFlashAttribute("data", reserve);
+		redirectAttributes.addFlashAttribute("useTimes", useTimes);
 
-		return "user/sports/complete";
+		return "redirect:/user/sports/complete";
 	}
 
+	@GetMapping("/user/sports/complete")
+	public String complete(@ModelAttribute("data") Reserve reserve, @ModelAttribute("useTimes") String useTimes, Model model) {
+		
+		if(useTimes.isEmpty()) {
+			return "redirect:/";
+		}
+		
+	    model.addAttribute("data", reserve);
+	    model.addAttribute("useTimes", useTimes);
+
+	    return "user/sports/complete";
+	}
+	
 }

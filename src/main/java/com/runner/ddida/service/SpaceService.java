@@ -1,7 +1,16 @@
 package com.runner.ddida.service;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+>>>>>>> origin/3-kbk
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -339,6 +348,328 @@ public class SpaceService {
 		return data;
 	}
 
+	public List<ApiVo> recommendSpaceList() {
+
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+
+		List<ApiVo> recmdSpaceList = new ArrayList<>();
+		try {
+			// req
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 100);
+			obj.put("pageNo", 1);
+			obj.put("ctpvCd", 11);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+
+			// api-uri로 get요청 생성
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI);
+			// get요청에 대한 헤더, 바디 세팅
+			getRequest.setHeader("Content-Type", "application/json");
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+
+			// res
+			CloseableHttpResponse response = client.execute(getRequest);
+			// 응답 ok 상태코드 200
+			if (response.getStatusLine().getStatusCode() == 200) {
+				// 응답에서 Entity 추출 후 Entity를 String으로 변환
+				org.apache.http.HttpEntity entity = response.getEntity();
+				result = EntityUtils.toString(entity);
+
+				// jackson 라이브러리 사용 JSON데이터 자바객체로
+				ObjectMapper objectMapper = new ObjectMapper();
+				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+
+				// 데이터 필터링
+				List<ApiVo> data = apiMetaVo.getData();
+				List<ApiVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
+						.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty())
+						.filter(apiVO -> apiVO.getRsrcNm().length() <= 13).limit(12).collect(Collectors.toList());
+
+				int totaldata = filteredData.size();
+				System.out.println("totaldata : " + totaldata);
+
+				recmdSpaceList = filteredData;
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
+		return recmdSpaceList;
+	}
+
+	public List<ApiVo> mapSpaceList() {
+
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+
+		List<ApiVo> recmdSpaceList = new ArrayList<>();
+		try {
+			// req
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 100);
+			obj.put("pageNo", 1);
+			obj.put("ctpvCd", 11);
+			obj.put("updBgngYmd", 20230101);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+
+			// api-uri로 get요청 생성
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI);
+			// get요청에 대한 헤더, 바디 세팅
+			getRequest.setHeader("Content-Type", "application/json");
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+
+			// res
+			CloseableHttpResponse response = client.execute(getRequest);
+			// 응답 ok 상태코드 200
+			if (response.getStatusLine().getStatusCode() == 200) {
+				// 응답에서 Entity 추출 후 Entity를 String으로 변환
+				org.apache.http.HttpEntity entity = response.getEntity();
+				result = EntityUtils.toString(entity);
+
+				// jackson 라이브러리 사용 JSON데이터 자바객체로
+				ObjectMapper objectMapper = new ObjectMapper();
+				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+
+				// 데이터 필터링
+				List<ApiVo> data = apiMetaVo.getData();
+				List<ApiVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
+						.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty())
+						.filter(apiVO -> apiVO.getRsrcNm().length() <= 13).collect(Collectors.toList());
+
+				int totaldata = filteredData.size();
+				System.out.println("totaldata : " + totaldata);
+
+				recmdSpaceList = filteredData;
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
+		return recmdSpaceList;
+	}
+
+	public Map<String, Object> findSpaceList(int page, int pageSize) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+
+		System.out.println(apiURI);
+
+		Map<String, Object> spcaeList = new HashMap<String, Object>();
+
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 1000);
+			obj.put("pageNo", 1);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
+			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+
+			// response
+			CloseableHttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); // 정상 호출
+
+				ObjectMapper objectMapper = new ObjectMapper();
+				ApiMetaVo apiMetaVo = null;
+
+				try {
+					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+
+				List<ApiVo> data = apiMetaVo.getData();
+				
+				System.out.println(data);
+
+				List<ApiVo> filteredData = new ArrayList<>();
+				for (ApiVo apiVo : data) {
+					filteredData.add(apiVo);
+				}
+
+				int totaldata = filteredData.size();
+				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
+
+				int fromIndex = (page - 1) * pageSize;
+				int toIndex = Math.min(page * pageSize, totaldata);
+				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
+
+				spcaeList.put("dataPage", dataPage);
+				spcaeList.put("currentPage", page);
+				spcaeList.put("totalPages", totalPages);
+			}
+
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return spcaeList;
+	}
+
+	public Map<String, Object> findSeachList(int page, int pageSize, String search) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+
+		Map<String, Object> spcaeList = new HashMap<String, Object>();
+
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 1000);
+			obj.put("pageNo", 1);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
+			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+
+			// response
+			CloseableHttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); // 정상 호출
+
+				ObjectMapper objectMapper = new ObjectMapper();
+				ApiMetaVo apiMetaVo = null;
+
+				try {
+					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+
+				List<ApiVo> data = apiMetaVo.getData();
+
+				List<ApiVo> filteredData = new ArrayList<>();
+				for (ApiVo apiVo : data) {
+					if (apiVo.getRsrcNm().contains(search)) {
+						filteredData.add(apiVo);
+					}
+				}
+				int totaldata = filteredData.size();
+				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
+
+				int fromIndex = (page - 1) * pageSize;
+				int toIndex = Math.min(page * pageSize, totaldata);
+				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
+
+				System.out.println("totaldata : " + totaldata);
+				System.out.println("totalPages : " + totalPages);
+				System.out.println("fromIndex : " + fromIndex);
+				System.out.println("toIndex : " + toIndex);
+
+				spcaeList.put("dataPage", dataPage);
+				spcaeList.put("currentPage", page);
+				spcaeList.put("totalPages", totalPages);
+			}
+
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return spcaeList;
+	}
+
+	public List<String> findApiVoIdList(int page, int pageSize) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+
+		List<String> ApiVoIdList = new ArrayList<String>();
+
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("numOfRows", 1000);
+			obj.put("pageNo", 1);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
+			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+
+			// response
+			CloseableHttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); // 정상 호출
+
+				ObjectMapper objectMapper = new ObjectMapper();
+				ApiMetaVo apiMetaVo = null;
+
+				try {
+					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+
+				List<ApiVo> data = apiMetaVo.getData();
+
+				ApiVoIdList = new ArrayList<String>();
+				for (ApiVo Api : data) {
+					ApiVoIdList.add(Api.getRsrcNo());
+				}
+			}
+
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return ApiVoIdList;
+	}
+
+	public List<SpaceDetailVo> findSports(List<String> ApiVoIdList, String sportsNm) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
+		String result = "";
+		List<SpaceDetailVo> data = new ArrayList<SpaceDetailVo>();
+
+		try {
+			JSONObject obj = new JSONObject(); // Request parameter
+			List<String> rsrc = ApiVoIdList;
+			obj.put("rsrcNoList", rsrc);
+
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
+			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
+			getRequest.setHeader("Accept-Charset", "UTF-8");
+			getRequest.setEntity(new StringEntity(obj.toString()));
+			// response
+			CloseableHttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+				result = EntityUtils.toString(entity); // 정상 호출
+				ObjectMapper objectMapper = new ObjectMapper();
+				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
+				try {
+					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+
+				for (SpaceDetailVo list : spaceDetaiMetaVo.getData()) {
+					if (list.getRsrcClsNm().equals(sportsNm)) {
+						data.add(list);
+					}
+				}
+
+			} else {
+				System.out.println("Response Error:");
+				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return data;
+	}
+
+	
 	@Transactional
 	public void saveReserve(Reserve reserve) {
 		reserveRepository.save(reserve);
@@ -350,9 +681,30 @@ public class SpaceService {
 		return reserveRepository.findAll();
 	}
 
+    public List<Reserve> findByRsrcNo(String rsrcNo) {
+		Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = dateFormat.format(today);
+		
+		List<Reserve> reserveList = reserveRepository.findByRsrcNoAndUseDateAfter(rsrcNo, dateString);
+	    
+        return reserveList;
+    }
+	
 	@Transactional
 	public List<ReserveTime> findReserveTime() {
 		return reserveTimeRepository.findAll();
-	}
+    }
+	
+    public List<String> getAvailableTimes(String date, String rsrcNo) {
+		
+		List<String> useTime = reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
 
+		for(String use : useTime) {
+			System.out.println(use);
+		}
+		
+        return useTime;
+    }
+	
 }
