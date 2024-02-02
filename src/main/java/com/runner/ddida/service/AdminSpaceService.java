@@ -206,32 +206,32 @@ public class AdminSpaceService {
 				List<SpaceDetailVo> filteredData = new ArrayList<>();
 
 				outer:
-					for (SpaceDetailVo spaceDetail : data) {
-					    String valueToCheck = null;
+				for(SpaceDetailVo spaceDetail : data) {
+				    String valueToCheck = null;
 
-					    switch (searchType) {
-					        case "rsrcNo":
-					            valueToCheck = spaceDetail.getRsrcNo();
-					            break;
-					        case "rsrcClsNm":
-					            valueToCheck = spaceDetail.getRsrcClsNm();
-					            break;
-					        case "rsrcNm":
-					            valueToCheck = spaceDetail.getRsrcNm();
-					            break;
-					        case "addr":
-					            valueToCheck = spaceDetail.getAddr();
-					            break;
-					        case "rsrcInstNm":
-					            valueToCheck = spaceDetail.getRsrcInstNm();
-					            break;
-					    }
+				    switch(searchType) {
+			        case "rsrcNo":
+			            valueToCheck = spaceDetail.getRsrcNo();
+			            break;
+			        case "rsrcClsNm":
+			            valueToCheck = spaceDetail.getRsrcClsNm();
+			            break;
+			        case "rsrcNm":
+			            valueToCheck = spaceDetail.getRsrcNm();
+			            break;
+			        case "addr":
+			            valueToCheck = spaceDetail.getAddr();
+			            break;
+			        case "rsrcInstNm":
+			            valueToCheck = spaceDetail.getRsrcInstNm();
+			            break;
+				    }
 
-					    if (valueToCheck != null && valueToCheck.contains(searchWord)) {
-					        filteredData.add(spaceDetail);
-					        continue outer;
-					    }
-					}
+				    if (valueToCheck != null && valueToCheck.contains(searchWord)) {
+				        filteredData.add(spaceDetail);
+				        continue outer;
+				    }
+				}
 
 				data = filteredData;
 

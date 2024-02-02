@@ -144,6 +144,12 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 			                            </tr>
 									</tbody>
 									    <tr>
+									    	<td th:each="e : ${arr[1]}" th:text="${e}" class="list-row" ></td>
+									    </tr>
+									    <tr>
+									    	<td th:each="e : ${arr[2]}" th:text="${e}" class="list-row" ></td>
+									    </tr>
+									    <tr>
 									    	<td colspan="4" style="text-align: center; background-color: #c1d2bf">
 									    		<button class="showmore" data-table="addRowQna">+2개 더보기</button>
 									    	</td>

@@ -85,6 +85,20 @@ public class AdminController {
 	
 	@GetMapping("/users/2")
 	public String userDetail2(Model model) {
+		int[][] arr = new int[25][4];
+		for(int i=1; i<25; i++) {
+			for(int j=0; j<=3; j++) {
+				arr[i-1][j] = i*(j+1);
+				System.out.printf("%d  ", arr[i-1][j]);
+			}
+			System.out.println("");
+		}
+		model.addAttribute("arr", arr);
+		return "admin/users/userDetail2";
+	}
+	
+	@GetMapping("/users/3")
+	public String userDetail3(Model model) {
 		int[][] arr = new int[3][4];
 		for(int i=1; i<3; i++) {
 			for(int j=0; j<=3; j++) {
@@ -94,7 +108,7 @@ public class AdminController {
 			System.out.println("");
 		}
 		model.addAttribute("arr", arr);
-		return "admin/users/userDetail2";
+		return "admin/users/userDetail3";
 	}
 	
 	@GetMapping("/space")
