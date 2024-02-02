@@ -47,25 +47,27 @@
 			<hr class="titleUnder my-2">
 
 			<div id="wrap-search-group">
-				<div id="search-group" class="row d-flex mt-3" style="width: 40%;">
-					<div class="btn-group col-3 " role="group">
-						<select id="category-btn" type="button" class="form-select dropdown-toggle"
-							data-bs-toggle="dropdown" style="border-radius: 0.9rem;">
-							<option value="qnaSearchOption" selected>제목</option>
-							<option value="qnaSearchOprion">내용</option>
-						</select>
+				<form th:action="@{/qna}" method="get">
+					<div id="search-group" class="row d-flex mt-3" style="width: 40%;">
+						<div class="btn-group col-3 " role="group">
+							<select id="category-btn" name="searchType" type="button" class="form-select dropdown-toggle"
+								data-bs-toggle="dropdown" style="border-radius: 0.9rem;">
+								<option value="title" selected>제목</option>
+								<option value="description">내용</option>
+							</select>
+						</div>
+						<input id="search-input" name="searchKeyword" class="form-control col me-2" type="text"
+							placeholder="검색어를 입력하세요" style="border-radius: 0.9rem;">
+						<button id="search-btn" type="submit" class="btn btn-outline-secondary col-3">검색하기</button>
 					</div>
-					<input id="search-input" class="form-control col me-2" type="text" placeholder="검색어를 입력하세요"
-						style="border-radius: 0.9rem;">
-					<button id="search-btn" type="submit" class="btn btn-outline-secondary col-3">검색하기</button>
-				</div>
+				</form>
 			</div>
 
 			<table class="table table-hover table-sm mt-3">
 				<thead id="thead" class="table-light" style="font-weight: 400;">
 					<tr>
 						<th>번호</th>
-						<th>제목</th>
+						<th >제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
 						<th>조회수</th>
@@ -74,8 +76,9 @@
 				<tbody class="table-group-divider" style="font-weight: 300; font-size: 20px;">
 					<tr class="table" th:each="qna : ${qnaList}">
 						<td th:text="${qna.qnaNo}">번호</td>
-						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}" style="color: #000000;">제목</a></td>
-						<td>작성자</td>
+						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
+								style="color: #000000;">제목</a></td>
+						<td th:text="${qna.userName}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>
 						<td th:text="${qna.qnaView}">조회수</td>
 					</tr>
@@ -88,16 +91,20 @@
 			</div>
 
 			<div>
-				<nav aria-label="pagination">
+				<nav aria-label="pagination" class="mb-5">
 					<ul class="pagination justify-content-center">
 						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Previous"> <span
 									aria-hidden="true">&laquo;</span>
 							</a></li>
-							<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-								
-						<li class="page-item"><a th:if="${page != nowPage}" th:href="@{/qna(page = ${page - 1})}" th:text="${page}" id="pagination" class="page-link">1</a></li>
-						<li class="page-item"><a th:if="${page == nowPage}" th:text="${page}" id="pagination" class="page-link" style="background-color: #37745B; color: #ffffff;">1</a></li>
-							</th:block>
+						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+							
+
+							<li class="page-item"><a th:if="${page != nowPage}"
+									th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
+									th:text="${page}" id="pagination" class="page-link">1</a></li>
+							<li class="page-item"><a th:if="${page == nowPage}" th:text="${page}" id="pagination"
+									class="page-link" style="background-color: #37745B; color: #ffffff;">1</a></li>
+						</th:block>
 						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Next"> <span
 									aria-hidden="true">&raquo;</span>
 							</a></li>

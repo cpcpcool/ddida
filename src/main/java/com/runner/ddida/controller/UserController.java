@@ -13,10 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -56,16 +58,25 @@ public class UserController {
 
 	// 문의 목록
 	@GetMapping("/qna")
-	public String qnaList(@PageableDefault(page = 0, size = 10, sort="qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable, Model model) {
-		Page<Qna> qnaList = qnaService.findAll(pageable);
-		
-		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
+	public String qnaList(
+			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
+
+		Page<Qna> qnaList = null;
+
+		if (searchKeyword == null || searchType == null) {
+			qnaList = qnaService.findAll(pageable);
+		} else if (searchKeyword != null && searchType.equals("title")) {
+			qnaList = qnaService.findByTitleContaining(searchKeyword, pageable);
+		} else if (searchKeyword != null && searchType.equals("description")) {
+			qnaList = qnaService.findByDescriptionContaining(searchKeyword, pageable);
+		}
+
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
-		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
 		int startPage = Math.max(nowPage - 4, 1);
-		// 마지막 게시글이 존재하는 페이지를 endPage로
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
-		
+
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
@@ -76,13 +87,14 @@ public class UserController {
 
 	// 문의 상세
 	@GetMapping("/qna/{qnaNo}")
-	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
+	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
-		
+
 		model.addAttribute("qna", qna);
 		model.addAttribute("prev", qnaService.prev(qnaNo));
 		model.addAttribute("next", qnaService.next(qnaNo));
+		model.addAttribute("user", user);
 
 		return "user/qna/qnaDetail";
 	}
@@ -92,16 +104,42 @@ public class UserController {
 	public String qnaAddForm() {
 		return "user/qna/qnaAddForm";
 	}
-	
+
 	// 문의 등록
 	@PostMapping("/qna/add")
-	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member member, Model model) {
-		qnaDto.setUserNo(member.getUserNo());
-		
+	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
+		qnaDto.setUserName(user.getUsername());
+
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
-		
+
 		return "redirect:/qna/" + qna.getQnaNo();
+	}
+	
+	// 문의 수정 폼
+	@GetMapping("/qna/editForm/{qnaNo}")
+	public String qnaEditForm(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
+		
+		QnaDto qnaDto = qnaService.getQna(qnaNo);
+		
+		model.addAttribute("qna", qnaDto);
+		return "user/qna/qnaEditForm";
+	}
+	
+	// 문의 수정
+	@PutMapping("/qna/edit/{qnaNo}")
+	public String update(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user) {
+		qnaDto.setUserName(user.getUsername());
+		qnaDto.setQnaView(qnaDto.getQnaView());
+		qnaService.save(qnaDto);
+		return "redirect:/qna";
+	}
+	
+	// 문의 삭제
+	@DeleteMapping("/qna/{qnaNo}")
+	public String deleteQna(@PathVariable(name = "qnaNo") Long qnaNo) {
+		qnaService.deleteQna(qnaNo);
+		return "redirect:/qna";
 	}
 
 	// 예약 내역 목록

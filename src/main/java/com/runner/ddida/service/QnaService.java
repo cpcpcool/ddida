@@ -23,6 +23,16 @@ public class QnaService {
 		return qnaRepository.findAll(pageable);
 	}
 	
+	// 제목으로 검색된 문의 목록
+	public Page<Qna> findByTitleContaining(String searchKeyword, Pageable pageable) {
+		return qnaRepository.findByTitleContaining(searchKeyword, pageable);
+	}
+	
+	// 내용으로 검색된 문의 목록
+	public Page<Qna> findByDescriptionContaining(String searchKeyword, Pageable pageable) {
+		return qnaRepository.findByDescriptionContaining(searchKeyword, pageable);
+	}
+		
 	// 문의 상세
 	public Optional<Qna> findByQnaNo(Long qnaNo) {
 		return qnaRepository.findByQnaNo(qnaNo);
@@ -45,14 +55,26 @@ public class QnaService {
 	
 	// 문의 등록
 	public QnaDto save(QnaDto qnaDto) {
-		
 		Qna qna = qnaDto.toEntity();
 		
 		Qna savedQna = qnaRepository.save(qna);
 		
 		return savedQna.toQnaDto();
-		
 	}
 	
-
+	public QnaDto getQna(Long qnaNo) {
+		Qna qna = qnaRepository.findByQnaNo(qnaNo).get();
+		
+		QnaDto qnaDto = QnaDto.builder()
+				.qnaNo(qna.getQnaNo())
+				.title(qna.getTitle())
+				.description(qna.getDescription())
+				.build();
+		return qnaDto;
+	}
+	
+	public void deleteQna(Long qnaNo) {
+		qnaRepository.deleteById(qnaNo);
+	}
+	
 }

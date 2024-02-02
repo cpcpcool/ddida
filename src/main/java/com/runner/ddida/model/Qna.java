@@ -26,8 +26,8 @@ public class Qna {
 	@Column(name = "qna_no")
 	private Long qnaNo;
 	
-	@Column(name = "user_no")
-	private Long userNo;
+	@Column(name = "username")
+	private String userName;
 	
 	@Column(name = "title")
 	private String title;
@@ -47,7 +47,7 @@ public class Qna {
 	public QnaDto toQnaDto() {
 		return QnaDto.builder()
 				.qnaNo(qnaNo)
-				.userNo(this.userNo)
+				.userName(userName)
 				.title(title)
 				.description(description)
 				.qnaDate(LocalDate.now())
