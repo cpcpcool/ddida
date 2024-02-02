@@ -185,7 +185,6 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 								<table class="usage-list list">
 									<thead>
 										<tr>
-											<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
 											<th scope="col" class="th">시설명</th>
 											<th scope="col" class="th">이용일자</th>
 											<th scope="col" class="th">결제금액</th>
@@ -193,8 +192,11 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 										</tr>
 									</thead>
 										<tbody id="addRowUsage">
-				                            <tr>
-				                            	<td th:each="e : ${arr[0]}" th:text="${e}" class="list-row" ></td>
+				                            <tr th:each="user : ${user}" >
+				                            	<td th:text="${user.username}" class="list-row" ></td>
+				                            	<td th:text="${user.username}" class="list-row" ></td>
+				                            	<td th:text="${user.username}" class="list-row" ></td>
+				                            	<td th:text="${user.username}" class="list-row" ></td>
 				                            </tr>
 										</tbody>
 									    <tr>

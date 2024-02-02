@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,9 +57,11 @@ public class UserController {
 	private final MemberSignService memberSignService;
 	private final QnaService qnaService;
 
+	
 	// 문의 목록
 	@GetMapping("/qna")
 	public String qnaList(
+<<<<<<< HEAD
 			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
@@ -73,6 +76,13 @@ public class UserController {
 			qnaList = qnaService.findByDescriptionContaining(searchKeyword, pageable);
 		}
 
+=======
+			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
+			Model model) {
+		Page<Qna> qnaList = qnaService.findAll(pageable);
+
+		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
+>>>>>>> 1-pjy
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
@@ -167,21 +177,23 @@ public class UserController {
 	}
 
 	@PostMapping("/mypage/userInfo/edit")
-	public String editPasswordPost(
-	        @AuthenticationPrincipal Member member,
-	        @RequestParam(name = "password") String currentPassword,
-	        @RequestParam(name = "newPassword") String newPassword,
-	        RedirectAttributes redirectAttributes
-	) {
-	    // MemberService를 통해 비밀번호 체크 및 변경
-	    if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
-	        redirectAttributes.addFlashAttribute("error", "현재 비밀번호가 일치하지 않습니다!");
-	        return "redirect:/mypage/userInfo/edit";
-	    } else {
-	        // 비밀번호 변경
-	        memberSignService.updatePassword(member.getUsername(), newPassword);
-	        return "redirect:/mypage/userInfo";
-	    }
+	public String editPasswordPost(@AuthenticationPrincipal Member member,
+			@RequestParam(name = "password") String currentPassword,
+			@RequestParam(name = "new-password") String newPassword, RedirectAttributes redirectAttributes) {
+
+		log.info(": {}", currentPassword);
+		log.info(": {}", newPassword);
+
+		// 비밀번호 체크 및 변경
+		if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
+			redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
+			return "redirect:/mypage/userInfo/edit";
+		} else {
+			// 비밀번호 변경
+			memberSignService.updatePassword(member.getUsername(), newPassword);
+			redirectAttributes.addFlashAttribute("passwordChangeSuccess", "비밀번호가 변경되었습니다. 다시 로그인 해주세요");
+			return "redirect:/logout";
+		}
 
 	}
 

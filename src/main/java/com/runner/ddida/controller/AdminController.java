@@ -55,19 +55,19 @@ public class AdminController {
 		return "admin/qna/adminQnaDetail";
 	}
 	
-	@GetMapping("/users")
-	public String userList(Model model) {
-		int[][] arr = new int[10][7];
-		for(int i=1; i<10; i++) {
-		    for(int j=0; j<7; j++) {
-		        arr[i-1][j] = i*(j+1);
-		        System.out.printf("%d  ", arr[i-1][j]);
-		    }
-		    System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userList";
-	}
+	// @GetMapping("/users")
+	// public String userList(Model model) {
+	// 	int[][] arr = new int[10][7];
+	// 	for(int i=1; i<10; i++) {
+	// 	    for(int j=0; j<7; j++) {
+	// 	        arr[i-1][j] = i*(j+1);
+	// 	        System.out.printf("%d  ", arr[i-1][j]);
+	// 	    }
+	// 	    System.out.println("");
+	// 	}
+	// 	model.addAttribute("arr", arr);
+	// 	return "admin/users/userList";
+	// }
 	
 	@GetMapping("/users/1")
 	public String userDetail(Model model) {
@@ -81,34 +81,6 @@ public class AdminController {
 		}
 		model.addAttribute("arr", arr);
 		return "admin/users/userDetail";
-	}
-	
-	@GetMapping("/users/2")
-	public String userDetail2(Model model) {
-		int[][] arr = new int[25][4];
-		for(int i=1; i<25; i++) {
-			for(int j=0; j<=3; j++) {
-				arr[i-1][j] = i*(j+1);
-				System.out.printf("%d  ", arr[i-1][j]);
-			}
-			System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userDetail2";
-	}
-	
-	@GetMapping("/users/3")
-	public String userDetail3(Model model) {
-		int[][] arr = new int[3][4];
-		for(int i=1; i<3; i++) {
-			for(int j=0; j<=3; j++) {
-				arr[i-1][j] = i*(j+1);
-				System.out.printf("%d  ", arr[i-1][j]);
-			}
-			System.out.println("");
-		}
-		model.addAttribute("arr", arr);
-		return "admin/users/userDetail3";
 	}
 	
 	@GetMapping("/space")
