@@ -2,10 +2,7 @@ package com.runner.ddida.service;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -16,6 +13,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,8 +28,6 @@ import com.runner.ddida.vo.ApiMetaVo;
 import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetaiMetaVo;
 import com.runner.ddida.vo.SpaceDetailVo;
-import com.runner.ddida.vo.SpaceListMetaVo;
-import com.runner.ddida.vo.SpaceListVo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +38,7 @@ public class SpaceService {
 
 	private final ReserveRepository reserveRepository;
 	private final ReserveTimeRepository reserveTimeRepository;
-	
-	
+
 	class HttpGetEntity extends HttpEntityEnclosingRequestBase {
 		public final static String HTTP_METHOD_GET = "GET";
 
@@ -58,8 +55,6 @@ public class SpaceService {
 
 	@Value("${api.key}")
 	private String clientSecretKey;
-
-	// =======================================================================================================================
 
 	// 체육시설 기본 정보 api (서울 + 경기 + 인천)
 	public List<ApiVo> findDefault() {
@@ -78,11 +73,12 @@ public class SpaceService {
 	}
 
 	public List<ApiVo> getSpaceList(String ctpvCd) {
-	
+
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
-		List<ApiVo> spaceDefault = null;
+		List<ApiVo> spaceDefault = new ArrayList<>();
+		
 		try {
 			// req
 			JSONObject obj = new JSONObject();
@@ -110,8 +106,11 @@ public class SpaceService {
 				ObjectMapper objectMapper = new ObjectMapper();
 				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
 
-				spaceDefault = apiMetaVo.getData();
-
+				spaceDefault = apiMetaVo.getData().stream()
+												.filter(space -> !space.getRsrcNm().contains("테스트"))
+												.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
+												.collect(Collectors.toList());
+				
 				int totaldata = spaceDefault.size();
 				System.out.println("totaldata : " + totaldata);
 			}
@@ -168,71 +167,73 @@ public class SpaceService {
 		return data;
 	}
 
-	// 자원 분류 api
-	public List<SpaceListVo> findClass(List<SpaceDetailVo> detailList) {
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/class/list/" + clientSecretKey;
-		String result = "";
+	// 메인 추천시설
+	public List<ApiVo> recommendSpaceList() {
 
-		List<SpaceListVo> classList = new ArrayList<>();
+		// 데이터 필터링
+		List<ApiVo> recmdSpaceList = findDefault().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
+				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
+				.limit(12).collect(Collectors.toList());
 
-		try {
-			JSONObject obj = new JSONObject(); // Request parameter
-			obj.put("numOfRows", 100);
-
-			CloseableHttpClient client = HttpClientBuilder.create().build();
-			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
-			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
-			getRequest.setHeader("Accept-Charset", "UTF-8");
-			getRequest.setEntity(new StringEntity(obj.toString()));
-			// res
-
-			// response
-			CloseableHttpResponse response = client.execute(getRequest);
-			if (response.getStatusLine().getStatusCode() == 200) {
-				org.apache.http.HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				SpaceListMetaVo spaceListMetaVo = objectMapper.readValue(result.getBytes(), SpaceListMetaVo.class);
-
-				classList = spaceListMetaVo.getData();
-
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-
-		int totaldata = classList.size();
+		int totaldata = recmdSpaceList.size();
 		System.out.println("totaldata : " + totaldata);
 
-		return classList;
-
+		return recmdSpaceList;
 	}
 
-	// 검색 기준필터
-	public List<ApiVo> searchByCriteria(String type, String pay, String region, String spaceNm) {
+	// 뛰맵 검색 필터
+	public List<ApiVo> searchMapByCriteria(String type, String pay, String region, String spaceNm) {
 		List<ApiVo> allData = findDefault();
 
-	    List<ApiVo> filteredList = allData.stream()
-	            .filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
-	            .filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
-	            .filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
-	            .collect(Collectors.toList());
+		List<ApiVo> filteredList = allData.stream()
+				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
+				.filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
+				.filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
+				.collect(Collectors.toList());
 
-	    if ("N".equals(pay) || "Y".equals(pay)) {
-	        List<SpaceDetailVo> detailList = findDetailList(filteredList);
+		if ("N".equals(pay) || "Y".equals(pay)) {
+			List<SpaceDetailVo> detailList = findDetailList(filteredList);
 
-	        filteredList = filteredList.stream()
-	                .filter(apiVo -> detailList.stream()
-	                        .anyMatch(detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
-	                .collect(Collectors.toList());
-	    }
+			filteredList = filteredList.stream()
+					.filter(apiVo -> detailList.stream().anyMatch(
+							detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
+					.collect(Collectors.toList());
+		}
 
 		return filteredList;
 	}
 
-	// =======================================================================================================================
+	// 메인 검색 필터
+	public Page<ApiVo> searchMainByCriteria(String type, String pay, String region, String spaceNm, Pageable pageable) {
+		List<ApiVo> allData = findDefault();
+		
+		List<ApiVo> filteredList = allData.stream()
+				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
+				.filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
+				.filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
+				.collect(Collectors.toList());
+		
+		if ("N".equals(pay) || "Y".equals(pay)) {
+			List<SpaceDetailVo> detailList = findDetailList(filteredList);
+			
+			filteredList = filteredList.stream()
+					.filter(apiVo -> detailList.stream()
+							.anyMatch(detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
+					.collect(Collectors.toList());
+		}
+		
+		// List를 Page로 변환
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), filteredList.size());
+		Page<ApiVo> filteredListPage = new PageImpl<>(filteredList.subList(start, end), pageable, filteredList.size());
+		
+		
+		return filteredListPage;
+	}
 
+
+	// =======================================================================================================================
 	public List<String> findrsrcNoList() {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
@@ -278,6 +279,24 @@ public class SpaceService {
 		return rsrcNoList;
 	}
 
+	// 통합 검색예약 시설 리스트
+	public Page<ApiVo> findSpaceList(Pageable pageable) {
+		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+		String result = "";
+		
+		List<ApiVo> spaceList = findDefault();
+		
+		int totalData = spaceList.size();
+		System.out.println("totalData: " + totalData);
+		
+		// List를 Page로 변환
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), spaceList.size());
+		Page<ApiVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
+		
+		return spaceListPage;
+	}
+	
 	// 체육시설 세부정보 api
 	public List<SpaceDetailVo> findDetail(String spaceNo) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
@@ -322,234 +341,69 @@ public class SpaceService {
 		return data;
 	}
 
-	public List<ApiVo> recommendSpaceList() {
 
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-		String result = "";
-
-		List<ApiVo> recmdSpaceList = new ArrayList<>();
-		try {
-			// req
-			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 100);
-			obj.put("pageNo", 1);
-			obj.put("ctpvCd", 11);
-
-			CloseableHttpClient client = HttpClientBuilder.create().build();
-
-			// api-uri로 get요청 생성
-			HttpGetEntity getRequest = new HttpGetEntity(apiURI);
-			// get요청에 대한 헤더, 바디 세팅
-			getRequest.setHeader("Content-Type", "application/json");
-			getRequest.setHeader("Accept-Charset", "UTF-8");
-			getRequest.setEntity(new StringEntity(obj.toString()));
-
-			// res
-			CloseableHttpResponse response = client.execute(getRequest);
-			// 응답 ok 상태코드 200
-			if (response.getStatusLine().getStatusCode() == 200) {
-				// 응답에서 Entity 추출 후 Entity를 String으로 변환
-				org.apache.http.HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-
-				// jackson 라이브러리 사용 JSON데이터 자바객체로
-				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
-
-				// 데이터 필터링
-				List<ApiVo> data = apiMetaVo.getData();
-				List<ApiVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
-						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
-						.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty())
-						.filter(apiVO -> apiVO.getRsrcNm().length() <= 13).limit(12).collect(Collectors.toList());
-
-				int totaldata = filteredData.size();
-				System.out.println("totaldata : " + totaldata);
-
-				recmdSpaceList = filteredData;
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-
-		return recmdSpaceList;
-	}
-
-	public List<ApiVo> mapSpaceList() {
-
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-		String result = "";
-
-		List<ApiVo> recmdSpaceList = new ArrayList<>();
-		try {
-			// req
-			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 100);
-			obj.put("pageNo", 1);
-			obj.put("ctpvCd", 11);
-			obj.put("updBgngYmd", 20230101);
-
-			CloseableHttpClient client = HttpClientBuilder.create().build();
-
-			// api-uri로 get요청 생성
-			HttpGetEntity getRequest = new HttpGetEntity(apiURI);
-			// get요청에 대한 헤더, 바디 세팅
-			getRequest.setHeader("Content-Type", "application/json");
-			getRequest.setHeader("Accept-Charset", "UTF-8");
-			getRequest.setEntity(new StringEntity(obj.toString()));
-
-			// res
-			CloseableHttpResponse response = client.execute(getRequest);
-			// 응답 ok 상태코드 200
-			if (response.getStatusLine().getStatusCode() == 200) {
-				// 응답에서 Entity 추출 후 Entity를 String으로 변환
-				org.apache.http.HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-
-				// jackson 라이브러리 사용 JSON데이터 자바객체로
-				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
-
-				// 데이터 필터링
-				List<ApiVo> data = apiMetaVo.getData();
-				List<ApiVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
-						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
-						.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty())
-						.filter(apiVO -> apiVO.getRsrcNm().length() <= 13).collect(Collectors.toList());
-
-				int totaldata = filteredData.size();
-				System.out.println("totaldata : " + totaldata);
-
-				recmdSpaceList = filteredData;
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-
-		return recmdSpaceList;
-	}
-
-	public Map<String, Object> findSpaceList(int page, int pageSize) {
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-		String result = "";
-
-		System.out.println(apiURI);
-
-		Map<String, Object> spcaeList = new HashMap<String, Object>();
-
-		try {
-			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 1000);
-			obj.put("pageNo", 1);
-
-			CloseableHttpClient client = HttpClientBuilder.create().build();
-			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
-			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
-			getRequest.setHeader("Accept-Charset", "UTF-8");
-			getRequest.setEntity(new StringEntity(obj.toString()));
-
-			// response
-			CloseableHttpResponse response = client.execute(getRequest);
-			if (response.getStatusLine().getStatusCode() == 200) {
-				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
-				result = EntityUtils.toString(entity); // 정상 호출
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = null;
-
-				try {
-					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
-				} catch (JsonProcessingException e) {
-					e.printStackTrace();
-				}
-
-				List<ApiVo> data = apiMetaVo.getData();
-
-				List<ApiVo> filteredData = new ArrayList<>();
-				for (ApiVo apiVo : data) {
-					filteredData.add(apiVo);
-				}
-
-				int totaldata = filteredData.size();
-				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
-
-				int fromIndex = (page - 1) * pageSize;
-				int toIndex = Math.min(page * pageSize, totaldata);
-				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
-
-				spcaeList.put("dataPage", dataPage);
-				spcaeList.put("currentPage", page);
-				spcaeList.put("totalPages", totalPages);
-			}
-
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		return spcaeList;
-	}
-
-	public Map<String, Object> findSeachList(int page, int pageSize, String search) {
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-		String result = "";
-
-		Map<String, Object> spcaeList = new HashMap<String, Object>();
-
-		try {
-			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 1000);
-			obj.put("pageNo", 1);
-
-			CloseableHttpClient client = HttpClientBuilder.create().build();
-			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
-			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
-			getRequest.setHeader("Accept-Charset", "UTF-8");
-			getRequest.setEntity(new StringEntity(obj.toString()));
-
-			// response
-			CloseableHttpResponse response = client.execute(getRequest);
-			if (response.getStatusLine().getStatusCode() == 200) {
-				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
-				result = EntityUtils.toString(entity); // 정상 호출
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = null;
-
-				try {
-					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
-				} catch (JsonProcessingException e) {
-					e.printStackTrace();
-				}
-
-				List<ApiVo> data = apiMetaVo.getData();
-
-				List<ApiVo> filteredData = new ArrayList<>();
-				for (ApiVo apiVo : data) {
-					if (apiVo.getRsrcNm().contains(search)) {
-						filteredData.add(apiVo);
-					}
-				}
-				int totaldata = filteredData.size();
-				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
-
-				int fromIndex = (page - 1) * pageSize;
-				int toIndex = Math.min(page * pageSize, totaldata);
-				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
-
-				System.out.println("totaldata : " + totaldata);
-				System.out.println("totalPages : " + totalPages);
-				System.out.println("fromIndex : " + fromIndex);
-				System.out.println("toIndex : " + toIndex);
-
-				spcaeList.put("dataPage", dataPage);
-				spcaeList.put("currentPage", page);
-				spcaeList.put("totalPages", totalPages);
-			}
-
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		return spcaeList;
-	}
+//	public Map<String, Object> findSeachList(int page, int pageSize, String search) {
+//		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
+//		String result = "";
+//
+//		Map<String, Object> spcaeList = new HashMap<String, Object>();
+//
+//		try {
+//			JSONObject obj = new JSONObject();
+//			obj.put("numOfRows", 1000);
+//			obj.put("pageNo", 1);
+//
+//			CloseableHttpClient client = HttpClientBuilder.create().build();
+//			HttpGetEntity getRequest = new HttpGetEntity(apiURI); // get method 생성
+//			getRequest.setHeader("Content-Type", "application/json");// type(json/xml)
+//			getRequest.setHeader("Accept-Charset", "UTF-8");
+//			getRequest.setEntity(new StringEntity(obj.toString()));
+//
+//			// response
+//			CloseableHttpResponse response = client.execute(getRequest);
+//			if (response.getStatusLine().getStatusCode() == 200) {
+//				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
+//				result = EntityUtils.toString(entity); // 정상 호출
+//
+//				ObjectMapper objectMapper = new ObjectMapper();
+//				ApiMetaVo apiMetaVo = null;
+//
+//				try {
+//					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+//				} catch (JsonProcessingException e) {
+//					e.printStackTrace();
+//				}
+//
+//				List<ApiVo> data = apiMetaVo.getData();
+//
+//				List<ApiVo> filteredData = new ArrayList<>();
+//				for (ApiVo apiVo : data) {
+//					if (apiVo.getRsrcNm().contains(search)) {
+//						filteredData.add(apiVo);
+//					}
+//				}
+//				int totaldata = filteredData.size();
+//				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
+//
+//				int fromIndex = (page - 1) * pageSize;
+//				int toIndex = Math.min(page * pageSize, totaldata);
+//				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
+//
+//				System.out.println("totaldata : " + totaldata);
+//				System.out.println("totalPages : " + totalPages);
+//				System.out.println("fromIndex : " + fromIndex);
+//				System.out.println("toIndex : " + toIndex);
+//
+//				spcaeList.put("dataPage", dataPage);
+//				spcaeList.put("currentPage", page);
+//				spcaeList.put("totalPages", totalPages);
+//			}
+//
+//		} catch (Exception e) {
+//			System.err.println(e.getMessage());
+//		}
+//		return spcaeList;
+//	}
 
 	public List<String> findApiVoIdList(int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
@@ -641,23 +495,20 @@ public class SpaceService {
 		return data;
 	}
 
-	
 	@Transactional
-    public void saveReserve(Reserve reserve) {
-        reserveRepository.save(reserve);
-    }
-	
+	public void saveReserve(Reserve reserve) {
+		reserveRepository.save(reserve);
+	}
+
 	// 예약 중복 막기
 	@Transactional
-    public List<Reserve> findReserve() {
-        return reserveRepository.findAll();
-    }
-	
+	public List<Reserve> findReserve() {
+		return reserveRepository.findAll();
+	}
+
 	@Transactional
-    public List<ReserveTime> findReserveTime() {
+	public List<ReserveTime> findReserveTime() {
 		return reserveTimeRepository.findAll();
-    }
-	
-	
-	
+	}
+
 }

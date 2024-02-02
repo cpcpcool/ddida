@@ -63,58 +63,67 @@
 			<div
 				class="search-box d-flex align-items-center justify-content-center my-5"
 				style="background-color: #F7F7F7;">
-				<form action="/sports/search" class="w-100">
-					<div class="row gx-3 align-items-center justify-content-between"
+				<form th:action="@{/sports/search}" class="w-100">
+					<div class="row gx-3 align-items-center justify-content-center"
 						style="max-width: 1000px; margin: 0 auto">
 						<div class="col-md-3">
-							<select class="form-select select-group" name="sports"
-								id="select-group1" required>
-								<option disabled selected value="">시설 분류 선택 *</option>
-								<option value="soccer">축구장</option>
-								<option value="futsal">풋살장</option>
-								<option value="tennis">테니스장</option>
-								<option value="badminton">배드민턴장</option>
+							<select id="type" name="type"
+								class="form-select select-group focus-ring"
+								aria-label="Default select example">
+								<option value="" th:selected="${type == null or type == ''}"
+									th:text="'시설 구분 *'"></option>
+								<option th:value="축구" th:selected="${type == '축구'}">축구장</option>
+								<option th:value="테니스" th:selected="${type == '테니스'}">테니스장</option>
+								<option th:value="풋살" th:selected="${type == '풋살'}">풋살장</option>
+								<option th:value="배드민턴" th:selected="${type == '배드민턴'}">배드민턴장</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select select-group" name="free"
-								id="select-group2">
-								<option value="A">요금 구분</option>
-								<option value="Y">무료</option>
-								<option value="N">유료</option>
+							<select class="form-select select-group focus-ring" name="pay"
+								id="pay" aria-label="Default select example">
+								<option value="" th:selected="${pay == null or type == ''}"
+									th:text="'요금 구분 *'"></option>
+								<option th:value="N" th:selected="${pay == 'N'}">무료</option>
+								<option th:value="Y" th:selected="${pay == 'Y'}">유료</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select select-group" name="sido"
-								id="select-group3">
-								<option disabled selected value="">시 · 도 선택 *</option>
-								<option value="11">서울특별시</option>
-								<option value="28">인천광역시</option>
-								<option value="41">경기도</option>
+							<select id="region" name="region"
+								class="form-select select-group focus-ring"
+								aria-label="Default select example"
+								style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
+								<option value="" th:selected="${region == null or region == ''}"
+									th:text="'수도권 전체 *'"></option>
+								<option th:value="서울" th:selected="${region == '서울'}">서울</option>
+								<option th:value="인천" th:selected="${region == '인천'}">인천</option>
+								<option th:value="경기" th:selected="${region == '경기'}">경기</option>
 							</select>
 						</div>
-						<div class="col-md-3">
-							<select class="form-select select-group" id="select-group4">
-								<option disabled selected value="">시 · 군 · 구 선택</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+						<!-- <div class="col-md-3">
+							<select id="region" name="region"
+								class="form-select select-group focus-ring"
+								aria-label="Default select example"
+								style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
+								<option value="" th:selected="${region == null or region == ''}"
+									th:text="'수도권 전체'"></option>
+								<option th:value="서울" th:selected="${region == '서울'}">서울</option>
+								<option th:value="인천" th:selected="${region == '인천'}">인천</option>
+								<option th:value="경기" th:selected="${region == '경기'}">경기</option>
 							</select>
-						</div>
+						</div> -->
 					</div>
 					<div class="row d-flex justify-content-center mt-3"
 						style="max-width: 500px; margin: 0 auto;">
 						<div class="col">
 							<input id="search-input" type="text"
-								class="form-control main-search-input" name="search"
+								class="form-control main-search-input" name="spaceNm"
 								placeholder="검색어를 입력해주세요" aria-label="First name">
 						</div>
 						<div class="col-4">
 							<button id="search-btn" type="submit"
-								class="form-control btn btn-outline-secondary"
-								style="display: inline-block; border-radius: 30px; position: relative; height: 100%; border: 0;">
-								<span id="main-search"
-									style="position: absolute; top: 6px; left: 25px;">검색하기</span>
+								class="form-control btn focus-ring"
+								style="display: inline-block; margin: 0 auto; border-radius: 30px; position: relative; height: 37.6px; border: 0;">
+								<span id="main-search" style="text-align: center;">검색하기</span>
 							</button>
 						</div>
 					</div>
@@ -146,6 +155,7 @@
 										style="font-size: 15px; line-height: 35px">
 										[[${da.addr}]]</div>
 								</div>
+								
 								<div class="row">
 									<div class="col"
 										style="color: #37745B; max-width: 110px; text-align: center;">
@@ -155,7 +165,7 @@
 									<div class="col"
 										style="font-size: 15px; line-height: 30px; text-align: right;">
 										<img class="col" src="/img/vector.png" alt="vector"
-											style="width: 15px;"> 2
+											style="width: 15px;">
 									</div>
 								</div>
 							</div>
@@ -164,64 +174,49 @@
 				</div>
 			</div>
 
-			<div style="text-align: center; display: inline-block;">
-				<div th:if="${totalPages >= 1}" class="my-5">
-					<ul class="pagination pagination-lg">
-						<li th:if="${currentPage > 10}" class="page-item"><a
-							class="page-link" th:href="@{'?page=' + ${currentPage - 10}}"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+			<div>
+				<nav aria-label="pagination" class="mb-5 mt-5">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><a id="pagination" class="page-link"
+							href="/" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 						</a></li>
-						<li th:if="${currentPage > 1}" class="page-item"><a
-							class="page-link" th:href="@{'?page=' + ${currentPage - 1}}"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li th:if="${currentPage == 1}" class="page-item"
-							th:attr="disabled='disabled'"><span class="page-link"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</span></li>
-						<th:block th:with="pageSize=10">
-							<th:block
-								th:with="groupNum=${((currentPage - 1) / pageSize) + 1}">
-								<th:block th:with="startPage=${(groupNum - 1) * pageSize + 1}">
-									<th:block th:with="endPage=${startPage + pageSize - 1}">
-										<th:block th:if="${endPage > totalPages}">
-											<th:block th:with="endPage=${totalPages}"></th:block>
-										</th:block>
+						<th:block
+							th:each="page : ${#numbers.sequence(startPage, endPage)}">
 
-										<th:block
-											th:each="pageNum: ${#numbers.sequence(startPage, endPage)}">
-											<li
-												th:class="${pageNum} == ${currentPage} ? 'page-item active' : 'page-item'">
-												<a class="page-link" th:href="@{/sports(page=${pageNum})}">[[${pageNum}]]</a>
-											</li>
-										</th:block>
-									</th:block>
-								</th:block>
-							</th:block>
+
+							<li class="page-item"><a th:if="${page != nowPage}"
+								th:href="@{/sports/search(page = ${page - 1}, type = ${param.type}, pay = ${param.pay}, region= ${param.region}, spaceNm=${param.spaceNm})}"
+								th:text="${page}" id="pagination" class="page-link">1</a></li>
+							<li class="page-item"><a th:if="${page == nowPage}"
+								th:text="${page}" id="pagination" class="page-link"
+								style="background-color: #37745B; color: #ffffff;">1</a></li>
 						</th:block>
-						<li th:if="${currentPage < totalPages}" class="page-item"><a
-							class="page-link" th:href="@{'?page=' + ${currentPage + 1}}"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						<li class="page-item"><a id="pagination" class="page-link"
+						 th:href="@{/sports/search(page = ${nowPage - 1}, type = ${param.type}, pay = ${param.pay}, region= ${param.region}, spaceNm=${param.spaceNm})}"	
+						 aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 						</a></li>
-						<li th:if="${currentPage == totalPages}" class="page-item"
-							th:attr="disabled='disabled'"><span class="page-link"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</span></li>
-						<li th:if="${currentPage + 10 <= totalPages}" class="page-item">
-							<a class="page-link" th:href="@{'?page=' + ${currentPage + 10}}"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a>
-						</li>
 					</ul>
-				</div>
+				</nav>
 			</div>
-
 		</div>
 	</div>
 
 
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
+
+	<script type="text/javascript">
+		// 검색 시 type 필수 선택
+		$(document).ready(function() {
+			$('#search-btn').click(function(event) {
+				// 폼이 서버로 전송되기 전에 검증 수행
+				if ($('#type').val() === '') {
+					alert('시설 구분을 선택하세요.');
+					event.preventDefault(); // 폼 전송 중지
+				}
+			});
+		});
+	</script>
 </body>
 
 </html>

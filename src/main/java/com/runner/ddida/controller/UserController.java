@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,6 +34,7 @@ import com.runner.ddida.dto.ReserveDto;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.SpaceService;
+import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
@@ -88,8 +90,8 @@ public class UserController {
 
 	// 문의 상세
 	@GetMapping("/qna/{qnaNo}")
-	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo,
-			@AuthenticationPrincipal Member user, Model model) {
+	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, @AuthenticationPrincipal Member user,
+			Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
 
@@ -191,83 +193,57 @@ public class UserController {
 	// ==================================================================================
 
 	@GetMapping("/sports")
-	public String spaceList(@AuthenticationPrincipal UserDetails userDetails, Model model,
-			@RequestParam(name = "page", defaultValue = "1") int page,
-			@RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
+	public String spaceList(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable) {
 
-		model.addAttribute("user", userDetails);
-		Map<String, Object> spcaeList = new HashMap<String, Object>();
-		spcaeList = spaceService.findSpaceList(page, pageSize);
+int nowPage = pageable.getPageNumber() + 1;
+		
+		// 고정 페이지 크기
+		int fixedPageSize = 10;
+		
+		// 시작 페이지 계산
+		int startPage = (nowPage - 1) / fixedPageSize * fixedPageSize + 1;
+		
+		// 종료 페이지 계산
+		int endPage = startPage + fixedPageSize - 1;
+		PageRequest fixedPageable = PageRequest.of(nowPage - 1, fixedPageSize, pageable.getSort());
 
-		model.addAttribute("data", spcaeList.get("dataPage"));
-		model.addAttribute("currentPage", spcaeList.get("currentPage"));
-		model.addAttribute("totalPages", spcaeList.get("totalPages"));
+		Page<ApiVo> spaceList = spaceService.findSpaceList(fixedPageable);
 
+		model.addAttribute("data", spaceList);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		return "user/sports/spaceList";
 	}
 
 	@GetMapping("/sports/search")
-	public String spaceSearch(Model model, @RequestParam(name = "page", defaultValue = "1") int page,
-			@RequestParam(name = "pageSize", defaultValue = "12") int pageSize,
-			@RequestParam(name = "sports") String sportsNm) {
+	public String spaceSearch(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable,
+			@RequestParam(name = "type", required = true) String type,
+			@RequestParam(name = "pay", required = false) String pay,
+			@RequestParam(name = "region", required = false) String region,
+			@RequestParam(name = "spaceNm", required = false) String spaceNm) {
+		
+		int nowPage = pageable.getPageNumber() + 1;
+		
+		// 고정 페이지 크기
+		int fixedPageSize = 10;
+		
+		// 시작 페이지 계산
+		int startPage = (nowPage - 1) / fixedPageSize * fixedPageSize + 1;
+		
+		// 종료 페이지 계산
+		int endPage = startPage + fixedPageSize - 1;
+		PageRequest fixedPageable = PageRequest.of(nowPage - 1, fixedPageSize, pageable.getSort());
 
-		switch (sportsNm) {
-		case "soccer":
-			sportsNm = "축구장";
-			break;
-		case "futsal":
-			sportsNm = "풋살장";
-			break;
-		case "tennis":
-			sportsNm = "테니스장";
-			break;
-		case "badminton":
-			sportsNm = "배드민턴장";
-			break;
-		}
+		Page<ApiVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, fixedPageable);
 
-		List<String> apiVoIdList = spaceService.findApiVoIdList(page, pageSize);
-		ArrayList<SpaceDetailVo> searchSportsList = new ArrayList<>();
-
-		int batchSize = 100;
-		int totalIterations = 10;
-
-		for (int j = 0; j < totalIterations; j++) {
-			List<String> searchList = new ArrayList<>();
-			int startIdx = j * batchSize;
-			int endIdx = Math.min((j + 1) * batchSize, apiVoIdList.size());
-			for (int i = startIdx; i < endIdx; i++) {
-				searchList.add(apiVoIdList.get(i));
-			}
-			searchSportsList.addAll(spaceService.findSports(searchList, sportsNm));
-		}
-
-		model.addAttribute("data", searchSportsList);
+		model.addAttribute("data", searchSpaceList);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 
 		return "user/sports/spaceList";
 	}
-
-	/*
-	 * @GetMapping("/sports/search") public String spaceSearch(Model model,
-	 * 
-	 * @RequestParam(name = "page", defaultValue = "1") int page,
-	 * 
-	 * @RequestParam(name = "pageSize", defaultValue = "12") int pageSize,
-	 * 
-	 * @RequestParam(name = "search") String search) {
-	 * 
-	 * Map<String, Object> spcaeList = new HashMap<String, Object>(); spcaeList =
-	 * service.findSeachList(page, pageSize, search);
-	 * 
-	 * System.out.println(spcaeList.get("dataPage"));
-	 * 
-	 * model.addAttribute("search", search); model.addAttribute("data",
-	 * spcaeList.get("dataPage")); model.addAttribute("currentPage",
-	 * spcaeList.get("currentPage")); model.addAttribute("totalPages",
-	 * spcaeList.get("totalPages"));
-	 * 
-	 * return "user/sports/spaceList"; }
-	 */
 
 	@GetMapping("/sports/{rsrcNo}")
 	public String spaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
