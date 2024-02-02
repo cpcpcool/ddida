@@ -2,72 +2,82 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link href="/css/reset.css" rel="stylesheet">
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/layout.css" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
 
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+<style type="text/css">
+.fc-toolbar-title {
+	font-size: .4em;
+}
 
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+.fc {
+	font-size: .6em;
+}
 
-	<link rel="icon" href="/img/favicon.png">
-	<title>뛰다</title>
-	<style type="text/css">
-		.fc-toolbar-title {
-			font-size: .4em;
-		}
+label {
+	width: 100px;
+}
 
-		.fc {
-			font-size: .6em;
-		}
+.reserveO input {
+	border: 2px solid #C1D2BF;
+	border-radius: 16px;
+	width: 250px;
+	height: 45px;
+	text-align: center;
+}
 
+.reserveO textarea {
+	border: 2px solid #C1D2BF;
+	border-radius: 16px;
+	width: 250px;
+	height: 45px;
+	text-align: center;
+	resize: none;
+	overflow: hidden;
+}
 
-		label {
-			width: 100px
-		}
+.reserveT input {
+	border: 2px solid #C1D2BF;
+	border-radius: 16px;
+	width: 200px;
+	height: 50px;
+	text-align: center;
+}
 
-		.reserveO input {
-			border: 2px solid #C1D2BF;
-			border-radius: 16px;
-			width: 250px;
-			height: 45px;
-			text-align: center;
-		}
+.phone input {
+	width: 80px;
+	text-align: center;
+}
 
-		.reserveT input {
-			border: 2px solid #C1D2BF;
-			border-radius: 16px;
-			width: 200px;
-			height: 50px;
-			text-align: center;
-		}
+.table {
+	border-collapse: collapse;
+	width: 100%;
+}
 
+.table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: center;
+	cursor: pointer;
+}
 
-		.phone input {
-			width: 80px;
-			text-align: center;
-		}
-		
-		
-		    .table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .table td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-      cursor: pointer;
-    }
-    .table .selected {
-      background-color: #BCE8F14D;
-    }
-	</style>
+.table .selected {
+	background-color: #BCE8F14D;
+}
+</style>
 </head>
 
 <body>
@@ -77,8 +87,24 @@
 	<!-- Content -->
 	<div class="wrap-content">
 		<div class="container">
-			<div>
-				<h2>예약 결제 완료</h2>
+			<div class="my-5">
+				<div class="row row-cols-3 justify-content-between"  >
+					<div class="col">
+						<div style="border: 3px solid #37745B; border-radius: 100px; width: 364.74px; height: 102px; background-color: #C1D2BF; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							예약
+						</div>
+					</div>
+					<div class="col">
+						<div style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							결제
+						</div>
+					</div>
+					<div class="col">
+						<div style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							완료
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="row grid column-gap-2">
@@ -129,34 +155,33 @@
 								</tr>
 							</tbody>
 						</table>
-
-
 					</div>
 				</div>
 			</div>
 
-			<form th:action="@{/sports/{rsrcNo}/reserve/check(rsrcNo=${rsrcNo})}" method="post" th:object="${Reserve}">
+			<form th:action="@{/sports/{rsrcNo}/reserve/check(rsrcNo=${rsrcNo})}"
+				method="post" th:object="${Reserve}" id="reserveForm">
 				<div style="text-align: left;" class="reserveO">
 					<div class="row grid column-gap-2 my-3">
-						<div class="col">
-							<label for="rsrcNm">시설 이름</label>
-							<input type="text" name="rsrcNm" id="rsrcNm" th:value="${data.rsrcNm}"
+						<div class="col" style="display: flex; align-items: center;">
+							<label for="rsrcNm">시설 이름</label> <input type="text"
+								name="rsrcNm" id="rsrcNm" th:value="${data.rsrcNm}"
 								th:title="${data.rsrcNm}" style="font-size: small;" readonly>
 						</div>
 						<div class="col">
-							<label for="useStartDate">이용 날짜</label>
-							<input type="text" name="useStartDate" id="useStartDate" readonly>
+							<label for="useStartDate">이용 날짜</label> <input type="text"
+								name="useStartDate" id="useStartDate" readonly>
 						</div>
 					</div>
 					<div class="row grid column-gap-2 my-3">
-						<div class="col">
+						<div class="col" style="display: flex; align-items: center;">
 							<label for="useStartTime">이용 시간</label>
-							<input type="text" name="useStartTime" id="useStartTime" readonly>
+							<textarea name="useStartTime" id="useStartTime" readonly></textarea>
 						</div>
 
 						<div class="col">
-							<label for="reserveFee">이용 요금</label>
-							<input type="text" name="reserveFee" id="reserveFee" value="10" readonly>
+							<label for="reserveFee">이용 요금</label> <input type="text"
+								name="reserveFee" id="reserveFee" value="10" readonly>
 						</div>
 					</div>
 				</div>
@@ -165,29 +190,37 @@
 					<h4>예약자 정보</h4>
 					<div class="row grid column-gap-2 my-3">
 						<div class="col">
-							<label for="userName">예약자 명</label>
-							<input type="text" name="userName" id="userName">
+							<label for="userName">예약자 명</label> <input type="text"
+								name="userName" id="userName" th:value="${user.name}" required>
 						</div>
 					</div>
 					<div class="row grid column-gap-3 my-3">
 						<div class="col phone">
-							<label for="userPhoneOne">연락처</label>
-							<input type="text" name="userPhoneOne" id="userPhoneOne"> -
-							<input type="text" name="userPhoneTwo" id="userPhoneTwo"> -
-							<input type="text" name="userPhoneThr" id="userPhoneThr">
+							<label for="userPhoneOne">연락처</label> <input type="text"
+								name="userPhoneOne" id="userPhoneOne" required> - <input
+								type="text" name="userPhoneTwo" id="userPhoneTwo" required>
+							- <input type="text" name="userPhoneThr" id="userPhoneThr"
+								required>
 						</div>
 					</div>
 
 					<div class="row grid column-gap-3 my-3">
 						<div class="col">
-							<label for="userEmailOne">이메일</label>
-							<input type="text" name="userEmailOne" id="userEmailOne"> @
-							<input type="text" name="userEmailTwo" id="userEmailTwo">
+							<label for="userEmailOne">이메일</label> <input type="text"
+								name="userEmailOne" id="userEmailOne" required> @ <input
+								type="text" name="userEmailTwo" id="userEmailTwo" required>
 						</div>
 					</div>
 				</div>
+				<div style="display: none;">
+					<input type="hidden" name="userNo" th:value="${user.userNo}">
+					<input type="hidden" name="rsrcNo" th:value="${rsrcNo}">
+				</div>
 				<div class="mb-5" style="text-align: right;">
-					<input type="submit" value="결제 > ">
+					<button type="button" onclick="submitForm()" style="background-color: #37745B; width: 100px; color: #FFF">
+						결제
+						<img alt="arrow" src="/img/arrow.png" style="width: 30px;">
+					</button>
 				</div>
 			</form>
 
@@ -197,58 +230,28 @@
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
 
-	<script>
-		
-	const table = document.getElementById('reserveTime');
-	const cells = table.getElementsByTagName('td');
-
-  for (let i = 0; i < cells.length; i++) {
-    cells[i].addEventListener('click', function() {
-      this.classList.toggle('selected');
-      getSelectedCells();
-    });
-  }
-
-  // 선택된 셀을 확인하는 함수
-  function getSelectedCells() {
-	  
-	  const selectedCells = Array.from(table.getElementsByClassName('selected'));
-	const selectedCellTexts = selectedCells.map(cell => cell.innerText.trim());
-	console.log('선택된 셀:', selectedCellTexts);
-	alert('선택된 셀: ' + selectedCellTexts.join(', '));
-
-    document.getElementById("useStartTime").value = selectedCellTexts.join(', ');
-  }
-  
-		document.addEventListener('DOMContentLoaded', function () {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				headerToolbar: {
-					start: 'prev',
-					center: 'title',
-					end: 'next'
-				},
-				selectable: true,
-				dragScroll: false,
-				editable: false,
-				fixedWeekCount: false,
-				height: "100%",
-				locale: 'ko', // 한국어 설정 
-				select: function (selectionInfo) {
-					var startDate = selectionInfo.startStr;
-					alert('선택된 날짜: ' + startDate);
-					document.getElementById("useStartDate").value = startDate;
-				},
-			});
-			calendar.render();
-		});
+	<script type="text/javascript" src="/js/gnb.js"></script>
+	<script type="text/javascript" src="/js/reserve.js"></script>
+	
+		<script th:inline="javascript">
+	 	/*<![CDATA[*/
+	       			 
+        function handleDateChange(useDate) {
+            // 사용자가 날짜를 선택했을 때 호출되는 함수
+            var selectedDate = document.getElementById("useStartDate").value;
+            var date = /*[[${date}]]*/
+            alert(date);
+        }
+        /*]]>*/
+    </script>
 
 
-	</script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
 		crossorigin="anonymous"></script>
-
 </body>
 
 </html>
