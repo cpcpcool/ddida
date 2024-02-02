@@ -1,6 +1,5 @@
 package com.runner.ddida.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,10 +29,7 @@ import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
-import com.runner.ddida.service.ReserveService;
-import com.runner.ddida.service.ReviewService;
 import com.runner.ddida.dto.ReserveDto;
-import com.runner.ddida.dto.ReviewDto;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.SpaceService;
@@ -60,8 +56,6 @@ public class UserController {
 	private final SpaceService spaceService;
 	private final MemberSignService memberSignService;
 	private final QnaService qnaService;
-	private final ReserveService reserveService;
-	private final ReviewService reviewService;
 
 	// 문의 목록
 	@GetMapping("/qna")
@@ -72,7 +66,7 @@ public class UserController {
 
 		Page<Qna> qnaList = null;
 
-		if (searchKeyword == null || searchType.isEmpty()) {
+		if (searchKeyword == null || searchType == null) {
 			qnaList = qnaService.findAll(pageable);
 		} else if (searchKeyword != null && searchType.equals("title")) {
 			qnaList = qnaService.findByTitleContaining(searchKeyword, pageable);
@@ -150,68 +144,16 @@ public class UserController {
 		return "redirect:/qna";
 	}
 
-	// 예약 내역
+	// 예약 내역 목록
 	@GetMapping("/mypage/reservation")
-	public String reserveList(@PageableDefault(page = 0, size = 10, sort = "reserveId", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
-			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
-		
-		Page<Reserve> reserveList = null;
-		
-		if (searchKeyword == null || searchType.isEmpty()) {
-			reserveList = reserveService.findAll(pageable);
-		} else if (searchKeyword != null && searchType.equals("spaceName")) {
-			reserveList = reserveService.findBySpaceNameContaining(searchKeyword, pageable);
-		} else if (searchKeyword != null && searchType.equals("useDate")) {
-			reserveList = reserveService.findByUseDateContaining(searchKeyword, pageable);
-		}
-		
-		int nowPage = reserveList.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, reserveList.getTotalPages());
-		
-		model.addAttribute("reserveList", reserveList);
-		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
-		
+	public String reserveList(Model model) {
 		return "user/mypage/reserveList";
 	}
 
-	// 예약 상세
-	@GetMapping("/mypage/reservation/{reserveId}")
-	public String reserveDetail(@PathVariable(name = "reserveId") Long reserveId, Model model) {
-		Reserve reserveDetail = reserveService.findByReserveId(reserveId).get();
-		
-		// 현재 시간
-		LocalDate now = LocalDate.now();
-		// 이용 예약 시간
-		LocalDate useDate = LocalDate.parse(reserveDetail.getUseDate());
-		// 이용 에약 시간이 지났는지 판별
-		Boolean checkOut = now.isAfter(useDate);
-		
-		model.addAttribute("reserve", reserveDetail);
-		model.addAttribute("now", now);
-		model.addAttribute("useDate", useDate);
-		model.addAttribute("checkOut", checkOut);
-		
+	@GetMapping("/mypage/reservation/reserveDetail")
+	public String reserveDetail() {
+
 		return "user/mypage/reserveDetail";
-	}
-	
-	// 후기 등록
-	@PostMapping("/mypage/reservation/{reserveId}")
-	public String addReview(ReviewDto reviewDto, @AuthenticationPrincipal Member user, @PathVariable(name = "reserveId") Long reserveId, Model model) {
-		
-		reviewDto.setUserName(user.getUsername());
-		reviewDto.setReserveId(reserveId);
-		
-		ReviewDto review = reviewService.save(reviewDto);
-		
-		model.addAttribute("review", review);
-		model.addAttribute("reserveId", reserveId);
-		
-		return "redirect:/mypage/reservation/" + review.getReserveId();
-		
 	}
 
 	@GetMapping("/mypage/userInfo")
@@ -358,7 +300,7 @@ public class UserController {
 				useDate.add(date);
 			}
 		}
-		model.addAttribute("date", useDate);
+		model.addAttribute("reserve", useDate);
 
 		model.addAttribute("data", data);
 		model.addAttribute("rsrcNo", rsrcNo);
