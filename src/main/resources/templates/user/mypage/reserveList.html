@@ -186,7 +186,7 @@
 							<select id="category-btn" name="searchType" type="button"
 								class="form-select dropdown-toggle " data-bs-toggle="dropdown"
 								style="border-radius: 0.9rem;">
-								<option value="spaceName" selected>시설 이름</option>
+								<option value="rsrcNm" selected>시설 이름</option>
 								<option value="useDate">예약일</option>
 							</select>
 						</div>
@@ -209,7 +209,7 @@
 				<tbody class="table-group-divider" style="font-weight: 300; font-size: 20px;">
 					<tr class="table" th:each="reserve : ${reserveList}">
 						<td th:text="${reserve.reserveId}">예약 번호</td>
-						<td><a th:href="@{/mypage/reservation/{reserveId}(reserveId=${reserve.reserveId})}" th:text="${reserve.spaceName}"
+						<td><a th:href="@{/mypage/reservation/{reserveId}(reserveId=${reserve.reserveId})}" th:text="${reserve.rsrcNm}"
 								style="color: #000000;">시설
 								이름</a></td>
 						<td th:text="${reserve.useDate}">예약일</td>

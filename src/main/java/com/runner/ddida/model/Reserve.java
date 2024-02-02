@@ -3,8 +3,6 @@ package com.runner.ddida.model;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -58,6 +56,9 @@ public class Reserve {
 	
 	@Column(name = "reserve_fee")
 	private int reserveFee;
+		
+	@Column(name = "reserve_type")
+	private int reserveType;
 	
 	@Column(name = "phone")
 	private String phone;
@@ -68,6 +69,9 @@ public class Reserve {
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "review")
+	private String review;
+
 //	private String checkOut;
 	
 	@PrePersist
