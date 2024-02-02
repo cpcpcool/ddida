@@ -34,7 +34,7 @@ public class AdminMemberController {
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
 		
 		// 검색
-		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);;
+		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);
 		
 		// 페이징
 		// page index 0부터 시작
