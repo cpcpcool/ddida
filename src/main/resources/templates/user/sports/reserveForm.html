@@ -211,11 +211,13 @@ label {
             .then(availableTimes => {
                 // 테이블 내부의 모든 td 요소 가져오기
                 const tdElements = document.querySelectorAll("#reserveTime td");
-
+                availableTimes = availableTimes.map(timeSlot => timeSlot.replace(/(\r\n|\n|\r)/gm, ""));
              // 각 td 요소를 순회하면서 시간이 availableTimes에 있는 경우 'deadline' 클래스 추가
              tdElements.forEach(td => {
                  const timeSlotValue = td.innerText.trim(); // td의 텍스트 내용 가져오고 공백 제거
                  // 시간이 availableTimes 배열에 포함되어 있는지 확인
+                 
+                 
                  if (availableTimes.includes(timeSlotValue)) {
                      td.classList.add("deadline");
                  }
