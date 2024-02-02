@@ -38,6 +38,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SpaceService {
 
+	private final ReserveRepository reserveRepository;
+	private final ReserveTimeRepository reserveTimeRepository;
+	
+	
 	class HttpGetEntity extends HttpEntityEnclosingRequestBase {
 		public final static String HTTP_METHOD_GET = "GET";
 
@@ -54,7 +58,6 @@ public class SpaceService {
 
 	@Value("${api.key}")
 	private String clientSecretKey;
-<<<<<<< HEAD
 
 	// =======================================================================================================================
 
@@ -75,15 +78,7 @@ public class SpaceService {
 	}
 
 	public List<ApiVo> getSpaceList(String ctpvCd) {
-=======
 	
-	private final ReserveRepository reserveRepository;
-	private final ReserveTimeRepository reserveTimeRepository;
-	
-	
-	public Map<String, Object> recommendSpaceList() {
-		
->>>>>>> origin/3-kbk
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
@@ -326,7 +321,6 @@ public class SpaceService {
 
 		return data;
 	}
-<<<<<<< HEAD
 
 	public List<ApiVo> recommendSpaceList() {
 
@@ -647,8 +641,6 @@ public class SpaceService {
 		return data;
 	}
 
-=======
-	
 	
 	@Transactional
     public void saveReserve(Reserve reserve) {
@@ -668,6 +660,4 @@ public class SpaceService {
 	
 	
 	
-	
->>>>>>> origin/3-kbk
 }

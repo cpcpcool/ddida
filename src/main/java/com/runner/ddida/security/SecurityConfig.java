@@ -27,7 +27,7 @@ public class SecurityConfig {
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**").permitAll()
 						.requestMatchers("/admin/login").permitAll() // 별도의 관리자 로그인 페이지 허용
 						.requestMatchers("/sports/{rsrcNo}").permitAll()
-						.requestMatchers("/sports/{rsrcNo}/**").hasRole("USER")
+						/* .requestMatchers("/sports/{rsrcNo}/**").hasRole("USER") */
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 					 	.anyRequest().authenticated()) 
 				.exceptionHandling(error -> error

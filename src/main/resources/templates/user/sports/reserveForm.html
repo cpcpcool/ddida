@@ -88,21 +88,21 @@ label {
 	<div class="wrap-content">
 		<div class="container">
 			<div class="my-5">
-				<div class="row row-cols-3 justify-content-between"  >
+				<div class="row row-cols-3 justify-content-between">
 					<div class="col">
-						<div style="border: 3px solid #37745B; border-radius: 100px; width: 364.74px; height: 102px; background-color: #C1D2BF; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
-							예약
-						</div>
+						<div
+							style="border: 3px solid #37745B; border-radius: 100px; width: 364.74px; height: 102px; background-color: #C1D2BF; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							예약</div>
 					</div>
 					<div class="col">
-						<div style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
-							결제
-						</div>
+						<div
+							style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							결제</div>
 					</div>
 					<div class="col">
-						<div style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
-							완료
-						</div>
+						<div
+							style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
+							완료</div>
 					</div>
 				</div>
 			</div>
@@ -158,7 +158,9 @@ label {
 					</div>
 				</div>
 			</div>
-
+			<div th:each="row, rowStat : ${date}" >
+				<p th:each="e : ${row}" th:text="${e}"></p>
+			</div>
 			<form th:action="@{/sports/{rsrcNo}/reserve/check(rsrcNo=${rsrcNo})}"
 				method="post" th:object="${Reserve}" id="reserveForm">
 				<div style="text-align: left;" class="reserveO">
@@ -217,9 +219,9 @@ label {
 					<input type="hidden" name="rsrcNo" th:value="${rsrcNo}">
 				</div>
 				<div class="mb-5" style="text-align: right;">
-					<button type="button" onclick="submitForm()" style="background-color: #37745B; width: 100px; color: #FFF">
-						결제
-						<img alt="arrow" src="/img/arrow.png" style="width: 30px;">
+					<button type="button" onclick="submitForm()"
+						style="background-color: #37745B; width: 100px; color: #FFF">
+						결제 <img alt="arrow" src="/img/arrow.png" style="width: 30px;">
 					</button>
 				</div>
 			</form>
@@ -232,18 +234,18 @@ label {
 
 	<script type="text/javascript" src="/js/gnb.js"></script>
 	<script type="text/javascript" src="/js/reserve.js"></script>
-	
-		<script th:inline="javascript">
-	 	/*<![CDATA[*/
-	       			 
-        function handleDateChange(useDate) {
-            // 사용자가 날짜를 선택했을 때 호출되는 함수
-            var selectedDate = document.getElementById("useStartDate").value;
-            var date = /*[[${date}]]*/
-            alert(date);
-        }
-        /*]]>*/
-    </script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		function handleDateChange(useDate) {
+			// 사용자가 날짜를 선택했을 때 호출되는 함수
+			var selectedDate = document.getElementById("useStartDate").value;
+			var date = /*[[${date}]]*/
+			alert(date);
+		}
+		/*]]>*/
+	</script>
 
 
 

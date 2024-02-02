@@ -57,11 +57,9 @@ public class UserController {
 	private final MemberSignService memberSignService;
 	private final QnaService qnaService;
 
-	
 	// 문의 목록
 	@GetMapping("/qna")
 	public String qnaList(
-<<<<<<< HEAD
 			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
@@ -76,13 +74,6 @@ public class UserController {
 			qnaList = qnaService.findByDescriptionContaining(searchKeyword, pageable);
 		}
 
-=======
-			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
-			Model model) {
-		Page<Qna> qnaList = qnaService.findAll(pageable);
-
-		// page는 0부터 시작하기에 +1, 4페이지 -> url에 3
->>>>>>> 1-pjy
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
@@ -97,7 +88,8 @@ public class UserController {
 
 	// 문의 상세
 	@GetMapping("/qna/{qnaNo}")
-	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
+	public String qnaDetail(@PathVariable(name = "qnaNo") Long qnaNo,
+			@AuthenticationPrincipal Member user, Model model) {
 		qnaService.viewcnt(qnaNo);
 		Qna qna = qnaService.findByQnaNo(qnaNo).get();
 
@@ -117,7 +109,7 @@ public class UserController {
 
 	// 문의 등록
 	@PostMapping("/qna/add")
-	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user, Model model) {
+	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member user, Model model) {
 		qnaDto.setUserName(user.getUsername());
 
 		QnaDto qna = qnaService.save(qnaDto);
@@ -125,26 +117,26 @@ public class UserController {
 
 		return "redirect:/qna/" + qna.getQnaNo();
 	}
-	
+
 	// 문의 수정 폼
 	@GetMapping("/qna/editForm/{qnaNo}")
 	public String qnaEditForm(@PathVariable(name = "qnaNo") Long qnaNo, Model model) {
-		
+
 		QnaDto qnaDto = qnaService.getQna(qnaNo);
-		
+
 		model.addAttribute("qna", qnaDto);
 		return "user/qna/qnaEditForm";
 	}
-	
+
 	// 문의 수정
 	@PutMapping("/qna/edit/{qnaNo}")
-	public String update(QnaDto qnaDto, @AuthenticationPrincipal MemberPrincipalDetails user) {
+	public String update(QnaDto qnaDto, @AuthenticationPrincipal Member user) {
 		qnaDto.setUserName(user.getUsername());
 		qnaDto.setQnaView(qnaDto.getQnaView());
 		qnaService.save(qnaDto);
 		return "redirect:/qna";
 	}
-	
+
 	// 문의 삭제
 	@DeleteMapping("/qna/{qnaNo}")
 	public String deleteQna(@PathVariable(name = "qnaNo") Long qnaNo) {
@@ -154,8 +146,7 @@ public class UserController {
 
 	// 예약 내역 목록
 	@GetMapping("/mypage/reservation")
-	public String reserveList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-
+	public String reserveList(Model model) {
 		return "user/mypage/reserveList";
 	}
 
@@ -298,19 +289,19 @@ public class UserController {
 	@GetMapping("/sports/{rsrcNo}/reserve")
 	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
 		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
-		
+
 		List<Reserve> reserveL = spaceService.findReserve();
-		
-		List<String> useDate = new ArrayList<String>(); 
-		
-		for(Reserve reserve : reserveL) {
-			if(rsrcNo.equals(reserve.getRsrcNo())) {
+
+		List<String> useDate = new ArrayList<String>();
+
+		for (Reserve reserve : reserveL) {
+			if (rsrcNo.equals(reserve.getRsrcNo())) {
 				String date = reserve.getUseDate();
-				useDate.add(reserve.getUseDate());
-				model.addAttribute(date, reserve.getUseDate());
+				useDate.add(date);
 			}
 		}
-		 
+		model.addAttribute("reserve", useDate);
+
 		model.addAttribute("data", data);
 		model.addAttribute("rsrcNo", rsrcNo);
 
@@ -319,16 +310,17 @@ public class UserController {
 
 	@PostMapping("/sports/{rsrcNo}/reserve/check")
 	public String checkForm(@ModelAttribute ReserveDto reserveDto, Model model) {
-		
+
 		String newString = reserveDto.getUseStartTime();
-		
+
 		reserveDto.setUseStartTime(newString.replace("\n", "<br>"));
-		
-		String phone = reserveDto.getUserPhoneOne() + "-" + reserveDto.getUserPhoneTwo() + "-" + reserveDto.getUserPhoneThr();
+
+		String phone = reserveDto.getUserPhoneOne() + "-" + reserveDto.getUserPhoneTwo() + "-"
+				+ reserveDto.getUserPhoneThr();
 		String email = reserveDto.getUserEmailOne() + "@" + reserveDto.getUserEmailTwo();
-		
+
 		Reserve reserve = new Reserve();
-		
+
 		reserve.setUserNo(reserveDto.getUserNo());
 		reserve.setRsrcNo(reserveDto.getRsrcNo());
 		reserve.setSpaceName(reserveDto.getRsrcNm());
@@ -337,7 +329,7 @@ public class UserController {
 		reserve.setEmail(email);
 		reserve.setPhone(phone);
 		reserve.setName(reserveDto.getUserName());
-		
+
 		model.addAttribute("data", reserve);
 		model.addAttribute("time", reserveDto);
 		model.addAttribute("timeList", newString);
@@ -345,24 +337,24 @@ public class UserController {
 		return "user/sports/checkForm";
 	}
 
-	@PostMapping("/sports/complete")	
+	@PostMapping("/sports/complete")
 	public String complete(@ModelAttribute Reserve reserve, @RequestParam("timeList") String timeList, Model model) {
-		
+
 		List<ReserveTime> reserveTimeList = new ArrayList<ReserveTime>();
 		String[] timeArray = timeList.split("\n");
-		
+
 		for (String time : timeArray) {
 			ReserveTime reserveTime = new ReserveTime();
 			reserveTime.setUseTime(time);
 			reserveTimeList.add(reserveTime);
 		}
 		reserve.setReserveTimes(reserveTimeList);
-		
+
 		spaceService.saveReserve(reserve);
-		
+
 		model.addAttribute("data", reserve);
 		model.addAttribute("time", timeList.replace("\n", "<br>"));
-		
+
 		return "user/sports/complete";
 	}
 
