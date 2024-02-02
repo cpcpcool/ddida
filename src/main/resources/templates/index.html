@@ -8,8 +8,8 @@
 <link type="text/css" href="/css/layout-sub.css" rel="stylesheet">
 <link rel="icon" href="/img/favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/slick/slick.css" />
-<link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
+<link rel="stylesheet" type="text/css" href="/css/slick.css" />
+<link rel="stylesheet" type="text/css" href="/css/slick-theme.css" />
 
 <title>뛰다</title>
 </head>
@@ -23,39 +23,40 @@
 		<div class="container">
 			<div
 				class="search-box d-flex align-items-center justify-content-center">
-				<form action="@{/sports/1}" class="w-100">
-					<div class="row gx-3 align-items-center justify-content-between"
+				<form th:action="@{/sports/search}" class="w-100">
+					<div class="row gx-3 align-items-center justify-content-center"
 						style="max-width: 1000px; margin: 0 auto">
 						<div class="col-md-3">
-							<select class="form-select select-group" id="select-group1">
-								<option selected>Choose...</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+							<select id="type" name="type"
+								class="form-select select-group focus-ring"
+								aria-label="Default select example">
+								<option value="" th:selected="${type == null or type == ''}"
+									th:text="'시설 구분 *'"></option>
+								<option th:value="축구" th:selected="${type == '축구'}">축구장</option>
+								<option th:value="테니스" th:selected="${type == '테니스'}">테니스장</option>
+								<option th:value="풋살" th:selected="${type == '풋살'}">풋살장</option>
+								<option th:value="배드민턴" th:selected="${type == '배드민턴'}">배드민턴장</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select select-group" id="select-group2">
-								<option selected>Choose...</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+							<select class="form-select select-group focus-ring" name="pay"
+								id="pay" aria-label="Default select example">
+								<option value="" th:selected="${pay == null or type == ''}"
+									th:text="'요금 구분 *'"></option>
+								<option th:value="N" th:selected="${pay == 'N'}">무료</option>
+								<option th:value="Y" th:selected="${pay == 'Y'}">유료</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-select select-group" id="select-group3">
-								<option selected>Choose...</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
-							</select>
-						</div>
-						<div class="col-md-3">
-							<select class="form-select select-group" id="select-group4">
-								<option selected>Choose...</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+							<select id="region" name="region"
+								class="form-select select-group focus-ring"
+								aria-label="Default select example"
+								style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
+								<option value="" th:selected="${region == null or region == ''}"
+									th:text="'수도권 전체 *'"></option>
+								<option th:value="서울" th:selected="${region == '서울'}">서울</option>
+								<option th:value="인천" th:selected="${region == '인천'}">인천</option>
+								<option th:value="경기" th:selected="${region == '경기'}">경기</option>
 							</select>
 						</div>
 					</div>
@@ -63,15 +64,14 @@
 						style="max-width: 500px; margin: 0 auto;">
 						<div class="col">
 							<input id="search-input" type="text"
-								class="form-control main-search-input" placeholder="First name"
-								aria-label="First name">
+								class="form-control main-search-input" name="spaceNm"
+								placeholder="검색어를 입력해주세요" aria-label="First name">
 						</div>
 						<div class="col-4">
 							<button id="search-btn" type="submit"
-								class="form-control btn btn-outline-secondary"
-								style="display: inline-block; border-radius: 30px; position: relative; height: 100%; border: 0;">
-								<span id="main-search"
-									style="position: absolute; top: 6px; left: 25px;">검색하기</span>
+								class="form-control btn focus-ring"
+								style="display: inline-block; margin: 0 auto; border-radius: 30px; position: relative; height: 37.6px; border: 0;">
+								<span id="main-search" style="text-align: center;">검색하기</span>
 							</button>
 						</div>
 					</div>
@@ -96,31 +96,36 @@
 							<div class="card"
 								style="width: 280px; height: 300px; margin: 0 auto;">
 
-								<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}" class="card-link" style="display: block;">
-									<span class="card-img-top" th:style="'background-image: url(\'' + ${#strings.isEmpty(data.imgFileUrlAddr) ? '/img/no-image.png' : data.imgFileUrlAddr} + '\')'"></span>
+								<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}"
+									class="card-link" style="display: block;"> <span
+									class="card-img-top"
+									th:style="'background-image: url(\'' + ${#strings.isEmpty(data.imgFileUrlAddr) ? '/img/no-image.png' : data.imgFileUrlAddr} + '\')'"></span>
 								</a>
 								<div class="card-body" style="text-align: left;">
 									<h5 style="color: #212519;">
-										<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}" class="card-link">[[${data.rsrcNm}]]</a>
+										<a th:href="@{/sports/{rsrcNo}(rsrcNo=${data.rsrcNo})}"
+											class="card-link">[[${data.rsrcNm}]]</a>
 									</h5>
 									<div class="row" style="align-items: center;">
 										<div class="col-1">
-											<img src="/img/map.svg" alt="icon" style="width: 12px; display: block;">
+											<img src="/img/map.svg" alt="icon"
+												style="width: 12px; display: block;">
 										</div>
-										<div class="col" style="font-size: 15px; line-height: 35px; padding-left: 5px;">
-											<span th:text="${#strings.length(data.addr) &lt;= 20 ? data.addr : #strings.substring(data.addr, 0, 20) + '...'}"></span>
+										<div class="col"
+											style="font-size: 15px; line-height: 35px; padding-left: 5px;">
+											<span
+												th:text="${#strings.length(data.addr) &lt;= 20 ? data.addr : #strings.substring(data.addr, 0, 20) + '...'}"></span>
 										</div>
 									</div>
 									<div class="row d-flex align-items-flex-end">
 										<div class="col-5"
 											style="color: #37745B; font-size: 17px; max-width: 200px; text-align: left;">
 											35,000원</div>
-										<div class="col" style="font-size: 15px;">
-											/ 60분</div>
+										<div class="col" style="font-size: 15px;">/ 60분</div>
 										<div class="col"
 											style="font-size: 15px; padding-top: 1px; float: right;">
-											<img class="col" src="/img/message.svg" alt="vector" style=" display:inline-block;  width: 18px;"> 
-											<span>11</span>
+											<img class="col" src="/img/message.svg" alt="vector"
+												style="display: inline-block; width: 18px;"> <span>11</span>
 										</div>
 									</div>
 								</div>
@@ -136,7 +141,8 @@
 	<div th:replace="~{component/user/userFooter}"></div>
 	<script type="text/javascript" src="/js/gnb.js"></script>
 	<script type="text/javascript" src="/js/slide.js"></script>
-	<script type="text/javascript" src="/slick/slick.js"></script>
+	<script type="text/javascript" src="/js/slick.js"></script>
+	<script type="text/javascript" src="/js/essential.js"></script>
 </body>
 
 </html>

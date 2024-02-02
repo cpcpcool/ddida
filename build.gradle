@@ -42,10 +42,6 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	testImplementation 'org.springframework.security:spring-security-test'
 	
-	//modelMapper
-	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
-	
 	//open-api
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'

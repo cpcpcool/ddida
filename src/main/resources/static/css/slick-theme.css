@@ -154,8 +154,8 @@
 
     display: block;
 
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     padding: 5px;
 
     cursor: pointer;
@@ -169,6 +169,7 @@
 .slick-dots li button:focus
 {
     outline: none;
+    	
 }
 .slick-dots li button:hover:before,
 .slick-dots li button:focus:before
@@ -178,27 +179,28 @@
 .slick-dots li button:before
 {
     font-family: 'slick';
-    font-size: 6px;
+    font-size: 24px;
     line-height: 20px;
 
     position: absolute;
     top: 0;
     left: 0;
 
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
 
     content: '•';
     text-align: center;
 
     opacity: .25;
-    color: black;
+    color: #37745b;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.slick-dots li.slick-active button:before
-{
+
+.slick-dots li.slick-active button:before {
     opacity: .75;
-    color: black;
+    color: #37745b;
 }
+

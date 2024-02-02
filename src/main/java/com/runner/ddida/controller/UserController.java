@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,14 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.runner.ddida.dto.QnaDto;
+import com.runner.ddida.dto.ReserveDto;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
-import com.runner.ddida.dto.ReserveDto;
-import com.runner.ddida.model.Reserve;
-import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
@@ -194,48 +192,51 @@ public class UserController {
 
 	@GetMapping("/sports")
 	public String spaceList(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable) {
+		
+		Page<ApiVo> spaceList = spaceService.findSpaceList(pageable);
+		
+		List<SpaceDetailVo> freeYnList = spaceService.findDetailList(spaceService.findDefault());
+		
+//		System.out.println("확인 : " + freeYnList);
+		
+		Map<String,String> free = new HashMap<String, String>();
+		
+		for(SpaceDetailVo fre : freeYnList) {
+			free.put(fre.getRsrcNo(),fre.getFreeYn());
+		}
+		
+		model.addAttribute("free", free);
+		
+//		List<String> freeYn = freeYnList.stream().map(f->f.getFreeYn()).collect(Collectors.toList());
+	
 
-int nowPage = pageable.getPageNumber() + 1;
-		
-		// 고정 페이지 크기
-		int fixedPageSize = 10;
-		
-		// 시작 페이지 계산
-		int startPage = (nowPage - 1) / fixedPageSize * fixedPageSize + 1;
-		
-		// 종료 페이지 계산
-		int endPage = startPage + fixedPageSize - 1;
-		PageRequest fixedPageable = PageRequest.of(nowPage - 1, fixedPageSize, pageable.getSort());
-
-		Page<ApiVo> spaceList = spaceService.findSpaceList(fixedPageable);
+		int nowPage = spaceList.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage, 1);
+		int endPage = Math.min(nowPage + 9, spaceList.getTotalPages());
 
 		model.addAttribute("data", spaceList);
 		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("startPage", startPage);
+		model.addAttribute("startPage", startPage);	
 		model.addAttribute("endPage", endPage);
 		return "user/sports/spaceList";
 	}
 
 	@GetMapping("/sports/search")
 	public String spaceSearch(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable,
-			@RequestParam(name = "type", required = true) String type,
-			@RequestParam(name = "pay", required = false) String pay,
-			@RequestParam(name = "region", required = false) String region,
-			@RequestParam(name = "spaceNm", required = false) String spaceNm) {
+							@RequestParam(name = "type", required = true) String type,
+							@RequestParam(name = "pay", required = false) String pay,
+							@RequestParam(name = "region", required = false) String region,
+							@RequestParam(name = "spaceNm", required = false) String spaceNm) {
 		
-		int nowPage = pageable.getPageNumber() + 1;
+		Page<ApiVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, pageable);
+		model.addAttribute("type", type);
+		model.addAttribute("pay", pay);
+		model.addAttribute("spaceNm", spaceNm);
 		
-		// 고정 페이지 크기
-		int fixedPageSize = 10;
-		
-		// 시작 페이지 계산
-		int startPage = (nowPage - 1) / fixedPageSize * fixedPageSize + 1;
-		
-		// 종료 페이지 계산
-		int endPage = startPage + fixedPageSize - 1;
-		PageRequest fixedPageable = PageRequest.of(nowPage - 1, fixedPageSize, pageable.getSort());
 
-		Page<ApiVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, fixedPageable);
+		int nowPage = searchSpaceList.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage, 1);
+		int endPage = Math.min(nowPage + 9, searchSpaceList.getTotalPages());
 
 		model.addAttribute("data", searchSpaceList);
 		model.addAttribute("nowPage", nowPage);
@@ -247,8 +248,6 @@ int nowPage = pageable.getPageNumber() + 1;
 
 	@GetMapping("/sports/{rsrcNo}")
 	public String spaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
-
-		log.info("이거 맞음");
 
 		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
 

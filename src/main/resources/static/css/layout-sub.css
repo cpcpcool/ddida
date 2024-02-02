@@ -228,3 +228,12 @@ div.fac-info>a {
 	background-color: #37745B;
 	border-color: #D9D9D9;
 }
+
+/* qna */
+.titleUnder {
+	width: 100px;
+	height: 5px;
+	background-color: #37745B;
+	opacity: 100;
+	border: 0;
+}

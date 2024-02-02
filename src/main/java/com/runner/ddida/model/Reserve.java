@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ import lombok.ToString;
 @Setter
 @EntityListeners(AuditingEntityListener.class) // 변경될때 자동기록
 @NoArgsConstructor
+@Table(name = "reserve")
 public class Reserve {
 	
 	@Id

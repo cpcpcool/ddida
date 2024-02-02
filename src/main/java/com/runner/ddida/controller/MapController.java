@@ -13,7 +13,6 @@ import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.ApiVo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 박재용
@@ -22,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class MapController {
 
 	private final SpaceService spaceService;

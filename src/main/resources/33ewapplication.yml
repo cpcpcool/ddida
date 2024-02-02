@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ddida
+    username: root
+    password: 1111
+    
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      ##ddl-auto: create         ## 서버가 시작될 때 entity를 가지고 기존 테이블을 삭제하고 자동으로 재생성. 컬럼 순서를 지정할 수 없음.
+      ##ddl-auto: create-drop    ## 서버가 종료될 때 기존 테이블을 삭제하고 시작될 때 다시 생성
+      ##ddl-auto: update          ## 기존과 구분해서 달라진 내용만 추가
+      ##ddl-auto: none            ## ddl-auto를 사용하지 않음. 테이블 생성 or 삭제를 하지 않음. 기존 데이터 삭제 방지
+    defer-datasource-initialization: true     ## hibernate를 먼저 실행 후 스크립트(sql파일)을 실행하겠다는 뜻.
+    properties:
+      hibernate:
+        "[format_sql]": true
+        "[highlight_sql]": true
+  sql:
+    init:
+      mode: always    ## always : 모든 DBMS sql script 실행
+                     ## embedded : 내장 DBMS에만 실행
+                     ## never : 내장, 외장 모든 DBMS 실행하지 않음
+      schema-locations:     ## sql파일이 resource안에 바로있는게 아니라면 이런식으로 경로를 설정 해줘야 함.
+      - classpath:database/ddida.sql
+      data-locations:
+      - classpath:database/data.sql
+   
+logging:
+ level:
+   org:
+     hibernate:
+       orm:
+         jdbc:
+           bind: trace
+    
+server:
+ port: 8080

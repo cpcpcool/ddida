@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.runner.ddida.model.Member;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.ApiVo;
 
@@ -26,23 +27,12 @@ public class MainController {
 	private final SpaceService spaceService;
 
 	@GetMapping("/")
-	public String main(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+	public String main(Model model, @AuthenticationPrincipal Member member) {
 		// 추천 시설
 		List<ApiVo> recmdspaceList = new ArrayList<>();
 		recmdspaceList = spaceService.recommendSpaceList();
 		model.addAttribute("data", recmdspaceList);
-		// 로그인 정보
-		model.addAttribute("user", userDetails);
-		// 로그인 정보(불필요)
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//		if (authentication != null && authentication.isAuthenticated()
-//				&& !(authentication instanceof AnonymousAuthenticationToken)) {
-//			MemberPrincipalDetails principal = (MemberPrincipalDetails) memberService
-//					.loadUserByUsername(authentication.getName());
-//			MemberDto memberDto = principal.toMemberDto();
-//			model.addAttribute("user", memberDto);
-//	}
+		model.addAttribute("user", member);
 		
 		return "index";
 	}
