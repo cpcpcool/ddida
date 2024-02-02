@@ -85,6 +85,20 @@ public class AdminController {
 	
 	@GetMapping("/users/2")
 	public String userDetail2(Model model) {
+		int[][] arr = new int[25][4];
+		for(int i=1; i<25; i++) {
+			for(int j=0; j<=3; j++) {
+				arr[i-1][j] = i*(j+1);
+				System.out.printf("%d  ", arr[i-1][j]);
+			}
+			System.out.println("");
+		}
+		model.addAttribute("arr", arr);
+		return "admin/users/userDetail2";
+	}
+	
+	@GetMapping("/users/3")
+	public String userDetail3(Model model) {
 		int[][] arr = new int[3][4];
 		for(int i=1; i<3; i++) {
 			for(int j=0; j<=3; j++) {
@@ -94,7 +108,7 @@ public class AdminController {
 			System.out.println("");
 		}
 		model.addAttribute("arr", arr);
-		return "admin/users/userDetail2";
+		return "admin/users/userDetail3";
 	}
 	
 	@GetMapping("/space")
@@ -112,31 +126,22 @@ public class AdminController {
 		return "admin/space/adminSpaceList";
 	}
 	
-	
-	
-	
 	@GetMapping("/space/search")
 	public String postAdminSpaceList(@RequestParam("searchType") String searchType,
 			@RequestParam("searchWord") String searchWord, 
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, Model model) {
-		System.out.println("분류선택 : " + searchType);
-		System.out.println("검색어 : " + searchWord);
 		List<String> rsrcNoList = service.getRsrcNoList();
 		Map<String, Object> result = service.showFilterdResult(rsrcNoList, searchType, searchWord, page, pageSize);
-		System.out.println("컨트롤러 str : " + result.get("str"));
-		System.out.println("컨트롤러 str2 : " + result.get("str2"));
 		
+		model.addAttribute("type", searchType);
+		model.addAttribute("word", searchWord);
 		model.addAttribute("list", result.get("dataPage"));
 		model.addAttribute("currentPage", result.get("currentPage"));
 		model.addAttribute("totalPages", result.get("totalPages"));
 		
 		return "admin/space/adminSpaceList";
 	}
-	
-	
-	
-	
 	
 	@GetMapping("/space/{rsrcNo}")
 	public String adminSpaceDetail(@PathVariable("rsrcNo") String rsrcNo, Model model) {
@@ -145,14 +150,34 @@ public class AdminController {
 		return "admin/space/adminSpaceDetail";
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		return "admin/space/test";
-	}
-	
-	@GetMapping("/test2")
-	public String test2() {
-		return "admin/space/test2";
-	}
+//	@GetMapping("/space")
+//	public String t(@RequestParam(name = "searchType", required = false) String searchType,
+//			@RequestParam(name = "searchWord", required = false) String searchWord,
+//			@RequestParam(name = "page", defaultValue = "1") int page,
+//			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, 
+//			Model model) {
+//		List<String> rsrcNoList = service.getRsrcNoList();
+//		System.out.println("searchType : " + searchType);
+//		System.out.println("searchWord : " + searchWord);
+//		
+//		if(searchType == null || searchWord == null) {
+//			System.out.println("ddddddddddddddddd");
+//			Map<String, Object> result = service.show(rsrcNoList, page, pageSize);
+//			model.addAttribute("list", result.get("dataPage"));
+//			model.addAttribute("currentPage", result.get("currentPage"));
+//			model.addAttribute("totalPages", result.get("totalPages"));
+//			return "admin/space/adminSpaceList";
+//		}
+//		
+//		System.out.println("aaaaaaaaaaaaaaaaaa");
+//		Map<String, Object> result = service.showFilterdResult(rsrcNoList, searchType, searchWord, page, pageSize);
+//		model.addAttribute("type", searchType);
+//		model.addAttribute("word", searchWord);
+//		model.addAttribute("list", result.get("dataPage"));
+//		model.addAttribute("currentPage", result.get("currentPage"));
+//		model.addAttribute("totalPages", result.get("totalPages"));
+//		
+//		return "admin/space/adminSpaceList";
+//	}
 	
 }

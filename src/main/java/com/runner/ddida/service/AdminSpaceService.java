@@ -53,7 +53,7 @@ public class AdminSpaceService {
 		
 		try {
 			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 100);
+			obj.put("numOfRows", 98);
 //			obj.put("pageNo", 1);
 			obj.put("ctpvCd", "11");
 			
@@ -98,69 +98,6 @@ public class AdminSpaceService {
 		return rsrcNoList;
 	}
 	
-	
-	
-//	public Map<String, Object> findSpaceList(int page, int pageSize) {
-//		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-//		String result = "";
-//		Map<String, Object> spaceList = new HashMap<String, Object>();
-//		
-//		try {
-//			JSONObject obj = new JSONObject();
-//			obj.put("numOfRows", 100);
-//			obj.put("pageNo", 1);
-//			
-//			CloseableHttpClient client = HttpClientBuilder.create().build();
-//			HttpGetEntity getRequest = new HttpGetEntity(apiURI); //get method 생성
-//			getRequest.setHeader("Content-Type", "application/json");//type(json/xml)
-//			getRequest.setHeader("Accept-Charset", "UTF-8");
-//			getRequest.setEntity(new StringEntity(obj.toString()));
-//			
-//			//response 
-//			CloseableHttpResponse response = client.execute(getRequest);
-//			if(response.getStatusLine().getStatusCode() == 200) {
-//			    org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
-//				result = EntityUtils.toString(entity); //정상 호출
-//				
-//				ObjectMapper objectMapper = new ObjectMapper();
-//				ApiMetaVo apiMetaVo = null;
-//
-//				try{
-//					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
-//				} catch (JsonProcessingException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				List<ApiVo> data = apiMetaVo.getData();
-//				
-//				List<ApiVo> filteredData = new ArrayList<>();
-//				for(ApiVo apiVo : data) {
-//					filteredData.add(apiVo);
-//				}
-//				
-//				List<String> rsrcNoList = new ArrayList<String>();
-//				for(int i=0; i<filteredData.size(); i++) {
-//					rsrcNoList.add(i, filteredData.get(i).getRsrcNo());
-//				}
-//				
-//				int totaldata = filteredData.size();
-//				int totalPages = (int) Math.ceil((double) totaldata / pageSize);
-//				
-//				int fromIndex = (page - 1) * pageSize;
-//				int toIndex = Math.min(page * pageSize, totaldata);
-//				List<ApiVo> dataPage = filteredData.subList(fromIndex, toIndex);
-//				
-//				spaceList.put("dataPage", dataPage);
-//				spaceList.put("currentPage", page);
-//				spaceList.put("totalPages", totalPages);
-//				spaceList.put("rsrcNoList", rsrcNoList);
-//			}
-//			
-//		} catch (Exception e) {
-////			System.err.println(e.getMessage());
-//		}
-//		return spaceList;
-//	}
 	
 	
 	
@@ -232,14 +169,11 @@ public class AdminSpaceService {
 	
 	
 	
-	
 	public Map<String, Object> showFilterdResult(List<String> rsrcNoGroup, String searchType, String searchWord, int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
 		List<SpaceDetailVo> data = new ArrayList<SpaceDetailVo>();
 		Map<String, Object> spaceList = new HashMap<String, Object>();
-		String str = null;
-		String str2 = null;
 		
 		try {
 			JSONObject obj = new JSONObject(); // Request parameter
@@ -265,13 +199,6 @@ public class AdminSpaceService {
 					e.printStackTrace();
 				}
 				
-//				List<SpaceDetailVo> each = spaceDetaiMetaVo.getData();
-//				for(int i=0; i<each.size(); i++) {
-//					if(each.get(i).getAddr() != null && !each.get(i).getAddr().isBlank()) {
-//						data.add(each.get(i));
-//					}
-//				}
-				
 				data = spaceDetaiMetaVo.getData();
 				
 				System.out.println("[showFilteredResult] 필터전 data.size() : " + data.size());
@@ -280,57 +207,35 @@ public class AdminSpaceService {
 
 				outer:
 				for(SpaceDetailVo spaceDetail : data) {
-				    switch (searchType) {
+				    String valueToCheck = null;
+
+				    switch(searchType) {
 			        case "rsrcNo":
-			        	System.out.println("시설물코드 필터");
-			            if(spaceDetail.getRsrcNo().contains(searchWord)) {
-			            	str2 = spaceDetail.getRsrcNo();
-			            	filteredData.add(spaceDetail);
-			            	continue outer;
-			            }
+			            valueToCheck = spaceDetail.getRsrcNo();
 			            break;
-
 			        case "rsrcClsNm":
-			        	System.out.println("종류 필터");
-			            if(spaceDetail.getRsrcClsNm().contains(searchWord)) {
-			            	filteredData.add(spaceDetail);
-			            	continue outer;
-			            }
+			            valueToCheck = spaceDetail.getRsrcClsNm();
 			            break;
-
 			        case "rsrcNm":
-			        	System.out.println("시설명 필터");
-			            if(spaceDetail.getRsrcNm().contains(searchWord)) {
-			            	filteredData.add(spaceDetail);
-			            	continue outer;
-			            }
+			            valueToCheck = spaceDetail.getRsrcNm();
 			            break;
-
 			        case "addr":
-			        	System.out.println("주소 필터");
-			            if(spaceDetail.getAddr().contains(searchWord)) {
-			            	System.out.println("해당값1: " + spaceDetail.getAddr());
-			            	str = spaceDetail.getAddr();
-			            	System.out.println("해당값2: " + str);
-			            	filteredData.add(spaceDetail);
-			            	continue outer;
-			            }
+			            valueToCheck = spaceDetail.getAddr();
 			            break;
-
 			        case "rsrcInstNm":
-			        	System.out.println("관리주체 필터");
-			            if(spaceDetail.getRsrcInstNm().contains(searchWord)) {
-			            	filteredData.add(spaceDetail);
-			            	continue outer;
-			            }
+			            valueToCheck = spaceDetail.getRsrcInstNm();
 			            break;
+				    }
+
+				    if (valueToCheck != null && valueToCheck.contains(searchWord)) {
+				        filteredData.add(spaceDetail);
+				        continue outer;
 				    }
 				}
 
 				data = filteredData;
 
 				System.out.println("[showFilteredResult] 필터후 data.size() : " + data.size());
-				
 				
 			} else {
 //				System.out.println("Response Error:");
@@ -350,16 +255,6 @@ public class AdminSpaceService {
 			spaceList.put("dataPage", dataPage);
 			spaceList.put("currentPage", page);
 			spaceList.put("totalPages", totalPages);
-			spaceList.put("str", str);
-			System.out.println("========================== ");
-			System.out.println("========================== ");
-			System.out.println("========================== ");
-			System.out.println("서비스 str : " + str);
-			System.out.println("========================== ");
-			System.out.println("========================== ");
-			System.out.println("========================== ");
-			spaceList.put("str2", str2);
-			System.out.println("서비스 str2 : " + str2);
 			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
