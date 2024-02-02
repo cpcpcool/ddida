@@ -62,6 +62,7 @@ public class QnaService {
 		return savedQna.toQnaDto();
 	}
 	
+	// 문의 수정
 	public QnaDto getQna(Long qnaNo) {
 		Qna qna = qnaRepository.findByQnaNo(qnaNo).get();
 		
@@ -73,6 +74,7 @@ public class QnaService {
 		return qnaDto;
 	}
 	
+	// 문의 삭제
 	public void deleteQna(Long qnaNo) {
 		qnaRepository.deleteById(qnaNo);
 	}

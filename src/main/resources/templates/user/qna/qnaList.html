@@ -97,8 +97,6 @@
 									aria-hidden="true">&laquo;</span>
 							</a></li>
 						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-							
-
 							<li class="page-item"><a th:if="${page != nowPage}"
 									th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
 									th:text="${page}" id="pagination" class="page-link">1</a></li>
