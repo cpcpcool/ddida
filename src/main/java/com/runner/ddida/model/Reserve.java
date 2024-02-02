@@ -17,6 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +31,8 @@ import lombok.ToString;
 @EntityListeners(AuditingEntityListener.class) // 변경될때 자동기록
 @NoArgsConstructor
 @Table(name = "reserve")
+@AllArgsConstructor
+@Builder
 public class Reserve {
 	
 	@Id
@@ -71,7 +75,7 @@ public class Reserve {
 	
 	@Column(name = "review")
 	private String review;
-
+	
 //	private String checkOut;
 	
 	@PrePersist
@@ -89,7 +93,6 @@ public class Reserve {
 		for (ReserveTime reserveTime : reserveTimes) {
 			reserveTime.setReserve(this);
 		}
-	}	
-	
+	}		
 }
 

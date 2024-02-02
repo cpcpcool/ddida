@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,11 +37,6 @@ import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.ReserveService;
-import com.runner.ddida.service.ReviewService;
-import com.runner.ddida.dto.ReserveDto;
-import com.runner.ddida.dto.ReviewDto;
-import com.runner.ddida.model.Reserve;
-import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.ApiVo;
 import com.runner.ddida.vo.SpaceDetailVo;
@@ -67,7 +63,7 @@ public class UserController {
 	private final MemberSignService memberSignService;
 	private final QnaService qnaService;
 	private final ReserveService reserveService;
-	private final ReviewService reviewService;
+//	private final ReviewService reviewService;
 
 	// 문의 목록
 	@GetMapping("/qna")
@@ -203,21 +199,17 @@ public class UserController {
 		
 		return "user/mypage/reserveDetail";
 	}
-	
+
 	// 후기 등록
-	@PostMapping("/mypage/reservation/{reserveId}")
-	public String addReview(ReviewDto reviewDto, @AuthenticationPrincipal Member user, @PathVariable(name = "reserveId") Long reserveId, Model model) {
+	@Transactional
+	@PutMapping("/mypage/reservation/review/{reserveId}")
+	public String addReview(@PathVariable(name = "reserveId") Long reserveId, @ModelAttribute(name = "review") String review) {
 		
-		reviewDto.setUserName(user.getUsername());
-		reviewDto.setReserveId(reserveId);
+		Reserve reserve = reserveService.findByReserveId(reserveId).get();
 		
-		ReviewDto review = reviewService.save(reviewDto);
+		reserve.setReview(review);
 		
-		model.addAttribute("review", review);
-		model.addAttribute("reserveId", reserveId);
-		
-		return "redirect:/mypage/reservation/" + review.getReserveId();
-		
+		return "redirect:/mypage/reservation";
 	}
 
 	@GetMapping("/mypage/userInfo")

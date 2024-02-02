@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+
 import com.runner.ddida.model.Reserve;
 
-@Repository
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	
     List<Reserve> findByRsrcNo(String rsrcNo);
@@ -38,4 +38,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	
 	/* 예약 상세 */
 	Optional<Reserve> findByReserveId(Long reserveId);
+	
 }
