@@ -2,7 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+
 <link href="/css/reset.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/layout.css" rel="stylesheet">
 <link rel="icon" href="/img/favicon.png">
@@ -46,16 +48,14 @@
 	<div class="wrap-content">
 		<div class="container">
 			<div>
-				<h3>예약이 완료되었습니다</h3>
+				<h4>예약이 완료되었습니다</h4>
 			</div>
-
-
 			<h4 class="mt-5 mb-2">예약 정보</h4>
 			<table class="table table-striped-color center">
 				<tbody>
 					<tr class="line">
 						<th scope="col" style="width: 17%">시설 이름</th>
-						<td scope="col">[[${data.spaceName}]]</td>
+						<td scope="col">[[${data.rsrcNm}]]</td>
 					</tr>
 					<tr class="line">
 						<th scope="row">이용 날짜</th>
@@ -63,7 +63,7 @@
 					</tr>
 					<tr class="line">
 						<th scope="row">이용 시간</th>
-						<td th:utext="${time}"></td>
+						<td th:utext="${useTimes}"></td>
 					</tr>
 					<tr class="line">
 						<th scope="row">예약 일자</th>
@@ -74,19 +74,24 @@
 						<td>[[${data.reserveFee}]] 원</td>
 					</tr>
 					<tr class="line">
-						<th scope="row">결제 방식</th>
-						<td>[[${data.reserveType}]]</td>
+						<th scope="row">계좌 번호</th>
+						<td>11111111111111</td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="mb-5" style="text-align: right;">
-					<input type="submit" value="예약 내역 조회">
+			<a th:href="@{/mypage/reservation}">
+				<button type="button" style="background-color: #37745B; width: 150px; height: 40px; color: #FFF">
+						예약 내역 조회
+				</button>	
+			</a>
 			</div>
 		</div>
 	</div>
 
 	<!-- Footer -->
 	<div th:replace="~{component/user/userFooter}"></div>
+	<script type="text/javascript" src="/js/gnb.js"></script>
 </body>
 </html>
 

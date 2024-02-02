@@ -1,8 +1,12 @@
 package com.runner.ddida.service;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -464,6 +468,8 @@ public class SpaceService {
 				}
 
 				List<ApiVo> data = apiMetaVo.getData();
+				
+				System.out.println(data);
 
 				List<ApiVo> filteredData = new ArrayList<>();
 				for (ApiVo apiVo : data) {
@@ -649,8 +655,14 @@ public class SpaceService {
 	
 	// 예약 중복 막기
 	@Transactional
-    public List<Reserve> findReserve() {
-        return reserveRepository.findAll();
+    public List<Reserve> findByRsrcNo(String rsrcNo) {
+		Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = dateFormat.format(today);
+		
+		List<Reserve> reserveList = reserveRepository.findByRsrcNoAndUseDateAfter(rsrcNo, dateString);
+	    
+        return reserveList;
     }
 	
 	@Transactional
@@ -658,6 +670,15 @@ public class SpaceService {
 		return reserveTimeRepository.findAll();
     }
 	
-	
+    public List<String> getAvailableTimes(String date, String rsrcNo) {
+		
+		List<String> useTime = reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
+
+		for(String use : useTime) {
+			System.out.println(use);
+		}
+		
+        return useTime;
+    }
 	
 }

@@ -15,15 +15,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class ReserveDto {
 	private String rsrcNm;
-	private String useStartDate;
-	private String useStartTime;
+	private String useDate;
+	private String useTime;
 	private int reserveFee;
 	private String userName;
-	private String userPhoneOne;
-	private String userPhoneTwo;
-	private String userPhoneThr;
-	private String userEmailOne;
-	private String userEmailTwo;
+	private String userPhone;
+	private String userEmail;
 	private Long userNo;
 	private String rsrcNo;
 }

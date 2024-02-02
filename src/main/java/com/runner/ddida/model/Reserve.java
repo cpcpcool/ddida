@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,8 +42,8 @@ public class Reserve {
 	@Column(name = "rsrc_no")
 	private String rsrcNo;
 	
-	@Column(name = "space_name")
-	private String spaceName;
+	@Column(name = "rsrc_nm")
+	private String rsrcNm;
 	
 	@Column(name = "use_date")
 	private String useDate;
@@ -55,9 +56,6 @@ public class Reserve {
 	
 	@Column(name = "reserve_fee")
 	private int reserveFee;
-	
-	@Column(name = "reserve_type")
-	private String reserveType;
 	
 	@Column(name = "phone")
 	private String phone;
