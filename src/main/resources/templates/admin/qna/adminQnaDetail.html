@@ -12,10 +12,10 @@
 <title>문의 상세</title>
 <style>
 h4 {float: left; margin-top: 20px; background-color: lightgray;}
-.inner-container {position: relative; margin-top: 70px; height: 500px;}
+.inner-container {position: relative; margin-top: 70px; height: 550px;}
 .basic-info {height: 25%; border-bottom: 3px solid #c1d2bf; font-size: medium}
 .qna-text {height: 55%; border-bottom: 3px solid #c1d2bf;}
-.btn-area {height: 20%;}
+.ans-area {height: 20%;}
 .aaa {padding: 0px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: large;}
 
 .answer-btn {float: left; border-radius: 20px; margin-top: 20px; margin-left: 30px; padding: 5px;
@@ -69,9 +69,9 @@ h4 {float: left; margin-top: 20px; background-color: lightgray;}
 							In dolores, facilis suscipit nihil, reprehenderit nulla perferendis cupiditate temporibus totam, aperiam consequatur! Esse ex voluptatum temporibus in excepturi! Asperiores blanditiis hic veniam assumenda. Vitae dolorem doloremque fugit earum distinctio?
 							Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo</div>
 						</div>
-						<div class="btn-area">
+						<div class="ans-area">
 							<form action="/admin/qna/1" method="get">
-								<input type="submit" name="answered" value="답변하기" class="answer-btn">
+								<input type="button" name="answered" value="답변하기" class="answer-btn">
 							</form>	
 						</div>
 					</div>
@@ -84,5 +84,26 @@ h4 {float: left; margin-top: 20px; background-color: lightgray;}
 	
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
+<!-- <script src="/js/adminQnaDetail.js"></script> -->
+<script>
+var reply = document.querySelector('.answer-btn');
+var ansArea = document.querySelector('.ans-area');
+var innerContainer = document.querySelector('.inner-container');
+
+reply.addEventListener('click', function() {
+    console.log('클릭됨');
+    const replySection = document.createElement('textarea');
+    replySection.rows = 3;
+    replySection.maxLength = 150;
+    
+    // inner-container의 너비를 replySection에 적용
+    replySection.style.width = innerContainer.clientWidth + 'px';
+
+    ansArea.appendChild(replySection);
+    ansArea.style.width = innerContainer.clientWidth + 'px'; // ansArea의 너비도 inner-container에 맞춰줘
+    reply.style.display = "none";
+});
+
+</script>
 </body>
 </html>
