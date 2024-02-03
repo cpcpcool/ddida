@@ -37,4 +37,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	/* 예약 상세 */
 	Optional<Reserve> findByReserveId(Long reserveId);
 	
+	List<Reserve> findUseTimeByReserveId(Long reserveId);
 }
