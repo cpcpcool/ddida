@@ -26,8 +26,8 @@ import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.repository.ReserveTimeRepository;
-import com.runner.ddida.vo.ApiMetaVo;
-import com.runner.ddida.vo.ApiVo;
+import com.runner.ddida.vo.SpaceMetaVo;
+import com.runner.ddida.vo.SpaceVo;
 import com.runner.ddida.vo.SpaceDetaiMetaVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
@@ -59,12 +59,12 @@ public class SpaceService {
 	private String clientSecretKey;
 
 	// 체육시설 기본 정보 api (서울 + 경기 + 인천)
-	public List<ApiVo> findDefault() {
-		List<ApiVo> spaceDefault = new ArrayList<>();
+	public List<SpaceVo> findDefault() {
+		List<SpaceVo> spaceDefault = new ArrayList<>();
 
-		List<ApiVo> seoulList = getSpaceList("11");
-		List<ApiVo> gyeonggiList = getSpaceList("41");
-		List<ApiVo> incheonList = getSpaceList("28");
+		List<SpaceVo> seoulList = getSpaceList("11");
+		List<SpaceVo> gyeonggiList = getSpaceList("41");
+		List<SpaceVo> incheonList = getSpaceList("28");
 
 		spaceDefault.addAll(seoulList);
 		spaceDefault.addAll(gyeonggiList);
@@ -74,12 +74,12 @@ public class SpaceService {
 
 	}
 
-	public List<ApiVo> getSpaceList(String ctpvCd) {
+	public List<SpaceVo> getSpaceList(String ctpvCd) {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
-		List<ApiVo> spaceDefault = new ArrayList<>();
+		List<SpaceVo> spaceDefault = new ArrayList<>();
 
 		try {
 			// req
@@ -106,7 +106,7 @@ public class SpaceService {
 
 				// jackson 라이브러리 사용 JSON데이터 자바객체로
 				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+				SpaceMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 
 				spaceDefault = apiMetaVo.getData().stream()
 						.filter(space -> !space.getRsrcNm().contains("테스트"))
@@ -124,7 +124,7 @@ public class SpaceService {
 		return spaceDefault;
 	}
 
-	public List<SpaceDetailVo> findDetailList(List<ApiVo> api) {
+	public List<SpaceDetailVo> findDetailList(List<SpaceVo> api) {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -172,10 +172,10 @@ public class SpaceService {
 	}
 
 	// 메인 추천시설
-	public List<ApiVo> recommendSpaceList() {
+	public List<SpaceVo> recommendSpaceList() {
 
 		// 데이터 필터링
-		List<ApiVo> recmdSpaceList = findDefault().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+		List<SpaceVo> recmdSpaceList = findDefault().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
 				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
 				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
 				.limit(12).collect(Collectors.toList());
@@ -187,10 +187,10 @@ public class SpaceService {
 	}
 
 	// 뛰맵 검색 필터
-	public List<ApiVo> searchMapByCriteria(String type, String pay, String region, String spaceNm) {
-		List<ApiVo> allData = findDefault();
+	public List<SpaceVo> searchMapByCriteria(String type, String pay, String region, String spaceNm) {
+		List<SpaceVo> allData = findDefault();
 
-		List<ApiVo> filteredList = allData.stream()
+		List<SpaceVo> filteredList = allData.stream()
 				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
 				.filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
 				.filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
@@ -209,10 +209,10 @@ public class SpaceService {
 	}
 
 	// 메인 검색 필터
-	public Page<ApiVo> searchMainByCriteria(String type, String pay, String region, String spaceNm, Pageable pageable) {
-		List<ApiVo> allData = findDefault();
+	public Page<SpaceVo> searchMainByCriteria(String type, String pay, String region, String spaceNm, Pageable pageable) {
+		List<SpaceVo> allData = findDefault();
 
-		List<ApiVo> filteredList = allData.stream()
+		List<SpaceVo> filteredList = allData.stream()
 				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
 				.filter(apiVo -> (region == null || region.isEmpty()) || apiVo.getAddr().contains(region))
 				.filter(apiVo -> (spaceNm == null || spaceNm.isEmpty()) || apiVo.getRsrcNm().contains(spaceNm))
@@ -230,7 +230,7 @@ public class SpaceService {
 		// List를 Page로 변환
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), filteredList.size());
-		Page<ApiVo> filteredListPage = new PageImpl<>(filteredList.subList(start, end), pageable, filteredList.size());
+		Page<SpaceVo> filteredListPage = new PageImpl<>(filteredList.subList(start, end), pageable, filteredList.size());
 
 		return filteredListPage;
 	}
@@ -261,18 +261,18 @@ public class SpaceService {
 				result = EntityUtils.toString(entity); // 정상 호출
 
 				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = null;
+				SpaceMetaVo apiMetaVo = null;
 
 				try {
-					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+					apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
 
-				List<ApiVo> data = apiMetaVo.getData();
+				List<SpaceVo> data = apiMetaVo.getData();
 
 				rsrcNoList = new ArrayList<String>();
-				for (ApiVo api : data)
+				for (SpaceVo api : data)
 					rsrcNoList.add(api.getRsrcNo());
 			}
 
@@ -283,11 +283,11 @@ public class SpaceService {
 	}
 
 	// 통합 검색예약 시설 리스트
-	public Page<ApiVo> findSpaceList(Pageable pageable) {
+	public Page<SpaceVo> findSpaceList(Pageable pageable) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
-		List<ApiVo> spaceList = findDefault();
+		List<SpaceVo> spaceList = findDefault();
 
 		int totalData = spaceList.size();
 		System.out.println("totalData: " + totalData);
@@ -295,7 +295,7 @@ public class SpaceService {
 		// List를 Page로 변환
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), spaceList.size());
-		Page<ApiVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
+		Page<SpaceVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
 
 		return spaceListPage;
 	}
@@ -345,12 +345,12 @@ public class SpaceService {
 	}
 
 
-	public List<ApiVo> mapSpaceList() {
+	public List<SpaceVo> mapSpaceList() {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
-		List<ApiVo> recmdSpaceList = new ArrayList<>();
+		List<SpaceVo> recmdSpaceList = new ArrayList<>();
 		try {
 			// req
 			JSONObject obj = new JSONObject();
@@ -378,11 +378,11 @@ public class SpaceService {
 
 				// jackson 라이브러리 사용 JSON데이터 자바객체로
 				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+				SpaceMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 
 				// 데이터 필터링
-				List<ApiVo> data = apiMetaVo.getData();
-				List<ApiVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+				List<SpaceVo> data = apiMetaVo.getData();
+				List<SpaceVo> filteredData = data.stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
 						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
 						.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty())
 						.filter(apiVO -> apiVO.getRsrcNm().length() <= 13).collect(Collectors.toList());

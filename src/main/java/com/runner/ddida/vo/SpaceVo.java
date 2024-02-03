@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class ApiVo {
+public class SpaceVo {
     private String rsrcNo;
     private String rsrcNm;
     private String zip;

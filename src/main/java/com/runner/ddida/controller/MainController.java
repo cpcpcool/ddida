@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.runner.ddida.model.Member;
 import com.runner.ddida.service.SpaceService;
-import com.runner.ddida.vo.ApiVo;
+import com.runner.ddida.vo.SpaceVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,7 @@ public class MainController {
 	@GetMapping("/")
 	public String main(Model model, @AuthenticationPrincipal Member member) {
 		// 추천 시설
-		List<ApiVo> recmdspaceList = new ArrayList<>();
+		List<SpaceVo> recmdspaceList = new ArrayList<>();
 		recmdspaceList = spaceService.recommendSpaceList();
 		model.addAttribute("data", recmdspaceList);
 		model.addAttribute("user", member);

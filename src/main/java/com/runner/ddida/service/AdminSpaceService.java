@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.runner.ddida.vo.ApiMetaVo;
-import com.runner.ddida.vo.ApiVo;
+import com.runner.ddida.vo.SpaceMetaVo;
+import com.runner.ddida.vo.SpaceVo;
 import com.runner.ddida.vo.SpaceDetaiMetaVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
@@ -70,18 +70,18 @@ public class AdminSpaceService {
 				result = EntityUtils.toString(entity); //정상 호출
 				
 				ObjectMapper objectMapper = new ObjectMapper();
-				ApiMetaVo apiMetaVo = null;
+				SpaceMetaVo apiMetaVo = null;
 				
 				try{
-					apiMetaVo = objectMapper.readValue(result.getBytes(), ApiMetaVo.class);
+					apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
 				
-				List<ApiVo> data = apiMetaVo.getData();
+				List<SpaceVo> data = apiMetaVo.getData();
 				
-				List<ApiVo> filteredData = new ArrayList<>();
-				for(ApiVo apiVo : data) {
+				List<SpaceVo> filteredData = new ArrayList<>();
+				for(SpaceVo apiVo : data) {
 					filteredData.add(apiVo);
 				}
 				

@@ -13,9 +13,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class ApiMetaVo {
+public class SpaceMetaVo {
     private String resultCode;
     private String resultMsg;
-    private List<ApiVo> data;
+    private List<SpaceVo> data;
     
 }

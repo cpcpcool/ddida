@@ -34,7 +34,7 @@ import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.ReserveService;
 import com.runner.ddida.service.SpaceService;
-import com.runner.ddida.vo.ApiVo;
+import com.runner.ddida.vo.SpaceVo;
 import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
@@ -262,7 +262,7 @@ public class UserController {
 	@GetMapping("/sports")
 	public String spaceList(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable) {
 		
-		Page<ApiVo> spaceList = spaceService.findSpaceList(pageable);
+		Page<SpaceVo> spaceList = spaceService.findSpaceList(pageable);
 		 	
 		// Open-api 개수제한 이슈로 보류
 //		List<SpaceDetailVo> freeYnList = spaceService.findDetailList(spaceService.findDefault());
@@ -290,7 +290,7 @@ public class UserController {
 							@RequestParam(name = "region", required = false) String region,
 							@RequestParam(name = "spaceNm", required = false) String spaceNm) {
 		
-		Page<ApiVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, pageable);
+		Page<SpaceVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, pageable);
 		model.addAttribute("type", type);
 		model.addAttribute("pay", pay);
 		model.addAttribute("spaceNm", spaceNm);

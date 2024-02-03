@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.SpaceService;
-import com.runner.ddida.vo.ApiVo;
+import com.runner.ddida.vo.SpaceVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ public class MapController {
 
 	@GetMapping("/ddimap")
 	public String ddimap(Model model, Pageable pageable) {
-		List<ApiVo> recmdspcaeList = new ArrayList<>();
+		List<SpaceVo> recmdspcaeList = new ArrayList<>();
 		recmdspcaeList = spaceService.findDefault();
 		model.addAttribute("data", recmdspcaeList);
 
@@ -45,7 +45,7 @@ public class MapController {
 		model.addAttribute("region", region);
 		model.addAttribute("spaceNm", spaceNm);
 		
-		List<ApiVo> searchResults = spaceService.searchMapByCriteria(type, pay, region, spaceNm);
+		List<SpaceVo> searchResults = spaceService.searchMapByCriteria(type, pay, region, spaceNm);
 		model.addAttribute("data", searchResults);
 
 		return "user/map/spaceMap";
