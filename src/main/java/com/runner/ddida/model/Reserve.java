@@ -62,7 +62,7 @@ public class Reserve {
 	private int reserveFee;
 		
 	@Column(name = "reserve_type")
-	private int reserveType;
+	private String reserveType;
 	
 	@Column(name = "phone")
 	private String phone;
