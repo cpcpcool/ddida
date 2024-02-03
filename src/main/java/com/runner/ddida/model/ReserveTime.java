@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +19,11 @@ import lombok.ToString;
 
 
 @ToString
+@EqualsAndHashCode
 @Entity
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class) // 변경될때 자동기록
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Table(name = "reserve_time")
 public class ReserveTime {

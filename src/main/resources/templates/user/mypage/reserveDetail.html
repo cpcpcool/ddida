@@ -85,7 +85,7 @@
 					<h4 class="review mt-5" style="width: fit-content">이용 후기</h4>
 					<form id="reviewAddForm"
 						th:action="@{/mypage/reservation/review/{reserveId}(reserveId=${reserve.reserveId})}"
-						method="post" enctype="multipart/form-data" class="mt-3">
+						method="post" enctype="multipart/form-data" class=t-3">
 						<input type="hidden" name="_method" value="put" />
 						<input type="hidden" name="reserveId" th:value="${reserve.reserveId}" />
 						<textarea id="review" name="review" class="description form-control" rows="10"></textarea>
