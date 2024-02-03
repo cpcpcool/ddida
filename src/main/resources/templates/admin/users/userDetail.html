@@ -147,11 +147,14 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 														</tr>
 													</thead>
 													<tbody>
-													  <th:block th:each="row : ${arr}">
-													    <tr>
-													      <td th:each="e : ${row}" th:text="${e}" class="list-row"></td>
-													    </tr>
-													  </th:block>
+														<th:block th:each="qna : ${data}">
+														    <tr>
+														        <td th:text="${qna.qnaNo}" class="list-row"></td>
+														        <td th:text="${qna.title}" class="list-row"></td>
+														        <td th:text="${qna.qnaDate}" class="list-row"></td>
+														        <td th:text="${qna.qnaSecret}" class="list-row"></td>
+														    </tr>
+														</th:block>
 													</tbody>
 												</table>
 											</div>

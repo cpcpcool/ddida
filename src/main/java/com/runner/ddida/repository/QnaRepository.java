@@ -1,5 +1,6 @@
 package com.runner.ddida.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -38,4 +39,17 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 	@Modifying
 	@Query(value = "update qna set qna_view = qna_view + 1 where qna_no = :qnaNo", nativeQuery = true)
 	Integer viewcnt(@Param("qnaNo") Long qnaNo);
+	
+//	@Query(value = "SELECT qna.*\r\n"
+//	        + "FROM member\r\n"
+//	        + "JOIN qna ON member.username = qna.username\r\n"
+//	        + "WHERE member.user_no = :userNo;\r\n"
+//	        + "" , nativeQuery = true)
+//	List<Qna> findByUserNo(@Param("userNo") Long userNo);
+	
+	@Query(value = "SELECT qna.* " +
+            "FROM qna " +
+            "WHERE qna.username IN (SELECT member.username FROM member WHERE member.user_no = :userNo);",
+    nativeQuery = true)
+	List<Qna> findByUserNo(@Param("userNo") Long userNo);
 }

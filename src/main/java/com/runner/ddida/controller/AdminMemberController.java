@@ -1,5 +1,7 @@
 package com.runner.ddida.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.model.Member;
+import com.runner.ddida.model.Qna;
 import com.runner.ddida.repository.MemberRepository;
 import com.runner.ddida.service.MemberService;
+import com.runner.ddida.service.QnaService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminMemberController {
 
 	private final MemberService memberService;
-	private final MemberRepository memberRepository;
+	private final QnaService qnaService;
 
 	@GetMapping("/users")
 	public String userList(
@@ -33,8 +37,11 @@ public class AdminMemberController {
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
 		
+		System.out.println("분류 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
+		
 		// 검색
-		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);
+		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);;
 		
 		// 페이징
 		// page index 0부터 시작
@@ -53,18 +60,20 @@ public class AdminMemberController {
 	}
 
 	@GetMapping("/users/{userNo}")
-	public String userDetail(@PathVariable(name = "userNo") Long userNo, Model model) {
+	public String userDetail(@PathVariable(name = "userNo") Long userNo, Model model,
+			@PageableDefault(page = 0, size = 10, sort = "userNo", direction = Sort.Direction.DESC) Pageable pageable) {
 		Member member = memberService.findByUserNo(userNo).get();
-		int[][] arr = new int[25][4];
-		for(int i=1; i<25; i++) {
-			for(int j=0; j<=3; j++) {
-				arr[i-1][j] = i*(j+1);
-				System.out.printf("%d  ", arr[i-1][j]);
-			}
-			System.out.println("");
+		List<Qna> qnaAll = qnaService.findByUserNo(userNo);
+		
+		for(Qna q: qnaAll) {
+			System.out.println(q.getQnaNo());
+			System.out.println(q.getTitle());
+			System.out.println(q.getQnaDate());
+			System.out.println(q.getDescription());
 		}
-		model.addAttribute("arr", arr);
+		model.addAttribute("data", qnaAll);
 		model.addAttribute("user", member);
 		return "admin/users/userDetail";
 	}
+	
 }

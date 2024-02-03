@@ -1,5 +1,6 @@
 package com.runner.ddida.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -77,6 +78,10 @@ public class QnaService {
 	// 문의 삭제
 	public void deleteQna(Long qnaNo) {
 		qnaRepository.deleteById(qnaNo);
+	}
+	
+	public List<Qna> findByUserNo(Long userNo) {
+		return qnaRepository.findByUserNo(userNo);
 	}
 	
 }
