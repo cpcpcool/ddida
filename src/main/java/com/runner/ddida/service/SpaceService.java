@@ -59,7 +59,7 @@ public class SpaceService {
 	private String clientSecretKey;
 
 	// 체육시설 기본 정보 api (서울 + 경기 + 인천)
-	public List<SpaceVo> findDefault() {
+	public List<SpaceVo> findDefaultList() {
 		List<SpaceVo> spaceDefault = new ArrayList<>();
 
 		List<SpaceVo> seoulList = getSpaceList("11");
@@ -124,6 +124,7 @@ public class SpaceService {
 		return spaceDefault;
 	}
 
+	// 리스트 상세정보 리스트 호출
 	public List<SpaceDetailVo> findDetailList(List<SpaceVo> api) {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
@@ -175,7 +176,7 @@ public class SpaceService {
 	public List<SpaceVo> recommendSpaceList() {
 
 		// 데이터 필터링
-		List<SpaceVo> recmdSpaceList = findDefault().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
+		List<SpaceVo> recmdSpaceList = findDefaultList().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
 				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
 				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
 				.limit(12).collect(Collectors.toList());
@@ -188,7 +189,7 @@ public class SpaceService {
 
 	// 뛰맵 검색 필터
 	public List<SpaceVo> searchMapByCriteria(String type, String pay, String region, String spaceNm) {
-		List<SpaceVo> allData = findDefault();
+		List<SpaceVo> allData = findDefaultList();
 
 		List<SpaceVo> filteredList = allData.stream()
 				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
@@ -210,7 +211,7 @@ public class SpaceService {
 
 	// 메인 검색 필터
 	public Page<SpaceVo> searchMainByCriteria(String type, String pay, String region, String spaceNm, Pageable pageable) {
-		List<SpaceVo> allData = findDefault();
+		List<SpaceVo> allData = findDefaultList();
 
 		List<SpaceVo> filteredList = allData.stream()
 				.filter(apiVo -> (type == null || type.isEmpty()) || apiVo.getRsrcNm().contains(type))
@@ -287,7 +288,7 @@ public class SpaceService {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
 
-		List<SpaceVo> spaceList = findDefault();
+		List<SpaceVo> spaceList = findDefaultList();
 
 		int totalData = spaceList.size();
 		System.out.println("totalData: " + totalData);

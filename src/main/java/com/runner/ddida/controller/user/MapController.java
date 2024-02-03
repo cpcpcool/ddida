@@ -1,4 +1,4 @@
-package com.runner.ddida.controller;
+package com.runner.ddida.controller.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class MapController {
 	@GetMapping("/ddimap")
 	public String ddimap(Model model, Pageable pageable) {
 		List<SpaceVo> recmdspcaeList = new ArrayList<>();
-		recmdspcaeList = spaceService.findDefault();
+		recmdspcaeList = spaceService.findDefaultList();
 		model.addAttribute("data", recmdspcaeList);
 
 		return "user/map/spaceMap";

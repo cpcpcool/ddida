@@ -34,6 +34,12 @@
 		.bottom-line {
 			border-bottom: 2px solid #37745B;
 		}
+		
+		textarea {
+			resize: none;
+			height: 120px;
+			margin-bottom: 50px;
+		}
 	</style>
 </head>
 
@@ -91,10 +97,6 @@
 					</tbody>
 				</table>
 
-				<!--				<div>[[${now}]]</div>
-				<div>[[${useDate}]]</div>
-				<div>[[${checkOut}]]</div>-->
-
 				<th:block th:if="${checkOut} and ${reserve.review} == null">
 					<h4 class="review mt-5" style="width: fit-content">이용 후기</h4>
 					<form id="reviewAddForm"
@@ -102,7 +104,7 @@
 						method="post" enctype="multipart/form-data" class="t-3">
 						<input type="hidden" name="_method" value="put" />
 						<input type="hidden" name="reserveId" th:value="${reserve.reserveId}" />
-						<textarea id="review" name="review" class="description form-control" rows="10"></textarea>
+						<textarea id="review" name="review" class="description form-control" rows="10" ></textarea>
 						<div class="d-flex justify-content-end mt-1">
 							<button id="add-btn" type="submit" class="btn btn-primary mt-3"
 								onclick="mypage/reservation/reserveDetail">등록하기</button>

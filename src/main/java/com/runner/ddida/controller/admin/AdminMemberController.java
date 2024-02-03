@@ -1,4 +1,4 @@
-package com.runner.ddida.controller;
+package com.runner.ddida.controller.admin;
 
 import java.util.List;
 
