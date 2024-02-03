@@ -27,7 +27,8 @@ public class AdminController {
 	
 	private final AdminSpaceService adminSpaceservice;
 	private final SpaceService spaceService;
-
+	
+	
 	@GetMapping("/qna")
 	public String adminQnaList(Model model, HttpSession session) {
 
