@@ -4,10 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.runner.ddida.model.Member;
 
-import ch.qos.logback.core.encoder.Encoder;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
