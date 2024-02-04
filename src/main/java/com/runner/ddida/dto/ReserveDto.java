@@ -1,9 +1,6 @@
 package com.runner.ddida.dto;
 
-import java.util.List;
-
 import com.runner.ddida.model.Reserve;
-import com.runner.ddida.model.ReserveTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

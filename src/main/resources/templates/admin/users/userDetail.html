@@ -11,7 +11,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3&libraries=services,clusterer,drawing"></script>
 <title>시설 상세</title>
 <style>
-h4 {float: left; margin-top: 20px; background-color: lightgray;}
+h4 {float: left; margin-top: 20px;}
 .inner-container {position: relative; margin-top: 70px; padding: 0px; height: 500px;}
 .desc-table {position: relative; left: 20px; clear: both; margin-top: 20px; margin-left: 20px; max-width: 45%; padding: 0px; font-size: medium;}
 .td {border-right: 3px solid #c1d2bf; width: auto; line-height: auto; min-width: 100px;}
@@ -41,7 +41,7 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-12">
-					<h4>회원 정보 상세2222</h4>
+					<h4>회원 정보 상세</h4>
 					<div class=inner-container style="border: solid 5px #37745b">
 						<div>
 							<table class="desc-table">
@@ -130,7 +130,7 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 						</div>
 						
 						<div class="list-container">
-							<div style="width: 100%; align-items: center; border: 1px solid black;">
+							<div style="width: 100%; align-items: center;">
 								<div id="carouselExample" class="carousel slide" style="width: 100%;">
 									<div class="carousel-inner" style="padding-left: 55px; padding-right: 10px; padding-top: 30px;">
 									    <div class="carousel-item active">
@@ -140,13 +140,13 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 													<thead>
 														<tr>
 															<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
-															<th scope="col" class="th">글번호</th>
-															<th scope="col" class="th">제목</th>
-															<th scope="col" class="th">작성일자</th>
-															<th scope="col" class="th">답변여부</th>
+															<th scope="col" class="th" style="width: 10%;">글번호</th>
+															<th scope="col" class="th" style="width: 50%;">제목</th>
+															<th scope="col" class="th" style="width: 25%;">작성일자</th>
+															<th scope="col" class="th" style="width: 15%;">답변여부</th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody style="text-align: center;">
 														<th:block th:each="qna : ${data}">
 														    <tr>
 														        <td th:text="${qna.qnaNo}" class="list-row"></td>
@@ -206,19 +206,23 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 											</div>
 									    </div>
 									  </div>
+									  
+									  <!--
 									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"
-									  		style="border:1px solid red; position: absolute; top: 0px; height: 200px;">
+									  		style="position: absolute; top: 0px; height: 200px;">
 									    <span class="carousel-control-prev-icon" aria-hidden="true" 
 									    	style="width: 20px; background-color: black; margin-left: -40px;"></span>
 									    <span class="visually-hidden">Previous</span>
 									  </button>
 									  
 									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"
-									  style="border:1px solid red; position: absolute; top: 0px; height: 200px;">
+									  style="position: absolute; top: 0px; height: 200px;">
 									    <span class="carousel-control-next-icon" aria-hidden="true" 
 									    	style="width: 20px; background-color: black; margin-right: -40px;"></span>
 									    <span class="visually-hidden">Next</span>
 									  </button>
+									  -->
+									  
 									</div>
 								</div>
 						</div>

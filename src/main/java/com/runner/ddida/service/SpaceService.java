@@ -34,6 +34,10 @@ import com.runner.ddida.vo.SpaceVo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 박재용
+ */
+
 @Service
 @RequiredArgsConstructor
 public class SpaceService {

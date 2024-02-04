@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
-import com.runner.ddida.repository.MemberRepository;
 import com.runner.ddida.service.MemberService;
 import com.runner.ddida.service.QnaService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/admin")
 public class AdminMemberController {
 
@@ -59,21 +56,14 @@ public class AdminMemberController {
 		return "admin/users/userList";
 	}
 
+	// 24.02.04 변경
 	@GetMapping("/users/{userNo}")
 	public String userDetail(@PathVariable(name = "userNo") Long userNo, Model model,
 			@PageableDefault(page = 0, size = 10, sort = "userNo", direction = Sort.Direction.DESC) Pageable pageable) {
 		Member member = memberService.findByUserNo(userNo).get();
 		List<Qna> qnaAll = qnaService.findByUserNo(userNo);
-		
-		for(Qna q: qnaAll) {
-			System.out.println(q.getQnaNo());
-			System.out.println(q.getTitle());
-			System.out.println(q.getQnaDate());
-			System.out.println(q.getDescription());
-		}
 		model.addAttribute("data", qnaAll);
 		model.addAttribute("user", member);
 		return "admin/users/userDetail";
 	}
-	
 }

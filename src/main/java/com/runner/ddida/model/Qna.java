@@ -29,7 +29,10 @@ public class Qna {
 	private Long qnaNo;
 	
 	@Column(name = "username")
-	private String userName;
+	private String username;
+	
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "title")
 	private String title;
@@ -49,7 +52,8 @@ public class Qna {
 	public QnaDto toQnaDto() {
 		return QnaDto.builder()
 				.qnaNo(qnaNo)
-				.userName(userName)
+				.username(username)
+				.name(name)
 				.title(title)
 				.description(description)
 				.qnaDate(LocalDate.now())

@@ -11,7 +11,6 @@ import com.runner.ddida.service.MemberSignService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 박재용
@@ -82,14 +81,10 @@ public class MemberController {
 		return "login";
 	}
 
-	@GetMapping("/login/manage")
-	public String adminLogin() {
-		return "admin/adminLogin";
+	@GetMapping("/access/denied")
+	public String loginFail() {
+		
+		return "pop/administrator";
 	}
 	
-	@PostMapping("/login/manage")
-	public String adminLoginPost() {
-		return "admin/adminQnaList";
-	}
-
 }

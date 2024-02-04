@@ -1,6 +1,5 @@
 package com.runner.ddida.controller.user;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -29,24 +28,20 @@ import com.runner.ddida.service.ReserveService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author 박재용
- */
-
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 public class MypageController {
 
+	private final MemberSignService memberSignService;
+	private final ReserveService reserveService;
+
 	@ModelAttribute("user")
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
 	}
-
-	private final MemberSignService memberSignService;
-	private final ReserveService reserveService;
-
+	
 	// 예약 내역
 	@GetMapping("/mypage/reservation")
 	public String reserveList(
@@ -63,14 +58,6 @@ public class MypageController {
 			reserveList = reserveService.findByRsrcNmContaining(user.getUserNo(), searchKeyword, pageable);
 		} else if (searchKeyword != null && searchType.equals("useDate")) {
 			reserveList = reserveService.findByUseDateContaining(user.getUserNo(), searchKeyword, pageable);
-		}
-
-		for (Reserve reserve : reserveList) {
-			LocalDate now = LocalDate.now();
-			LocalDate useDate = LocalDate.parse(reserve.getUseDate());
-			if(now.isAfter(useDate)) {
-				reserveService.checkout(reserve.getReserveId());
-			}
 		}
 
 		int nowPage = reserveList.getPageable().getPageNumber() + 1;
@@ -90,7 +77,6 @@ public class MypageController {
 	public String reserveDetail(@PathVariable(name = "reserveId") Long reserveId, Model model) {
 		Reserve reserveDetail = reserveService.findByReserveId(reserveId).get();
 
-		// 이용 예약 시간
 		List<String> useTimeList = reserveService.findUseTimeByReserveId(reserveId);
 
 		model.addAttribute("reserve", reserveDetail);
@@ -133,6 +119,7 @@ public class MypageController {
 		return "user/mypage/editPassword";
 	}
 
+	// 비밀번호 체크 및 변경
 	@PostMapping("/mypage/userInfo/edit")
 	public String editPasswordPost(@AuthenticationPrincipal Member member,
 			@RequestParam(name = "password") String currentPassword,
@@ -141,12 +128,10 @@ public class MypageController {
 		log.info(": {}", currentPassword);
 		log.info(": {}", newPassword);
 
-		// 비밀번호 체크 및 변경
 		if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
 			redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
 			return "redirect:/mypage/userInfo/edit";
 		} else {
-			// 비밀번호 변경
 			memberSignService.updatePassword(member.getUsername(), newPassword);
 			redirectAttributes.addFlashAttribute("passwordChangeSuccess", "비밀번호가 변경되었습니다. 다시 로그인 해주세요");
 			return "redirect:/logout";
