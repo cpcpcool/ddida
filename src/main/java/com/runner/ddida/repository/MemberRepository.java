@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.runner.ddida.model.Member;
-import java.util.List;
 
 
 public interface MemberRepository extends JpaRepository<Member, Long> {

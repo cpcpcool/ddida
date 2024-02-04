@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
 
@@ -25,13 +24,14 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/", "/join/**", "/newAdmin", "/login/**", "/logout/**", "/success", "/sports", "/ddimap/**").permitAll()
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**").permitAll()
-						.requestMatchers("/admin/login").permitAll() // 별도의 관리자 로그인 페이지 허용
+						.requestMatchers("/admin/login", "/access/denied").permitAll() // 별도의 관리자 로그인 페이지 허용
 						.requestMatchers("/sports/{rsrcNo}").permitAll()
-						/* .requestMatchers("/sports/{rsrcNo}/**").hasRole("USER") */
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 					 	.anyRequest().authenticated()) 
+				
 				.exceptionHandling(error -> error
-						.accessDeniedPage("/login/admin"))
+						.accessDeniedPage("/access/denied"))
+				
 				.formLogin(login -> login
 						.loginPage("/login")
 						.loginProcessingUrl("/login")
@@ -60,14 +60,5 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
-
-//	//관리자계정 생성
-//	@Autowired
-//	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//			.withUser("admin")
-//			.password("{bcrypt}1111")
-//			.roles("ADMIN");
-//	}  
 
 }

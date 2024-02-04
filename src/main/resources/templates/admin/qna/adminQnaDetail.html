@@ -11,7 +11,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=531e4fe291bd398c5b0d68957f0200d3&libraries=services,clusterer,drawing"></script>
 <title>문의 상세</title>
 <style>
-h4 {float: left; margin-top: 20px; background-color: lightgray;}
+h4 {float: left; margin-top: 20px;}
 .inner-container {position: relative; margin-top: 70px; height: 550px;}
 .basic-info {height: 25%; border-bottom: 3px solid #c1d2bf; font-size: medium}
 .qna-text {height: 55%; border-bottom: 3px solid #c1d2bf;}
@@ -39,35 +39,31 @@ h4 {float: left; margin-top: 20px; background-color: lightgray;}
 							<div style="padding-left: 20px; margin-top: 10px; clear: right;">
 								<div style="float: left; min-width: 100px; text-align: left;">제목</div>
 							</div>
-							<div class="aaa">
-								아차산수지체육공원 테니스코트 이용 관련    아차산수지체육공원 테니스코트 이용 관련    아차산수지체육공원 테니스코트 이용 관련
-							</div>
+							<div class="aaa">[[${qnaDetail.title}]]</div>
 							<div style="float: left; padding-left: 20px;">
 								<div style="margin: 10px 0 10px 0;">
 									<div style="display: inline-block; min-width: 100px; text-align: left;">아이디</div>
-									<span>hongkd123</span>
+									<span>[[${qnaDetail.userName}]]</span>
 								</div>
 								<div style="text-align: left;">
 									<div style="display: inline-block; min-width: 100px;">이름</div>
-									<span>홍길동</span>
+									<span>[[${qnaDetail.name}]]</span>
 								</div>
 							</div>
 							<div style="float: right; text-align: left; margin-right: 400px; margin-top: 9px;">
 								<div>
 									<div style="display: inline-block; min-width: 100px;">작성일자</div>
-									<span>2024-01-01 14:38:28</span>
+									<span>[[${qnaDetail.qnaDate}]]</span>
 								</div>
 								<div style="margin-top: 10px; ">
 									<div style="display: inline-block; min-width: 100px;">조회수</div>
-									<span>3</span>
+									<span>[[${qnaDetail.qnaView}]]</span>
 								</div>
 							</div>
 						</div>
 						
 						<div class="qna-text">
-							<div style="padding: 20px; text-align: left;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi ab necessitatibus ad sunt, aut ut, natus dolorum reiciendis fugit temporibus fugiat ex odit quo. Animi laudantium aut laborum deserunt odio.
-							In dolores, facilis suscipit nihil, reprehenderit nulla perferendis cupiditate temporibus totam, aperiam consequatur! Esse ex voluptatum temporibus in excepturi! Asperiores blanditiis hic veniam assumenda. Vitae dolorem doloremque fugit earum distinctio?
-							Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo Vero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit laboVero ullam veritatis nam, dolorum perspiciatis qui. Voluptatem aperiam velit labo</div>
+							<div style="padding: 20px; text-align: left;">[[${qnaDetail.description}]]</div>
 						</div>
 						<div class="ans-area">
 							<form action="/admin/qna/1" method="get">
@@ -84,7 +80,6 @@ h4 {float: left; margin-top: 20px; background-color: lightgray;}
 	
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
-<!-- <script src="/js/adminQnaDetail.js"></script> -->
 <script>
 var reply = document.querySelector('.answer-btn');
 var ansArea = document.querySelector('.ans-area');

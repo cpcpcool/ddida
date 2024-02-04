@@ -77,6 +77,9 @@ public class Reserve {
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "checkout")
+	private Integer checkout;
+	
 	@Column(name = "review")
 	private String review;
 	
@@ -108,6 +111,7 @@ public class Reserve {
 				.review(review)
 				.reserveType(reserveType)
 				.reserveFee(reserveFee)
+				.checkout(0)
 				.build();
 	}
 	

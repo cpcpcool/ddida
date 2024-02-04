@@ -37,16 +37,15 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 				<div class="col-md-12">
 				    <form class="searchTool h-10">
 				    	<div class="input-group">
-				            <select class="dropdown form-select form-select-sm" aria-label="Small select example" style="border-radius: 15px;">
-				                <option value="userId" selected>번호</option>
-				                <option value="userName" >제목</option>
-				                <option value="qnaCount">작성자</option>
-				                <option value="reviewCount">아이디</option>
-				                <option value="usageCount">작성일</option>
-				                <option value="joinDate">답변여부</option>
-				                <option value="authority">조회수</option>
+				            <select class="dropdown form-select form-select-sm" aria-label="Small select example" 
+				            	name="searchType" style="border-radius: 15px;">
+				                <!--<option value="qnaNo" selected>번호</option>-->
+				                <option value="title" selected>제목</option>
+				                <!--<option value="userName">작성자</option>-->
+				                <option value="userName">아이디</option>
+				                <option value="qnaDate">작성일</option>
 				            </select>
-         				    <input type="search" style="border-radius: 15px;">
+         				    <input type="search" name="searchKeyword" style="border-radius: 15px;">
             				<button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
             			</div>
        				</form>
@@ -59,22 +58,23 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 								<th scope="col" class="th">제목</th>
 								<th scope="col" class="th">작성자</th>
 								<th scope="col" class="th">아이디</th>
-								<th scope="col" class="th">작성일</th>
-								<th scope="col" class="th">답변여부</th>
+								<!--<th scope="col" class="th">답변여부</th>-->
 								<th scope="col" class="th">조회수</th>
 							</tr>
 						</thead>
-						<tbody>
-							<!-- 
-                            <tr th:each="row, rowStat : ${arr}" th:limit="10">
-						        <td th:each="e : ${row}" th:text="${e}"></td>
-						    </tr>
-						     -->
-						     
-						    <tr th:each="row, rowStat : ${arr}" th:limit="10" onclick="navigateToFacilityDetailPage('http://localhost:8080/admin/qna/1')">
-						        <td th:each="e : ${row}" th:text="${e}"></td>
-						    </tr>
-                            
+						<tbody style="font-size: medium;">
+                            <!--<th:block th:each="qna : ${list}">-->
+							    <tr th:each="qna : ${list}">
+							        <td th:text="${qna.qnaNo}" class="list-row"></td>
+							        <td class="list-row"><a th:href="@{/admin/qna/{qnaNo}(qnaNo=${qna.qnaNo})}">
+										[[${qna.title}]]</a></td>
+							        <!--<td th:text="${qna.userName}" class="list-row"></td>-->
+							        <td th:text="${qna.userName}" class="list-row"></td>
+							        <td th:text="${qna.qnaDate}" class="list-row"></td>
+							        <!--<td th:text="${qna.qnaSecret}" class="list-row"></td>-->
+							        <td th:text="${qna.qnaView}" class="list-row"></td>
+							    </tr>
+							<!--</th:block>-->
 						</tbody>
 					</table>
 					 

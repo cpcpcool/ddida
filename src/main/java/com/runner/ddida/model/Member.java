@@ -29,6 +29,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * @author 박재용
+ */
+
 @ToString
 @EqualsAndHashCode
 @Entity
@@ -40,9 +44,8 @@ import lombok.ToString;
 @Table(name = "member")
 public class Member implements UserDetails {
 
-	/**
-	 * @author 박재용
-	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

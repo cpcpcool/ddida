@@ -5,17 +5,19 @@ values
 ('user3', '{bcrypt}$2a$10$xkQgdtS35jgYPIyRxKvt6OHWIi2owMHVpIPFVaOQM3DCX0ZWjNRcK', '노윤건', 'USER', '010-1234-0987', 'nyg-6789@gmail.com', '2020-02-12'),
 ('admin', '{bcrypt}$2a$10$xkQgdtS35jgYPIyRxKvt6OHWIi2owMHVpIPFVaOQM3DCX0ZWjNRcK', '-', 'ADMIN', '-', '-', '2022-02-15');
 
-insert into reserve (user_no, rsrc_no, rsrc_nm, use_date, reserve_date, reserve_time, reserve_fee, reserve_type, phone, email, name, review)
+insert into reserve (user_no, rsrc_no, rsrc_nm, use_date, reserve_date, reserve_time, reserve_fee, reserve_type, phone, email, name, review, checkout)
 values
-(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-02', '2024-02-01', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용', '근처에 편의점이 가까워서 좋았어요.'),
-(2, 'CF02P0645947', '대체육관', '2024-02-03', '2024-02-02', '14:30:02', '개별 문의', '업체 문의', '010-1234-5678', 'kmmnnnh@gmail.com', '김민혜', '실내가 쾌적해요!');
+(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-02', '2024-02-01', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용', '근처에 편의점이 가까워서 좋았어요.', 0),
+(2, 'CF02P0645947', '대체육관', '2024-02-03', '2024-02-02', '14:30:02', '개별 문의', '업체 문의', '010-1234-5678', 'kmmnnnh@gmail.com', '김민혜', '실내가 쾌적해요!', 0),
+(2, 'CF02P0645947', '대체육관', '2024-02-05', '2024-02-02', '14:30:02', '개별 문의', '업체 문의', '010-1234-5678', 'kmmnnnh@gmail.com', '김민혜', '실내가 쾌적해요!', 0),
+(2, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-03', '2024-02-01', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'kmmnnnh@gmail.com', '김민혜',  '근처에 편의점이 가까워서 좋았어요.', 0);
 
-insert into reserve (user_no, rsrc_no, rsrc_nm, use_date, reserve_date, reserve_time, reserve_fee, reserve_type, phone, email, name)
+insert into reserve (user_no, rsrc_no, rsrc_nm, use_date, reserve_date, reserve_time, reserve_fee, reserve_type, phone, email, name, checkout)
 values
-(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-03', '2024-02-01', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용'),
-(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-07', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용'),
-(3, 'CF02P0645947', '대체육관', '2024-02-11', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'nyg-6789@gmail.com', '노윤건'),
-(3, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-10', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'nyg-6789@gmail.com', '노윤건');
+(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-03', '2024-02-01', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용', 0),
+(1, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-07', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'cpcpcoole@gmail.com', '박재용', 0),
+(3, 'CF02P0645947', '대체육관', '2024-02-11', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'nyg-6789@gmail.com', '노윤건', 0),
+(4, 'EH22N4422987', '테니스장(양평누리체육공원)', '2024-02-10', '2024-02-02', '12:40:16', '개별 문의', '업체 문의', '010-1234-5678', 'nyg-6789@gmail.com', '노윤건', 0);
 
 insert into reserve_time (reserve_id, use_time)
 values
@@ -37,8 +39,8 @@ values
 (6, '19:00 ~ 20:00'),
 (6, '20:00 ~ 21:00');
 
-insert into qna (username, title, description, qna_date, qna_view, qna_secret)
+insert into qna (username, name, title, description, qna_date, qna_view, qna_secret)
 values
-('user1', '체육시설 이용 문의', '체육시설 이용 관련 문의 내용입니다.', '2022-03-05 10:30:00', 15, 0),
-('user2', '결제 문의', '결제 관련 문의 내용입니다.', '2022-03-08 14:45:00', 20, 1),
-('user1', '이용 후기 공유', '체육시설 이용 후기입니다.', '2022-03-12 19:00:00', 25, 0);
+('user2', '김민혜', '체육시설 이용 문의', '체육시설 이용 관련 문의 내용입니다.', '2022-03-05 10:30:00', 15, 0),
+('user3', '노윤건', '결제 문의', '결제 관련 문의 내용입니다.', '2022-03-08 14:45:00', 20, 1),
+('user1', '박재용', '이용 후기 공유', '체육시설 이용 후기입니다.', '2022-03-12 19:00:00', 25, 0);

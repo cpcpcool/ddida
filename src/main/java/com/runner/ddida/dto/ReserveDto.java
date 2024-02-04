@@ -1,9 +1,6 @@
 package com.runner.ddida.dto;
 
-import java.util.List;
-
 import com.runner.ddida.model.Reserve;
-import com.runner.ddida.model.ReserveTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +30,7 @@ public class ReserveDto {
 	private String email;
 	private Long userNo;
 	private String rsrcNo;
+	private Integer checkout;
 	private String review;
 	
 	public Reserve toReserve() {
@@ -48,6 +46,7 @@ public class ReserveDto {
 				.phone(phone)
 				.email(email)
 				.useDate(useDate)
+				.checkout(0)
 				.build();
 	}
 	

@@ -2,6 +2,7 @@ package com.runner.ddida.controller.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +43,7 @@ public class QnaController {
 	// 문의 목록
 	@GetMapping("/qna")
 	public String qnaList(
-			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
 
@@ -92,8 +93,9 @@ public class QnaController {
 	// 문의 등록
 	@PostMapping("/qna/add")
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member user, Model model) {
-		qnaDto.setUserName(user.getUsername());
-
+		qnaDto.setUsername(user.getUsername());
+		qnaDto.setUsername(user.getName());
+		
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
 
@@ -113,7 +115,7 @@ public class QnaController {
 	// 문의 수정
 	@PutMapping("/qna/edit/{qnaNo}")
 	public String update(QnaDto qnaDto, @AuthenticationPrincipal Member user) {
-		qnaDto.setUserName(user.getUsername());
+		qnaDto.setUsername(user.getUsername());
 		qnaDto.setQnaView(qnaDto.getQnaView());
 		qnaService.save(qnaDto);
 		return "redirect:/qna";

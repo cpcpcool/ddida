@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
@@ -100,7 +101,8 @@
 						th:href="@{/mypage/reservation/{reserveId}(reserveId=${reserve.reserveId})}"
 						th:text="${reserve.rsrcNm}" style="color: #000000;">시설 이름</a></td>
 					<td th:text="${reserve.useDate}">예약일</td>
-					<td>상태</td>
+					<td th:if="${reserve.checkout} == 0">이용 대기</td>
+					<td th:if="${reserve.checkout} == 1">이용 완료</td>
 				</tr>
 			</tbody>
 		</table>

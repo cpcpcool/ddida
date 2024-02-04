@@ -11,17 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.AdminSpaceService;
-import com.runner.ddida.service.SpaceService;
 import com.runner.ddida.vo.SpaceDetailVo;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
-//@ControllerAdvice(annotations = Controller.class)
 @RequestMapping("/admin")
 public class AdminSpaceController {
 	
