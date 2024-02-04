@@ -11,6 +11,12 @@
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script type="text/javascript" src="/js/gnb.js"></script>
 	<title>뛰다</title>
+	<style>
+		textarea {
+			resize: none;
+		}
+		
+	</style>
 </head>
 
 <body>
@@ -48,6 +54,16 @@
 					</form>
 
 				</div>
+				<h4 style="width: fit-content">답변</h4>
+				<hr class="titleUnder my-2" style="width: 45px;">
+				<th:block th:if="${qna.answer} == null">
+					<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
+						class="description form-control" rows="10" disabled="disabled">등록된 답변이 없습니다.</textarea>
+				</th:block>
+				<th:block th:if="${qna.answer} != null">
+					<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
+						class="description form-control" rows="10" disabled="disabled">[[${qna.answer}]]</textarea>
+				</th:block>
 			</div>
 
 			<div class="list-group mt-5">
@@ -57,7 +73,7 @@
 					<span id="prevNextTitle" th:unless="${next == null}" th:text="${next.title}"> 다음글 제목</span>
 
 				</a>
-				<a th:href="${prev == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${prev.qnaNo})}" class="list-group-item">
+				<a th:href="${prev == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${prev.qnaNo})}" class="list-group-item mb-3">
 					<span id="prevNext">이전글 : </span>
 					<span id="prevNextTitle" th:if="${prev == null}">이전글이 없습니다.</span>
 					<span id="prevNextTitle" th:unless="${prev == null}" th:text="${prev.title}">이전글 제목</span>

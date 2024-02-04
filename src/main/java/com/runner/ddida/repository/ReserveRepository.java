@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.runner.ddida.model.Reserve;
 
-import jakarta.transaction.Transactional;
-
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	
     List<Reserve> findByRsrcNo(String rsrcNo);
@@ -37,12 +35,6 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	
 	/* 예약 날짜로 검색된 글 목록 */
 	Page<Reserve> findAllByUserNoAndUseDateContaining(@Param("userNo") Long userNo, @Param("searchType") String searchKeyword, Pageable pageable);
-	
-	/* 이용 완료 시 이용 완료 여부 1 */
-	@Transactional
-	@Modifying
-	@Query(value = "update reserve set checkout = 1 where reserve_id = :reserveId", nativeQuery = true)
-	Integer checkout(@Param("reserveId") Long reserveId);
 	
 	/* 예약 상세 */
 	Optional<Reserve> findByReserveId(Long reserveId);

@@ -14,27 +14,27 @@ import org.springframework.transaction.annotation.Transactional;
 import com.runner.ddida.model.Qna;
 
 public interface QnaRepository extends JpaRepository<Qna, Long> {
-	/* 문의 목록 */
+	/* 문의 목록 - 김민혜 */
 	Page<Qna> findAll(Pageable pageable);
 	
-	/* 제목으로 검색된 글 목록 */
+	/* 제목으로 검색된 글 목록 - 김민혜 */
 	Page<Qna> findByTitleContaining(String searchKeyword, Pageable pageable);
 	
-	/* 내용으로 검색된 글 목록 */
+	/* 내용으로 검색된 글 목록 - 김민혜 */
 	Page<Qna> findByDescriptionContaining(String searchKeyword, Pageable pageable);
 	
-	/* 문의 상세 */
+	/* 문의 상세 - 김민혜 */
 	Optional<Qna> findByQnaNo(Long qnaNo);
 	
-	/* 이전 글 */
+	/* 이전 글 - 김민혜 */
 	@Query(value = "select * from qna where qna_no < :qnaNo order by qna_no desc limit 1", nativeQuery = true)
 	Qna prev(@Param("qnaNo") Long qnaNo);
 
-	/* 다음 글 */
+	/* 다음 글 - 김민혜 */
 	@Query(value = "select * from qna where qna_no > :qnaNo order by qna_no asc limit 1", nativeQuery = true)
 	Qna next(@Param("qnaNo") Long qnaNo);
 	
-	/* 조회수 증가 */
+	/* 조회수 증가 - 김민혜 */
 	@Transactional
 	@Modifying
 	@Query(value = "update qna set qna_view = qna_view + 1 where qna_no = :qnaNo", nativeQuery = true)

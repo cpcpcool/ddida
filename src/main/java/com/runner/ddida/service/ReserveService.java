@@ -29,7 +29,6 @@ public class ReserveService {
 	}
 
 	/* 예약 목록 */
-	public Page<Reserve> findAllByUsername(Long userNo, Pageable pageable) {
 	@Transactional
 	public Page<Reserve> findAllByUsername(Long userNo, Pageable pageable) {
 

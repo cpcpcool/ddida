@@ -49,6 +49,9 @@ public class Qna {
 	@Column(name = "qna_secret")
 	private boolean qnaSecret;
 	
+	@Column(name = "answer")
+	private String answer;
+	
 	public QnaDto toQnaDto() {
 		return QnaDto.builder()
 				.qnaNo(qnaNo)

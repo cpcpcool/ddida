@@ -60,6 +60,8 @@ create table if not exists qna(
     qna_date datetime not null comment '이용자가 문의글을 등록한 시간',
     qna_view int not null comment '문의글의 조회수',
     qna_secret tinyint(1) not null comment '비밀글 여부',
+    answer varchar(255) null comment '해당 문의글 답변',
+    answer_time datetime null comment '답변 등록 시간',
     foreign key(username) references member(username),
 	primary key(qna_no)
 );

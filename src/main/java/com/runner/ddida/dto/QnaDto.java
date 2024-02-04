@@ -25,6 +25,7 @@ public class QnaDto {
 	private LocalDate qnaDate;
 	private Integer qnaView;
 	private boolean qnaSecret;
+	private String answer;
 	
 	public Qna toEntity() {
 		return Qna.builder()
