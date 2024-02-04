@@ -54,9 +54,9 @@
 					<thead>
 						<tr class="line">
 							<th scope="col" style="width: 17%">예약 번호</th>
-							<th scope="col">[[${reserve.reserveId}]]</th>
+							<th scope="col" style="width: 33%">[[${reserve.reserveId}]]</th>
 							<th scope="col" style="width: 17%">결제 방식</th>
-							<th scope="col">[[${reserve.reserveType}]]</th>
+							<th scope="col" style="width: 33%">[[${reserve.reserveType}]]</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -67,11 +67,26 @@
 							<td>[[${reserve.useDate}]]</td>
 						</tr>
 						<tr class="line">
+							<th scope="row">예약 시간</th>
+							<td  colspan="3">
+								<th:block th:each="useTime : ${useTimeList}">
+									<span th:text="${useTime}"></span>
+										<br>
+								</th:block>
+							</td>
+							</td>
+						</tr>
+						<tr class="line">
 							<th scope="row">예약 상태</th>
-							<td th:if="${checkOut}" colspan="3">이용 완료</td>
-							<td th:unless="${checkOut}" colspan="3">이용 대기
-								<button id="edit-btn" type="submit" class="btn btn-primary"
-									onclick="mypage/reservation/reserveDetail">예약변경/취소</button>
+							<td th:if="${checkOut}" colspan="3" style="vertical-align: middle;">이용 완료</td>
+							<td th:unless="${checkOut}" colspan="3" style="line-height: 25px;">
+								이용 대기
+								<form id="cancel-form" style="display: inline-block; margin-left: 10px;"
+									th:action="@{/mypage/reservation/{reserveId}(reserveId=${reserve.reserveId})}"
+									method="post">
+									<input type="hidden" name="_method" value="delete" />
+									<button id="edit-btn" type="submit" class="btn btn-primary">예약 취소</button>
+								</form>
 							</td>
 						</tr>
 					</tbody>
@@ -95,7 +110,7 @@
 						</div>
 					</form>
 				</th:block>
-				
+
 				<th:block th:if="${checkOut} and ${reserve.review} != null">
 					<textarea id="description" name="description" class="description form-control mt-5" rows="10"
 						disabled="disabled">[[${reserve.review}]]</textarea>

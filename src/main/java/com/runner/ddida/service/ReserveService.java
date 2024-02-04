@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.repository.ReserveRepository;
+import com.runner.ddida.repository.ReserveTimeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class ReserveService {
 	
 	private final ReserveRepository reserveRepository;
+	private final ReserveTimeRepository reserveTimeRepository;
 	
 	public List<Reserve> findAll() {
 		return reserveRepository.findAll();
@@ -28,7 +31,7 @@ public class ReserveService {
 	}
 	
 	/* 시설 이름으로 검색된 예약 목록 */
-	public Page<Reserve> findBySpaceNameContaining(String searchKeyword, Pageable pageable) {
+	public Page<Reserve> findByRsrcNmContaining(String searchKeyword, Pageable pageable) {
 		return reserveRepository.findByRsrcNmContaining(searchKeyword, pageable);
 	}
 	
@@ -40,6 +43,16 @@ public class ReserveService {
 	/* 예약 상세 */
 	public Optional<Reserve> findByReserveId(Long reserveId) {
 		return reserveRepository.findByReserveId(reserveId);
+	}
+	
+	/* 예약 취소 */
+	public void cancel(Long reserveId) {
+		reserveRepository.deleteById(reserveId);
+	}
+	
+	/* 예약 번호로 불러온 예약 시간 */
+	public List<String> findUseTimeByReserveId(Long reserveId) {
+		return reserveTimeRepository.findUseTimeByReserveId(reserveId);
 	}
 	
 }

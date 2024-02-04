@@ -30,6 +30,7 @@ import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
+import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.service.MemberSignService;
 import com.runner.ddida.service.QnaService;
 import com.runner.ddida.service.ReserveService;
@@ -158,8 +159,8 @@ public class UserController {
 		
 		if (searchKeyword == null || searchType.isEmpty()) {
 			reserveList = reserveService.findAll(pageable);
-		} else if (searchKeyword != null && searchType.equals("spaceName")) {
-			reserveList = reserveService.findBySpaceNameContaining(searchKeyword, pageable);
+		} else if (searchKeyword != null && searchType.equals("rsrcNm")) {
+			reserveList = reserveService.findByRsrcNmContaining(searchKeyword, pageable);
 		} else if (searchKeyword != null && searchType.equals("useDate")) {
 			reserveList = reserveService.findByUseDateContaining(searchKeyword, pageable);
 		}
@@ -181,19 +182,34 @@ public class UserController {
 	public String reserveDetail(@PathVariable(name = "reserveId") Long reserveId, Model model) {
 		Reserve reserveDetail = reserveService.findByReserveId(reserveId).get();
 		
-		// 현재 시간
+		// 현재 날짜
 		LocalDate now = LocalDate.now();
-		// 이용 예약 시간
+		// 이용 예약 날짜
 		LocalDate useDate = LocalDate.parse(reserveDetail.getUseDate());
-		// 이용 에약 시간이 지났는지 판별
+		// 이용 에약 날짜가 지났는지 판별
 		Boolean checkOut = now.isAfter(useDate);
+		
+		// 이용 예약 시간
+		List<String> useTimeList = reserveService.findUseTimeByReserveId(reserveId);
+		
 		
 		model.addAttribute("reserve", reserveDetail);
 		model.addAttribute("now", now);
 		model.addAttribute("useDate", useDate);
 		model.addAttribute("checkOut", checkOut);
+		model.addAttribute("useTimeList", useTimeList);
 		
 		return "user/mypage/reserveDetail";
+	}
+	
+	// 예약 취소
+	@DeleteMapping("/mypage/reservation/{reserveId}")
+	public String cancel(@PathVariable(name = "reserveId") Long reserveId) {
+		
+		reserveService.cancel(reserveId);
+		
+		return "redirect:/mypage/reservation";
+	
 	}
 
 	// 후기 등록
@@ -207,6 +223,8 @@ public class UserController {
 		
 		return "redirect:/mypage/reservation";
 	}
+	
+	
 
 	@GetMapping("/mypage/userInfo")
 	public String userInfo() {

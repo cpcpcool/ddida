@@ -99,9 +99,10 @@
 						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
 							<li class="page-item"><a th:if="${page != nowPage}"
 									th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
-									th:text="${page}" id="pagination" class="page-link">1</a></li>
-							<li class="page-item"><a th:if="${page == nowPage}" th:text="${page}" id="pagination"
-									class="page-link" style="background-color: #37745B; color: #ffffff;">1</a></li>
+									th:text="${page}" id="pagination" class="page-link">1</a>
+									</li>
+						<a th:if="${page == nowPage}" th:text="${page}" id="pagination"
+									class="page-link" style="background-color: #37745B; color: #ffffff;">1</a>
 						</th:block>
 						<li class="page-item"><a id="pagination" class="page-link" href="/" aria-label="Next"> <span
 									aria-hidden="true">&raquo;</span>
