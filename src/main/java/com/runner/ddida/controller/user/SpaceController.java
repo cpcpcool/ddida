@@ -132,8 +132,9 @@ public class SpaceController {
 	}
 
 	@PostMapping("/sports/complete")
-	public String complete(@ModelAttribute Reserve reserve, @RequestParam("useTime") String useTime,
-			RedirectAttributes redirectAttributes) {
+	public String complete(@ModelAttribute Reserve reserve, 
+						@RequestParam("useTime") String useTime,
+						RedirectAttributes redirectAttributes) {
 
 		String useTimes = useTime.replace("\n", "<br>");
 
@@ -151,10 +152,10 @@ public class SpaceController {
 		redirectAttributes.addFlashAttribute("data", reserve);
 		redirectAttributes.addFlashAttribute("useTimes", useTimes);
 
-		return "redirect:/user/sports/complete";
+		return "redirect:/sports/complete";
 	}
 
-	@GetMapping("/user/sports/complete")
+	@GetMapping("/sports/complete")
 	public String complete(@ModelAttribute("data") Reserve reserve, @ModelAttribute("useTimes") String useTimes,
 			Model model) {
 

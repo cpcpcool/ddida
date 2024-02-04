@@ -24,7 +24,7 @@ import com.runner.ddida.service.QnaService;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author 박재용
+ * @author 김민혜
  */
 
 @Controller

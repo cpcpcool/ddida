@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.runner.ddida.dto.ReserveDto;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -94,5 +96,20 @@ public class Reserve {
 			reserveTime.setReserve(this);
 		}
 	}		
+	
+	public ReserveDto toReserveDto() {
+		return ReserveDto.builder()
+				.rsrcNo(rsrcNo)
+				.rsrcNm(rsrcNm)
+				.userNo(userNo)
+				.name(name)
+				.phone(phone)
+				.email(email)
+				.review(review)
+				.reserveType(reserveType)
+				.reserveFee(reserveFee)
+				.build();
+	}
+	
 }
 
