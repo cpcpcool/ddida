@@ -11,6 +11,10 @@ import com.runner.ddida.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 박재용
+ */
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {

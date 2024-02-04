@@ -10,6 +10,10 @@ import com.runner.ddida.service.DdidaUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 박재용
+ */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
