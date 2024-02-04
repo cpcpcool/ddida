@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class SpaceDetaiMetaVo {
+public class SpaceDetailMetaVo {
 	private String resultCode;
 	private String resultMsg;
 	private List<SpaceDetailVo> data;

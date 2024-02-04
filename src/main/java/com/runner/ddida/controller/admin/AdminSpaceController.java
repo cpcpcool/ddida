@@ -26,15 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminSpaceController {
 	
 	private final AdminSpaceService adminSpaceservice;
-	private final SpaceService spaceService;
 	
 	@GetMapping("/space")
 	public String adminSpaceList(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, Model model) {
-//		List<ApiVo> rsrc = spaceService.findDefault();
-//		List<String> rsrcNoList = rsrc.stream().filter(s->s.getRsrcNo()).toList();
 		List<String> rsrcNoList = adminSpaceservice.getRsrcNoList();
-//		Map<String, Object> spaceList = service.findSpaceList(page, pageSize);
 		Map<String, Object> result = adminSpaceservice.show(rsrcNoList, page, pageSize);
 		
 		model.addAttribute("list", result.get("dataPage"));
@@ -65,35 +61,5 @@ public class AdminSpaceController {
 		model.addAttribute("result", result);
 		return "admin/space/adminSpaceDetail";
 	}
-
-//	@GetMapping("/space")
-//	public String t(@RequestParam(name = "searchType", required = false) String searchType,
-//			@RequestParam(name = "searchWord", required = false) String searchWord,
-//			@RequestParam(name = "page", defaultValue = "1") int page,
-//			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize, 
-//			Model model) {
-//		List<String> rsrcNoList = service.getRsrcNoList();
-//		System.out.println("searchType : " + searchType);
-//		System.out.println("searchWord : " + searchWord);
-//		
-//		if(searchType == null || searchWord == null) {
-//			System.out.println("ddddddddddddddddd");
-//			Map<String, Object> result = service.show(rsrcNoList, page, pageSize);
-//			model.addAttribute("list", result.get("dataPage"));
-//			model.addAttribute("currentPage", result.get("currentPage"));
-//			model.addAttribute("totalPages", result.get("totalPages"));
-//			return "admin/space/adminSpaceList";
-//		}
-//		
-//		System.out.println("aaaaaaaaaaaaaaaaaa");
-//		Map<String, Object> result = service.showFilterdResult(rsrcNoList, searchType, searchWord, page, pageSize);
-//		model.addAttribute("type", searchType);
-//		model.addAttribute("word", searchWord);
-//		model.addAttribute("list", result.get("dataPage"));
-//		model.addAttribute("currentPage", result.get("currentPage"));
-//		model.addAttribute("totalPages", result.get("totalPages"));
-//		
-//		return "admin/space/adminSpaceList";
-//	}
 
 }

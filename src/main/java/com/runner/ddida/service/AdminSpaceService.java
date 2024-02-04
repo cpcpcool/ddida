@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -19,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.runner.ddida.vo.SpaceDetailMetaVo;
+import com.runner.ddida.vo.SpaceDetailVo;
 import com.runner.ddida.vo.SpaceMetaVo;
 import com.runner.ddida.vo.SpaceVo;
-import com.runner.ddida.vo.SpaceDetaiMetaVo;
-import com.runner.ddida.vo.SpaceDetailVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,7 +53,6 @@ public class AdminSpaceService {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("numOfRows", 98);
-//			obj.put("pageNo", 1);
 			obj.put("ctpvCd", "11");
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -98,9 +96,6 @@ public class AdminSpaceService {
 		return rsrcNoList;
 	}
 	
-	
-	
-	
 	public Map<String, Object> show(List<String> rsrcNoGroup, int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -124,9 +119,9 @@ public class AdminSpaceService {
 				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
 				result = EntityUtils.toString(entity); // 정상 호출
 				ObjectMapper objectMapper = new ObjectMapper();
-				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
+				SpaceDetailMetaVo spaceDetaiMetaVo = null;
 				try {
-					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
+					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetailMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
@@ -192,9 +187,9 @@ public class AdminSpaceService {
 				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
 				result = EntityUtils.toString(entity); // 정상 호출
 				ObjectMapper objectMapper = new ObjectMapper();
-				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
+				SpaceDetailMetaVo spaceDetaiMetaVo = null;
 				try {
-					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
+					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetailMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}
@@ -286,9 +281,9 @@ public class AdminSpaceService {
 				org.apache.http.HttpEntity entity = response.getEntity(); // Use org.apache.http.HttpEntity
 				result = EntityUtils.toString(entity); // 정상 호출
 				ObjectMapper objectMapper = new ObjectMapper();
-				SpaceDetaiMetaVo spaceDetaiMetaVo = null;
+				SpaceDetailMetaVo spaceDetaiMetaVo = null;
 				try {
-					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetaiMetaVo.class);
+					spaceDetaiMetaVo = objectMapper.readValue(result.getBytes(), SpaceDetailMetaVo.class);
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}

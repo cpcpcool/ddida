@@ -78,13 +78,11 @@ public class Reserve {
 	@Column(name = "review")
 	private String review;
 	
-//	private String checkOut;
-	
 	@PrePersist
 	public void onPrePersist() {
 		this.reserveDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	    this.reserveTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-//	    this.checkOut = "이용 전";
+	    this.reserveType = "업체 문의";
 	}
 	
 	@OneToMany(mappedBy = "reserve", cascade = CascadeType.ALL)

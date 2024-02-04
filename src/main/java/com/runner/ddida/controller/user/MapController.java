@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.service.SpaceService;
@@ -21,11 +22,12 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/ddimap")
 public class MapController {
 
 	private final SpaceService spaceService;
 
-	@GetMapping("/ddimap")
+	@GetMapping
 	public String ddimap(Model model, Pageable pageable) {
 		List<SpaceVo> recmdspcaeList = new ArrayList<>();
 		recmdspcaeList = spaceService.findDefaultList();
@@ -34,7 +36,7 @@ public class MapController {
 		return "user/map/spaceMap";
 	}
 
-	@GetMapping("/ddimap/search")
+	@GetMapping("/search")
 	public String searchData(Model model, @RequestParam(name = "type", required = true) String type,
 			@RequestParam(name = "pay", required = false) String pay,
 			@RequestParam(name = "region", required = false) String region,

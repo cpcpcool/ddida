@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @ControllerAdvice(annotations = Controller.class)
 public class SpaceController {
-	
+
 	@ModelAttribute("user")
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
@@ -46,9 +46,9 @@ public class SpaceController {
 
 	@GetMapping("/sports")
 	public String spaceList(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable) {
-		
+
 		Page<SpaceVo> spaceList = spaceService.findSpaceList(pageable);
-		 	
+
 		// Open-api 개수제한 이슈로 보류
 //		List<SpaceDetailVo> freeYnList = spaceService.findDetailList(spaceService.findDefault());
 //		Map<String,String> free = new HashMap<String, String>();
@@ -56,34 +56,33 @@ public class SpaceController {
 //			free.put(fre.getRsrcNo(),fre.getFreeYn());
 //		}
 //		model.addAttribute("free", free);
-		
+
 		int nowPage = spaceList.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage, 1);
-		int endPage = Math.min(nowPage + 9, spaceList.getTotalPages());
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, spaceList.getTotalPages());
 
 		model.addAttribute("data", spaceList);
 		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("startPage", startPage);	
+		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		return "user/sports/spaceList";
 	}
 
 	@GetMapping("/sports/search")
 	public String spaceSearch(Model model, @PageableDefault(page = 0, size = 12) Pageable pageable,
-							@RequestParam(name = "type", required = true) String type,
-							@RequestParam(name = "pay", required = false) String pay,
-							@RequestParam(name = "region", required = false) String region,
-							@RequestParam(name = "spaceNm", required = false) String spaceNm) {
-		
+			@RequestParam(name = "type", required = true) String type,
+			@RequestParam(name = "pay", required = false) String pay,
+			@RequestParam(name = "region", required = false) String region,
+			@RequestParam(name = "spaceNm", required = false) String spaceNm) {
+
 		Page<SpaceVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, pageable);
 		model.addAttribute("type", type);
 		model.addAttribute("pay", pay);
 		model.addAttribute("spaceNm", spaceNm);
-		
 
 		int nowPage = searchSpaceList.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage, 1);
-		int endPage = Math.min(nowPage + 9, searchSpaceList.getTotalPages());
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, searchSpaceList.getTotalPages());
 
 		model.addAttribute("data", searchSpaceList);
 		model.addAttribute("nowPage", nowPage);
@@ -105,30 +104,24 @@ public class SpaceController {
 	@GetMapping("/sports/{rsrcNo}/reserve")
 	public String reserveForm(@PathVariable("rsrcNo") String rsrcNo, Model model) {
 		SpaceDetailVo data = spaceService.findDetail(rsrcNo).get(0);
-		
-		List<List<String>> timeSlots = Arrays.asList(
-		        Arrays.asList("06:00 ~ 07:00", "07:00 ~ 08:00"),
-		        Arrays.asList("08:00 ~ 09:00", "09:00 ~ 10:00"),
-		        Arrays.asList("10:00 ~ 11:00", "11:00 ~ 12:00"),
-		        Arrays.asList("12:00 ~ 13:00", "13:00 ~ 14:00"),
-		        Arrays.asList("14:00 ~ 15:00", "15:00 ~ 16:00"),
-		        Arrays.asList("16:00 ~ 17:00", "17:00 ~ 18:00"),
-		        Arrays.asList("18:00 ~ 19:00", "19:00 ~ 20:00"),
-		        Arrays.asList("20:00 ~ 21:00", "21:00 ~ 22:00"),
-		        Arrays.asList("22:00 ~ 23:00", "23:00 ~ 24:00")
-		);
-		
-        model.addAttribute("timeSlots", timeSlots);
-		
+
+		List<List<String>> timeSlots = Arrays.asList(Arrays.asList("06:00 ~ 07:00", "07:00 ~ 08:00"),
+				Arrays.asList("08:00 ~ 09:00", "09:00 ~ 10:00"), Arrays.asList("10:00 ~ 11:00", "11:00 ~ 12:00"),
+				Arrays.asList("12:00 ~ 13:00", "13:00 ~ 14:00"), Arrays.asList("14:00 ~ 15:00", "15:00 ~ 16:00"),
+				Arrays.asList("16:00 ~ 17:00", "17:00 ~ 18:00"), Arrays.asList("18:00 ~ 19:00", "19:00 ~ 20:00"),
+				Arrays.asList("20:00 ~ 21:00", "21:00 ~ 22:00"), Arrays.asList("22:00 ~ 23:00", "23:00 ~ 24:00"));
+
+		model.addAttribute("timeSlots", timeSlots);
+
 		List<Reserve> reserveL = spaceService.findByRsrcNo(rsrcNo);
 
 		List<Long> reserveId = new ArrayList<Long>();
-		
+
 		for (Reserve reserve : reserveL) {
 			Long id = reserve.getReserveId();
 			reserveId.add(id);
 		}
-		
+
 		model.addAttribute("reserveId", reserveId);
 		// model.addAttribute("date", useDate);
 
@@ -137,12 +130,13 @@ public class SpaceController {
 
 		return "user/sports/reserveForm";
 	}
-	
+
 	@PostMapping("/sports/complete")
-	public String complete(@ModelAttribute Reserve reserve, @RequestParam("useTime") String useTime, RedirectAttributes redirectAttributes) {
-		
+	public String complete(@ModelAttribute Reserve reserve, @RequestParam("useTime") String useTime,
+			RedirectAttributes redirectAttributes) {
+
 		String useTimes = useTime.replace("\n", "<br>");
-		
+
 		List<ReserveTime> reserveTimeList = new ArrayList<ReserveTime>();
 		String[] timeArray = useTime.split("\n");
 
@@ -161,16 +155,17 @@ public class SpaceController {
 	}
 
 	@GetMapping("/user/sports/complete")
-	public String complete(@ModelAttribute("data") Reserve reserve, @ModelAttribute("useTimes") String useTimes, Model model) {
-		
-		if(useTimes.isEmpty()) {
+	public String complete(@ModelAttribute("data") Reserve reserve, @ModelAttribute("useTimes") String useTimes,
+			Model model) {
+
+		if (useTimes.isEmpty()) {
 			return "redirect:/";
 		}
-		
-	    model.addAttribute("data", reserve);
-	    model.addAttribute("useTimes", useTimes);
 
-	    return "user/sports/complete";
+		model.addAttribute("data", reserve);
+		model.addAttribute("useTimes", useTimes);
+
+		return "user/sports/complete";
 	}
-	
+
 }
