@@ -26,10 +26,10 @@ import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
 import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.repository.ReserveTimeRepository;
-import com.runner.ddida.vo.SpaceMetaVo;
-import com.runner.ddida.vo.SpaceVo;
 import com.runner.ddida.vo.SpaceDetailMetaVo;
 import com.runner.ddida.vo.SpaceDetailVo;
+import com.runner.ddida.vo.SpaceMetaVo;
+import com.runner.ddida.vo.SpaceVo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

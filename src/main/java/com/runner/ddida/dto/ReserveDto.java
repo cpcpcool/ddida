@@ -1,6 +1,9 @@
 package com.runner.ddida.dto;
 
+import java.util.List;
+
 import com.runner.ddida.model.Reserve;
+import com.runner.ddida.model.ReserveTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,4 +49,11 @@ public class ReserveDto {
 				.useDate(useDate)
 				.build();
 	}
+	
+	public void setReserveTimes(List<ReserveTime> reserveTimes) {
+		this.reserveTimes = reserveTimes;
+		for (ReserveTime reserveTime : reserveTimes) {
+			reserveTime.setReserve(this);
+		}
+	}		
 }
