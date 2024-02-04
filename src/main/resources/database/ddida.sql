@@ -23,6 +23,7 @@ create table if not exists reserve (
 	phone varchar(13) COMMENT '예약자 휴대전화번호',
     email varchar(30) COMMENT '예약자 이메일',
     name varchar(30) COMMENT '예약자 이름',
+    checkout int COMMENT '이용 완료 여부',
     review varchar(255) comment '이용 후기',
     primary key(reserve_id),
     foreign key(user_no) references member(user_no)

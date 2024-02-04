@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 public class MypageController {
-	
+
 	@ModelAttribute("user")
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
@@ -49,29 +49,39 @@ public class MypageController {
 
 	// 예약 내역
 	@GetMapping("/mypage/reservation")
-	public String reserveList(@PageableDefault(page = 0, size = 10, sort = "reserveId", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+	public String reserveList(
+			@PageableDefault(page = 0, size = 10, sort = "reserveId", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
-		
+			@RequestParam(name = "searchType", required = false) String searchType,
+			@AuthenticationPrincipal Member user, Model model) {
+
 		Page<Reserve> reserveList = null;
-		
+
 		if (searchKeyword == null || searchType.isEmpty()) {
-			reserveList = reserveService.findAll(pageable);
+			reserveList = reserveService.findAllByUsername(user.getUserNo(), pageable);
 		} else if (searchKeyword != null && searchType.equals("rsrcNm")) {
-			reserveList = reserveService.findByRsrcNmContaining(searchKeyword, pageable);
+			reserveList = reserveService.findByRsrcNmContaining(user.getUserNo(), searchKeyword, pageable);
 		} else if (searchKeyword != null && searchType.equals("useDate")) {
-			reserveList = reserveService.findByUseDateContaining(searchKeyword, pageable);
+			reserveList = reserveService.findByUseDateContaining(user.getUserNo(), searchKeyword, pageable);
 		}
-		
+
+		for (Reserve reserve : reserveList) {
+			LocalDate now = LocalDate.now();
+			LocalDate useDate = LocalDate.parse(reserve.getUseDate());
+			if(now.isAfter(useDate)) {
+				reserveService.checkout(reserve.getReserveId());
+			}
+		}
+
 		int nowPage = reserveList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, reserveList.getTotalPages());
-		
+
 		model.addAttribute("reserveList", reserveList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "user/mypage/reserveList";
 	}
 
@@ -79,49 +89,39 @@ public class MypageController {
 	@GetMapping("/mypage/reservation/{reserveId}")
 	public String reserveDetail(@PathVariable(name = "reserveId") Long reserveId, Model model) {
 		Reserve reserveDetail = reserveService.findByReserveId(reserveId).get();
-		
-		// 현재 날짜
-		LocalDate now = LocalDate.now();
-		// 이용 예약 날짜
-		LocalDate useDate = LocalDate.parse(reserveDetail.getUseDate());
-		// 이용 에약 날짜가 지났는지 판별
-		Boolean checkOut = now.isAfter(useDate);
-		
+
 		// 이용 예약 시간
 		List<String> useTimeList = reserveService.findUseTimeByReserveId(reserveId);
-		
-		
+
 		model.addAttribute("reserve", reserveDetail);
-		model.addAttribute("now", now);
-		model.addAttribute("useDate", useDate);
-		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("useTimeList", useTimeList);
-		
+
 		return "user/mypage/reserveDetail";
 	}
-	
+
 	// 예약 취소
 	@DeleteMapping("/mypage/reservation/{reserveId}")
 	public String cancel(@PathVariable(name = "reserveId") Long reserveId) {
-		
+
 		reserveService.cancel(reserveId);
-		
+
 		return "redirect:/mypage/reservation";
-	
+
 	}
 
 	// 후기 등록
 	@Transactional
 	@PutMapping("/mypage/reservation/review/{reserveId}")
-	public String addReview(@PathVariable(name = "reserveId") Long reserveId, @ModelAttribute(name = "review") String review) {
-		
+	public String addReview(@PathVariable(name = "reserveId") Long reserveId,
+			@ModelAttribute(name = "review") String review) {
+
 		Reserve reserve = reserveService.findByReserveId(reserveId).get();
-		
+
 		reserve.setReview(review);
-		
+
 		return "redirect:/mypage/reservation";
 	}
-	
+
 	@GetMapping("/mypage/userInfo")
 	public String userInfo() {
 

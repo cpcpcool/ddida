@@ -26,18 +26,18 @@ public class ReserveService {
 	}
 	
 	/* 예약 목록 */
-	public Page<Reserve> findAll(Pageable pageable) {
-		return reserveRepository.findAll(pageable);
+	public Page<Reserve> findAllByUsername(Long userNo, Pageable pageable) {
+		return reserveRepository.findAllByUserNo(userNo, pageable);
 	}
 	
 	/* 시설 이름으로 검색된 예약 목록 */
-	public Page<Reserve> findByRsrcNmContaining(String searchKeyword, Pageable pageable) {
-		return reserveRepository.findByRsrcNmContaining(searchKeyword, pageable);
+	public Page<Reserve> findByRsrcNmContaining(Long userNo, String searchKeyword, Pageable pageable) {
+		return reserveRepository.findByRsrcNmContainingAndUserNo(userNo, searchKeyword, pageable);
 	}
 	
 	/* 이용 날짜로 검색된 예약 목록 */
-	public Page<Reserve> findByUseDateContaining(String searchKeyword, Pageable pageable) {
-		return reserveRepository.findByUseDateContaining(searchKeyword, pageable);
+	public Page<Reserve> findByUseDateContaining(Long userNo, String searchKeyword, Pageable pageable) {
+		return reserveRepository.findByUseDateContainingAndUserNo(userNo, searchKeyword, pageable);
 	}
 	
 	/* 예약 상세 */
@@ -54,5 +54,11 @@ public class ReserveService {
 	public List<String> findUseTimeByReserveId(Long reserveId) {
 		return reserveTimeRepository.findUseTimeByReserveId(reserveId);
 	}
+	
+	/* 이용 완료 여부 */
+	public Integer checkout(Long reserveId) {
+		return reserveRepository.checkout(reserveId);
+	}
+	
 	
 }

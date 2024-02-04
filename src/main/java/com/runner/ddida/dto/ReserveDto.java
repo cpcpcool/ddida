@@ -33,6 +33,7 @@ public class ReserveDto {
 	private String email;
 	private Long userNo;
 	private String rsrcNo;
+	private Integer checkout;
 	private String review;
 	
 	public Reserve toReserve() {
@@ -48,6 +49,7 @@ public class ReserveDto {
 				.phone(phone)
 				.email(email)
 				.useDate(useDate)
+				.checkout(0)
 				.build();
 	}
 	
