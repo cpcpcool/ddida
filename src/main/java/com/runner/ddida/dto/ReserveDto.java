@@ -21,6 +21,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class ReserveDto {
+
 	private String rsrcNm;
 	private String useDate;
 	private String reserveDate;
@@ -50,10 +51,4 @@ public class ReserveDto {
 				.build();
 	}
 	
-	public void setReserveTimes(List<ReserveTime> reserveTimes) {
-		this.reserveTimes = reserveTimes;
-		for (ReserveTime reserveTime : reserveTimes) {
-			reserveTime.setReserve(this);
-		}
-	}		
 }
