@@ -41,8 +41,8 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 				            	name="searchType" style="border-radius: 15px;">
 				                <!--<option value="qnaNo" selected>번호</option>-->
 				                <option value="title" selected>제목</option>
-				                <!--<option value="userName">작성자</option>-->
-				                <option value="userName">아이디</option>
+				                <!--<option value="username">작성자</option>-->
+				                <option value="username">아이디</option>
 				                <option value="qnaDate">작성일</option>
 				            </select>
          				    <input type="search" name="searchKeyword" style="border-radius: 15px;">
@@ -68,8 +68,8 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 							        <td th:text="${qna.qnaNo}" class="list-row"></td>
 							        <td class="list-row"><a th:href="@{/admin/qna/{qnaNo}(qnaNo=${qna.qnaNo})}">
 										[[${qna.title}]]</a></td>
-							        <!--<td th:text="${qna.userName}" class="list-row"></td>-->
-							        <td th:text="${qna.userName}" class="list-row"></td>
+							        <!--<td th:text="${qna.username}" class="list-row"></td>-->
+							        <td th:text="${qna.username}" class="list-row"></td>
 							        <td th:text="${qna.qnaDate}" class="list-row"></td>
 							        <!--<td th:text="${qna.qnaSecret}" class="list-row"></td>-->
 							        <td th:text="${qna.qnaView}" class="list-row"></td>

@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.runner.ddida.model.Member;
 
+/**
+ * @author 박재용
+ */
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 

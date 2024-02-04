@@ -14,6 +14,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 박재용
+ */
+
 @Service
 @RequiredArgsConstructor
 @Slf4j

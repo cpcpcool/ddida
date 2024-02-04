@@ -78,7 +78,7 @@
 						<td th:text="${qna.qnaNo}">번호</td>
 						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a></td>
-						<td th:text="${qna.userName}">작성자</td>
+						<td th:text="${qna.username}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>
 						<td th:text="${qna.qnaView}">조회수</td>
 					</tr>

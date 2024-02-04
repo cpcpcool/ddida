@@ -13,7 +13,7 @@ import com.runner.ddida.repository.ReserveRepository;
 import com.runner.ddida.repository.ReserveTimeRepository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,15 +22,14 @@ public class ReserveService {
 
 	private final ReserveRepository reserveRepository;
 	private final ReserveTimeRepository reserveTimeRepository;
-
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
 	
 	public List<Reserve> findAll() {
 		return reserveRepository.findAll();
 	}
 
 	/* 예약 목록 */
+	@Transactional
 	public Page<Reserve> findAllByUsername(Long userNo, Pageable pageable) {
 
 		Page<Reserve> reserveList = reserveRepository.findAllByUserNo(userNo, pageable);
@@ -40,10 +39,11 @@ public class ReserveService {
 			LocalDate useDate = LocalDate.parse(reserve.getUseDate());
 			if (now.isAfter(useDate)) {
 				reserveRepository.checkout(reserve.getReserveId());
-				entityManager.clear();
 			}
 		}
 
+		entityManager.flush();
+		
 		return reserveList; 
 	}
 

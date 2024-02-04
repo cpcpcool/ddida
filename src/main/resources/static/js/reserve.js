@@ -1,7 +1,3 @@
-/**
- * @author : 김부경
- */
-       					 
 function handleDateChange(useDate) {
     var selectedDate = document.getElementById("useStartDate").value;
 
