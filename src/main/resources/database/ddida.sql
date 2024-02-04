@@ -9,7 +9,7 @@ create table if not exists member(
     sign_date varchar(100) COMMENT '회원 가입일자',
     primary key(user_no)
 );
-
+	
 create table if not exists reserve (
     reserve_id bigint auto_increment not null comment '시설 예약번호',
 	user_no bigint not null comment '회원 고유번호',
@@ -34,9 +34,9 @@ create table if not exists reserve_time (
     use_time varchar(30) not null comment '예정 이용시작 시간',
     primary key(reserve_time_no),	
     foreign key(reserve_id) references reserve(reserve_id)
-); 
+);
 
-create table if not exists qna(
+create table  if not exists qna(
 	qna_no bigint auto_increment not null comment '문의 고유번호',
     username varchar(50) not null COMMENT '사용자 아이디',
     title varchar(90) not null comment '이용자가 작성한 문의글 제목',
