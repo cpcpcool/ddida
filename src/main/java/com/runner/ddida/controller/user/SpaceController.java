@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.runner.ddida.dto.ReserveDto;
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Reserve;
 import com.runner.ddida.model.ReserveTime;
@@ -132,10 +133,12 @@ public class SpaceController {
 	}
 
 	@PostMapping("/sports/complete")
-	public String complete(@ModelAttribute Reserve reserve, 
+	public String complete(@ModelAttribute ReserveDto reserveDto,
 						@RequestParam("useTime") String useTime,
 						RedirectAttributes redirectAttributes) {
-
+		
+		Reserve reserve = reserveDto.toReserve();
+		
 		String useTimes = useTime.replace("\n", "<br>");
 
 		List<ReserveTime> reserveTimeList = new ArrayList<ReserveTime>();

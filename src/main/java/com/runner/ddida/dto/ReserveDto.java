@@ -20,6 +20,8 @@ import lombok.ToString;
 public class ReserveDto {
 	private String rsrcNm;
 	private String useDate;
+	private String reserveDate;
+	private String reserveTime;
 	private String reserveFee;
 	private String reserveType;
 	private String name;
@@ -29,11 +31,13 @@ public class ReserveDto {
 	private String rsrcNo;
 	private String review;
 	
-	public Reserve toReserveDto() {
+	public Reserve toReserve() {
 		return Reserve.builder()
 				.rsrcNo(rsrcNo)
 				.rsrcNm(rsrcNm)
 				.userNo(userNo)
+				.reserveDate(reserveDate)
+				.reserveTime(reserveTime)
 				.reserveType(reserveType)
 				.reserveFee(reserveFee)
 				.name(name)
