@@ -52,15 +52,15 @@ public class SecurityConfig {
 				
 				.rememberMe(remember -> remember // 자동 로그인 
 						.key("ddida")
-						.tokenValiditySeconds(1800)
+						.tokenValiditySeconds(600)
 						.userDetailsService(ddidaUserDetailsService)
-						.rememberMeParameter("remember-me"))
+						.rememberMeParameter("remember-me"));
 					
-				.sessionManagement(session -> session
-						.maximumSessions(1)
-						.maxSessionsPreventsLogin(false)
-						.expiredUrl("/")); // 세션만료 이동url
-								
+//				.sessionManagement(session -> session
+//						.maximumSessions(1) // 동일 계정 최대 세션 갯수 제한
+//						.maxSessionsPreventsLogin(false)
+//						.expiredUrl("/")); // 세션만료 이동url
+//								
 		
 		return http.build();
 	}

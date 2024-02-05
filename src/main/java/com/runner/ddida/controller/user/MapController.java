@@ -29,9 +29,9 @@ public class MapController {
 
 	@GetMapping
 	public String ddimap(Model model, Pageable pageable) {
-		List<SpaceVo> recmdspcaeList = new ArrayList<>();
-		recmdspcaeList = spaceService.findDefaultList();
-		model.addAttribute("data", recmdspcaeList);
+		List<SpaceVo> mapSpaceList = new ArrayList<>();
+		mapSpaceList = spaceService.findDefaultList();
+		model.addAttribute("data", mapSpaceList);
 
 		return "user/map/spaceMap";
 	}

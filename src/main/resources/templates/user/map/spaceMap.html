@@ -188,53 +188,40 @@
 
 		//========================================================================
 		// 주소-좌표 변환 객체를 생성
-		var geocoder = new kakao.maps.services.Geocoder();
-		// 각 주소에 대한 처리를 반복
-		data
-				.forEach(function(item) {
-					var addr = item.addr;
-					// 주소로 좌표를 검색합니다
-					geocoder
-							.addressSearch(
-									addr,
-									function(result, status) {
-										// 정상적으로 검색이 완료됐으면
-										if (status === kakao.maps.services.Status.OK) {
-											var coords = new kakao.maps.LatLng(
-													result[0].y, result[0].x);
+	// 주소-좌표 변환 객체를 생성
+var geocoder = new kakao.maps.services.Geocoder();
 
-											// 결과값으로 받은 위치를 마커로 표시합니다
-											var marker = new kakao.maps.Marker(
-													{
-														map : map,
-														position : coords
-													});
+data.forEach(function(item) {
+    var addr = item.addr;
 
-											iwRemoveable = true; // removeable 속성을 true로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(addr, function(result, status) {
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-											var infowindowContent = `<div style="text-align:center; padding:5px; font-size:12px;">${item.rsrcNm}</div>`;
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
 
-											var infowindow = new kakao.maps.InfoWindow(
-													{
-														content : infowindowContent,
-														removable : iwRemoveable
-													});
+            // 마커 클릭 이벤트 처리
+            kakao.maps.event.addListener(marker, 'click', function() {
+                // 각 마커에 대한 인포윈도우 내용 설정
+                var infowindowContent = `<div style="text-align:center; padding:5px; font-size:12px;">${item.rsrcNm}</div>`;
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: infowindowContent,
+                    removable: true
+                });
 
-											// 마커클릭이동
-											kakao.maps.event.addListener(
-													marker, 'click',
-													function() {
-														infowindow.open(map,
-																marker);
-													});
+                // 인포윈도우 열기
+                infowindow.open(map, marker);
+            });
+        }
+    });
+});
 
-											firstMarkerDisplayed = true;
-											map.setCenter(coords);
-										}
-										//========================================================================
-									});
-
-				});
 
 		// 클릭 마커이동
 		function moveMarker(lat, lot) {
