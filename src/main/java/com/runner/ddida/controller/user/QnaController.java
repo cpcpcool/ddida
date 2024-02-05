@@ -94,7 +94,7 @@ public class QnaController {
 	@PostMapping("/qna/add")
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member user, Model model) {
 		qnaDto.setUsername(user.getUsername());
-		qnaDto.setUsername(user.getName());
+		qnaDto.setName(user.getName());
 		
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
