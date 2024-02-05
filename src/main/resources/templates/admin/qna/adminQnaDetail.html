@@ -14,14 +14,21 @@
 h4 {float: left; margin-top: 20px;}
 .inner-container {position: relative; margin-top: 70px; height: 550px;}
 .basic-info {height: 25%; border-bottom: 3px solid #c1d2bf; font-size: medium}
-.qna-text {height: 55%; border-bottom: 3px solid #c1d2bf;}
-.ans-area {height: 20%;}
+.qna-text {height: 45%; border-bottom: 3px solid #c1d2bf;}
+.ans-area {height: 30%;}
 .aaa {padding: 0px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: large;}
 
 .answer-btn {float: left; border-radius: 20px; margin-top: 20px; margin-left: 30px; padding: 5px;
  width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+ .save {float: right; border-radius: 20px; margin-top: 23px;  margin-bottom: 9px; margin-right:10px; padding: 5px;
+ width: 100px; background-color: #37745b; color: #fff; border-color: unset; display: none;}
 .backward {float: right; border-radius: 20px; margin-top: 20px;  margin-bottom: 10px; padding: 5px;
  width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+ .replySection {height: 150px; resize: none; font-size: medium;}
+ .answerSpan {float: left; margin-left: 20px; margin-bottom: 10px;}
+ .answerDiv {margin-top: 35px; height: 100px; text-align: left; font-size: medium; overflow-wrap: break-word;
+ padding-left: -20px; margin-left: 0; background-color: #f2f2f2;}
+ 
 </style>
 </head>
 <body data-page="/admin/qna/1">
@@ -63,7 +70,7 @@ h4 {float: left; margin-top: 20px;}
 						</div>
 						
 						<div class="qna-text">
-							<div style="padding: 20px; text-align: left;">[[${qnaDetail.description}]]</div>
+							<div style="padding: 20px; text-align: left; font-size: medium;">[[${qnaDetail.description}]]</div>
 						</div>
 						<div class="ans-area">
 							<form action="/admin/qna/1" method="get">
@@ -71,25 +78,28 @@ h4 {float: left; margin-top: 20px;}
 							</form>	
 						</div>
 					</div>
-
 					<a href="/admin/qna"><input type="button" value="목록으로" class="backward"></a>
+					<button type="submit" class="save">저장</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	<div id="qnaDetail" th:attr="data-qna-no=${qnaDetail.qnaNo}"></div>
+
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
 <script>
 var reply = document.querySelector('.answer-btn');
 var ansArea = document.querySelector('.ans-area');
 var innerContainer = document.querySelector('.inner-container');
+var saveBtn = document.querySelector('.save');
 
 reply.addEventListener('click', function() {
     console.log('클릭됨');
     const replySection = document.createElement('textarea');
+    replySection.className = 'replySection';
     replySection.rows = 3;
-    replySection.maxLength = 150;
+    replySection.maxLength = 250;
     
     // inner-container의 너비를 replySection에 적용
     replySection.style.width = innerContainer.clientWidth + 'px';
@@ -97,8 +107,42 @@ reply.addEventListener('click', function() {
     ansArea.appendChild(replySection);
     ansArea.style.width = innerContainer.clientWidth + 'px'; // ansArea의 너비도 inner-container에 맞춰줘
     reply.style.display = "none";
+    saveBtn.style.display = "block";
 });
 
+var qnaNo = document.getElementById('qnaDetail').getAttribute('data-qna-no');
+saveBtn.addEventListener('click', function() {
+    // 입력된 답변 내용 가져오기
+    var answerText = document.querySelector('.ans-area textarea').value;
+
+    // Ajax를 사용하여 서버로 데이터 전송
+    $.ajax({
+        type: 'POST',
+        url: '/admin/qna/' + qnaNo, // 서버의 저장 엔드포인트 경로
+        data: { answer: answerText }, // 전송할 데이터
+        success: function(response) {
+            console.log('저장 성공', response);
+            // 저장에 성공하면 추가적인 작업 수행
+            ansArea.style.display = "none";
+            const answerSpan = document.createElement('span');
+            answerSpan.className = 'answerSpan';
+            answerSpan.innerHTML = '답변'
+            innerContainer.appendChild(answerSpan);
+            
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'answerDiv';
+		    answerDiv.innerHTML = answerText;
+		    innerContainer.appendChild(answerDiv);
+		    
+        },
+        error: function(error) {
+            console.error('저장 실패', error);
+            // 저장에 실패하면 예외 처리
+        }
+    });
+    
+    saveBtn.style.display = "none";
+});
 </script>
 </body>
 </html>

@@ -102,9 +102,15 @@ public class QnaService {
 			}
 		}
 	}
-
+	
+	// [관리자] 회원 상세페이지 오른쪽 표에 정보 표시
 	public List<Qna> findByUserNo(Long userNo) {
 		return qnaRepository.findByUserNo(userNo);
 	}
+	
+	// [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
+    public void saveAnswer(Long qnaNo, String answer) {
+        qnaRepository.saveAnswer(qnaNo, answer);
+    }
 
 }

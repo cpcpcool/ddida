@@ -53,6 +53,15 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
     		+ "WHERE q.qnaNo = :qnaNo", nativeQuery = true)
     Optional<Object[]> findQnaAndUsernameByQnaNo(@Param("qnaNo") Long qnaNo);
 
+//  @Query("SELECT q, m.name AS user_name FROM Qna q JOIN Member m ON q.username = m.username WHERE q.username = :username")
+//  List<Object[]> findQnaAndUserName(@Param("username") String username);
+  
+    // [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
+    @Transactional
+    @Modifying
+    @Query("UPDATE Qna q SET q.answer = :answer WHERE q.qnaNo = :qnaNo")
+    void saveAnswer(@Param("qnaNo") Long qnaNo, @Param("answer") String answer);
+    
 	// 문의글번호로 검색된 문의 목록 - 노윤건 24.02.04
 	@Query(value = "select * from qna where qna_no = :searchKeyword", nativeQuery = true)
 	Page<Qna> findByQnaNoContaining(@Param("searchKeyword") Long searchKeyword, Pageable pageable);	
@@ -62,6 +71,7 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 	
 	// 작성일자로 검색된 문의 목록 - 노윤건 24.02.04
 	Page<Qna> findByQnaDateContaining(String searchKeyword, Pageable pageable);
-    
+ 
+	
 
 }

@@ -52,6 +52,9 @@ public class Qna {
 	@Column(name = "answer")
 	private String answer;
 	
+	@Column(name = "answer_time")
+	private String answerTime;
+	
 	public QnaDto toQnaDto() {
 		return QnaDto.builder()
 				.qnaNo(qnaNo)
@@ -61,6 +64,8 @@ public class Qna {
 				.description(description)
 				.qnaDate(LocalDate.now())
 				.qnaView(0)
+				.answer(answer)
+				.answerTime(answerTime)
 				.build();
 	}
 

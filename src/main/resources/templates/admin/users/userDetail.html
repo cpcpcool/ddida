@@ -150,7 +150,7 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 														<th:block th:each="qna : ${data}">
 														    <tr>
 														        <td th:text="${qna.qnaNo}" class="list-row"></td>
-														        <td th:text="${qna.title}" class="list-row"></td>
+														        <td class="list-row"><a th:href="@{/admin/qna/{qnaNo}(qnaNo=${qna.qnaNo})}">[[${qna.title}]]</a></td>
 														        <td th:text="${qna.qnaDate}" class="list-row"></td>
 														        <td th:text="${qna.qnaSecret}" class="list-row"></td>
 														    </tr>

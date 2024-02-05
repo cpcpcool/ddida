@@ -20,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-
+//	private final QnaRepository qnaRepository;
+//	private final ReserveRepository reserveRepository;
+	
 	// 전체 페이징
 	public Page<Member> findAll(Pageable pageable) {
 		return memberRepository.findAll(pageable);
@@ -51,4 +53,39 @@ public class MemberService {
 		}
 	}
 
+//	public Map<String, Object> searchUsers(String searchKeyword, String searchType, Pageable pageable) {
+//		List<Long> userNoList = memberRepository.getUserNoList();
+//		List<Long[]> userStatistics = reserveRepository.getUserStatistics(userNoList);
+//		Map<String, Object> result = new HashMap<>();
+//		
+//		result.put("userStats", userStatistics);
+//		
+//		for(Long[] row: userStatistics) {
+//			Long userNo = row[0];
+//			Long reserveCount = row[1];
+//			Long reviewCount = row[2];
+//			System.out.println("userNo :" + userNo);
+//			System.out.println("reserveCount : " + reserveCount);
+//			System.out.println("reviewCount : " + reviewCount);
+//		}
+//		
+//		if (searchKeyword == null || searchType == null) {
+//			result.put("result", qnaRepository.findAll(pageable));
+//		} else {
+//			switch (searchType) {
+//			case "qnaNo":
+//				Long longKeyword = Long.parseLong(searchKeyword);
+//				result.put("result", qnaRepository.findByQnaNoContaining(longKeyword, pageable));
+//			case "title":
+//				result.put("result", qnaRepository.findByTitleContaining((String) searchKeyword, pageable));
+//			case "userName":
+//				result.put("result", qnaRepository.findByUsernameContaining((String) searchKeyword, pageable));
+//			case "qnaDate":
+//				result.put("result", qnaRepository.findByQnaDateContaining((String) searchKeyword, pageable));
+//			default:
+//				result.put("result", qnaRepository.findAll(pageable));
+//			}
+//		}
+//		return result;
+//	}
 }

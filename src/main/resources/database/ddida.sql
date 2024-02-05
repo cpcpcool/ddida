@@ -1,13 +1,3 @@
-## ddida
-## DB 생성
-drop database if exists ddida;
-create database if not exists ddida
-charset='utf8mb4';
-
-use ddida;
-
-## user
-drop table if exists member;
 create table if not exists member(
 	user_no bigint auto_increment not null comment '회원 고유번호',
     username varchar(50) unique not null COMMENT '사용자 아이디',
@@ -20,7 +10,6 @@ create table if not exists member(
     primary key(user_no)
 );
 	
-## 예약
 create table if not exists reserve (
     reserve_id bigint auto_increment not null comment '시설 예약번호',
 	user_no bigint not null comment '회원 고유번호',
@@ -40,7 +29,6 @@ create table if not exists reserve (
     foreign key(user_no) references member(user_no)
 );
 
-## 예약 시간
 create table if not exists reserve_time (
     reserve_time_no bigint auto_increment not null comment '예약시간번호',
     reserve_id bigint not null comment '시설 예약번호',
@@ -49,7 +37,6 @@ create table if not exists reserve_time (
     foreign key(reserve_id) references reserve(reserve_id)
 );
 
-## qna
 create table if not exists qna(
 	qna_no bigint auto_increment not null comment '문의 고유번호',
     username varchar(50) not null COMMENT '사용자 아이디',

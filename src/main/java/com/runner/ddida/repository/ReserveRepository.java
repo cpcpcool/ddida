@@ -47,4 +47,13 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	@Modifying
 	@Query(value = "update reserve set checkout = 1 where reserve_id = :reserveId", nativeQuery = true)
 	Integer checkout(@Param("reserveId") Long reserveId);
+	
+	// 이용후기 수, 이용 횟수 조회 24.02.05 노윤건
+    @Query(value = "SELECT " +
+            "m.user_no, " +
+            "(SELECT COUNT(*) FROM reserve r WHERE r.user_no = m.user_no) AS reserve_count, " +
+            "(SELECT COUNT(*) FROM reserve r WHERE r.user_no = m.user_no AND r.review IS NOT NULL) AS review_count " +
+            "FROM member m " +
+            "WHERE m.user_no IN :userNoList", nativeQuery = true)
+    List<Long[]> getUserStatistics(@Param("userNoList") List<Long> userNoList);
 }

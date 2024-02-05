@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,4 +45,14 @@ public class AdminQnaController {
 		
 		return "admin/qna/adminQnaDetail";
 	}
+	
+	@PostMapping("/qna/{qnaNo}")
+	public String adminQnaDetailPost(@PathVariable("qnaNo") Long qnaNo,
+			@RequestParam("answer") String answer) {
+		System.out.println("문의대답 : " + answer);
+		qnaService.saveAnswer(qnaNo, answer);
+		
+		return "redirect:/admin/qna/" + qnaNo;
+	}
+	
 }

@@ -43,7 +43,7 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 				                <option value="title" selected>제목</option>
 				                <!--<option value="username">작성자</option>-->
 				                <option value="username">아이디</option>
-				                <!-- <option value="qnaDate">작성일</option> -->
+				                <option value="qnaDate">작성일</option>
 				            </select>
          				    <input type="search" name="searchKeyword" style="border-radius: 15px;">
             				<button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
@@ -56,13 +56,14 @@ thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
 								<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
 								<th scope="col" class="th">번호</th>
 								<th scope="col" class="th">제목</th>
-								<th scope="col" class="th">작성자</th>
+								<!--<th scope="col" class="th">작성자</th>-->
 								<th scope="col" class="th">아이디</th>
+								<th scope="col" class="th">작성일</th>
 								<!--<th scope="col" class="th">답변여부</th>-->
 								<th scope="col" class="th">조회수</th>
 							</tr>
 						</thead>
-						<tbody style="font-size: medium;">
+						<tbody style="font-size: small;">
                             <!--<th:block th:each="qna : ${list}">-->
 							    <tr th:each="qna : ${list}">
 							        <td th:text="${qna.qnaNo}" class="list-row"></td>

@@ -1,10 +1,12 @@
 package com.runner.ddida.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.runner.ddida.model.Member;
 
@@ -35,5 +37,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	//  가입일
 	Page<Member> findBySignDateContaining(String searchKeyword, Pageable pageable);
 
+	// [관리자] find userNo
+	@Query(value = "select user_no from member", nativeQuery = true)
+	List<Long> getUserNoList();
 	
 } 

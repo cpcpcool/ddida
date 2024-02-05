@@ -26,6 +26,7 @@ public class QnaDto {
 	private Integer qnaView;
 	private boolean qnaSecret;
 	private String answer;
+	private String answerTime;
 	
 	public Qna toEntity() {
 		return Qna.builder()
@@ -36,6 +37,8 @@ public class QnaDto {
 				.description(description)
 				.qnaDate(LocalDate.now())
 				.qnaView(0)
+				.answer(answer)
+				.answerTime(answerTime)
 				.build();
 	}
 

@@ -48,10 +48,20 @@ public class AdminMemberController {
 		// 마지막 게시글이 존재하는 페이지를 endPage로
 		int endPage = Math.min(nowPage + 5, userList.getTotalPages());
 
+		model.addAttribute("userList", userList);	
+
+//		Map<String, Object> result = memberService.searchUsers(searchKeyword, searchType, pageable);
+//		int nowPage = ((Page<Member>)result.get("result")).getPageable().getPageNumber() + 1;
+//		int startPage = Math.max(nowPage - 4, 1);
+//		int endPage = Math.min(nowPage + 5, ((Page<Member>)result.get("result")).getTotalPages());
+
+		
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("userList", userList);
+//		model.addAttribute("userList", ((Page<Member>)result.get("result")));
+//		model.addAttribute("userStats", result.get("userStats"));
+
 
 		return "admin/users/userList";
 	}
