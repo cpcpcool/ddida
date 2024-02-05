@@ -30,7 +30,7 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 .qna-list, .review-list, .usage-list {width: 100%; table-layout: fixed;}
 .list-row {border: 1px solid #37745b;}
 .save, .backward {float: right; border-radius: 20px; margin-top: 20px; margin-bottom: 10px; padding: 5px;
- width: 100px; background-color: #37745b; color: #fff; border-color: unset;}
+ width: 100px; background-color: #37745b; color: #fff; border-color: unset; border-style: none;}
 </style>
 </head>
 <body data-page="/admin/users/1">
@@ -70,32 +70,6 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 										<td class="td prop">현재 권한</td>
 										<td class="td desc">'[[${user.role}]]'</td>
 									</tr>
-									
-									<!-- 
-									<tr>
-										<td class="td prop">권한 변경</td>
-										<td class="td desc">
-											<div>
-												<form class="authorityCtrl" method="get" action="/">
-													<input type="date" name="start">
-													<span>부터</span>
-													<input type="date" name="end">
-													<span>까지</span>
-													<button type="submit" style="border: 1px solid;">저장</button>
-													<div style="margin-top: 5px;">
-														<select class="form-select" aria-label="Default select example">
-															<option selected value="a">A</option>
-															<option value="b">B</option>
-															<option value="c">C</option>
-														</select>
-														<span>권한으로 변경</span>
-													</div>
-												</form>
-											</div>
-										</td>
-									</tr>
-									 -->
-									
 									<tr>
 										<td class="td prop">작성 문의글 수</td>
 										<td class="td desc">11</td>
@@ -132,15 +106,20 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 						
 						<div class="list-container">
 							<div style="width: 100%; align-items: center;">
-								<div id="carouselExample" class="carousel slide" style="width: 100%;">
-									<div class="carousel-inner" style="padding-left: 55px; padding-right: 10px; padding-top: 30px;">
-									    <div class="carousel-item active">
+								<div id="carouselExample" class="carousel slide"
+									style="width: 100%;">
+									<div class="carousel-inner"
+										style="padding-left: 55px; padding-right: 10px; padding-top: 30px;">
+										<div class="carousel-item active">
 											<h6>작성 문의글 내역</h6>
-									    	<div class="qna-area" style="overflow-y: auto; max-height: 350px; ">
-												<table class="qna-list list" style="width: 100%; border-collapse: collapse;">
+											<div class="qna-area"
+												style="overflow-y: auto; max-height: 350px;">
+												<table class="qna-list list"
+													style="width: 100%; border-collapse: collapse;">
 													<thead>
 														<tr>
-															<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
+															<th th:each="columnName : ${array}" scope="col"
+																class="head" th:text="${columnName}"></th>
 															<th scope="col" class="th" style="width: 10%;">글번호</th>
 															<th scope="col" class="th" style="width: 50%;">제목</th>
 															<th scope="col" class="th" style="width: 25%;">작성일자</th>
@@ -149,87 +128,24 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 													</thead>
 													<tbody style="text-align: center;">
 														<th:block th:each="qna : ${data}">
-														    <tr>
-														        <td th:text="${qna.qnaNo}" class="list-row"></td>
-														        <td class="list-row"><a th:href="@{/admin/qna/{qnaNo}(qnaNo=${qna.qnaNo})}">[[${qna.title}]]</a></td>
-														        <td th:text="${qna.qnaDate}" class="list-row"></td>
-														        <td th:text="${qna.qnaSecret}" class="list-row"></td>
-														    </tr>
+															<tr>
+																<td th:text="${qna.qnaNo}" class="list-row"></td>
+																<td class="list-row"><a
+																	th:href="@{/admin/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" style="color: #37745b;">[[${qna.title}]]</a></td>
+																<td th:text="${qna.qnaDate}" class="list-row"></td>
+																<td th:text="${qna.qnaSecret}" class="list-row"></td>
+															</tr>
 														</th:block>
 													</tbody>
 												</table>
 											</div>
-									    </div>
-									    <div class="carousel-item">
-									    <h6>작성 후기 내역</h6>
-									    	<div class="review-area" style="overflow-y: auto; max-height: 350px; ">
-												<table class="review-list list" style="width: 100%; border-collapse: collapse;">
-													<thead>
-														<tr>
-															<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
-															<th scope="col" class="th">시설명</th>
-															<th scope="col" class="th">작성후기 내용</th>
-															<th scope="col" class="th">작성일자</th>
-															<th scope="col" class="th">d</th>
-														</tr>
-													</thead>
-													<tbody>
-													  <th:block th:each="row : ${arr}">
-													    <tr>
-													      <td th:each="e : ${row}" th:text="${e}" class="list-row"></td>
-													    </tr>
-													  </th:block>
-													</tbody>
-												</table>
-											</div>
-									    </div>
-									    <div class="carousel-item">
-									    <h6>이용 내역</h6>
-									    	<div class="review-area" style="overflow-y: auto; max-height: 350px; ">
-												<table class="review-list list" style="width: 100%; border-collapse: collapse;">
-													<thead>
-														<tr>
-															<th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
-															<th scope="col" class="th">시설명</th>
-															<th scope="col" class="th">이용일자</th>
-															<th scope="col" class="th">결제금액</th>
-															<th scope="col" class="th">d</th>
-														</tr>
-													</thead>
-													<tbody>
-													  <th:block th:each="row : ${arr}">
-													    <tr>
-													      <td th:each="e : ${row}" th:text="${e}" class="list-row"></td>
-													    </tr>
-													  </th:block>
-													</tbody>
-												</table>
-											</div>
-									    </div>
-									  </div>
-									  
-									  <!--
-									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"
-									  		style="position: absolute; top: 0px; height: 200px;">
-									    <span class="carousel-control-prev-icon" aria-hidden="true" 
-									    	style="width: 20px; background-color: black; margin-left: -40px;"></span>
-									    <span class="visually-hidden">Previous</span>
-									  </button>
-									  
-									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"
-									  style="position: absolute; top: 0px; height: 200px;">
-									    <span class="carousel-control-next-icon" aria-hidden="true" 
-									    	style="width: 20px; background-color: black; margin-right: -40px;"></span>
-									    <span class="visually-hidden">Next</span>
-									  </button>
-									  -->
-									  
+										</div>
 									</div>
 								</div>
+							</div>
 						</div>
 						
-					</div>		<!-- inner-container의 끝 -->
-					<!-- <a href="#"><input type="button" value="저장" class="save"></a> -->
+					</div>
 					<a href="/admin/users"><input type="button" value="목록으로" class="backward"></a>
 				</div>
 			</div>
@@ -238,6 +154,5 @@ padding-right: 20px; text-align: center; vertical-align: center; border: 2px sol
 	
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
-<!-- <script src="/js/admin/userDetail2.js"></script> -->
 </body>
 </html>

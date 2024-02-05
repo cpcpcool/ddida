@@ -84,7 +84,7 @@ td {font-size: small;}
 						
 						<tbody>
 							<tr th:each="item:${list}">
-								<td><a th:href="@{'/admin/space/' + ${item.rsrcNo}}" th:text="${item.rsrcNo}"></a></td>
+								<td><a th:href="@{'/admin/space/' + ${item.rsrcNo}}" th:text="${item.rsrcNo}" style="color: #37745b;"></a></td>
 								<td>[[${item.rsrcClsNm}]]</td>
 								<td>[[${item.rsrcNm}]]</td>
 								<td>[[${item.addr}]]</td>

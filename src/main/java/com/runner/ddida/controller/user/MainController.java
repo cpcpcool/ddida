@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * @author 박재용
- * @editDate 24.01.22 ~
  */
 
 @Controller
