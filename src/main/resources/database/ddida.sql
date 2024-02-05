@@ -36,7 +36,6 @@ create table if not exists reserve (
     name varchar(30) COMMENT '예약자 이름',
     checkout int COMMENT '이용 완료 여부',
     review varchar(255) comment '이용 후기',
-    checkout int comment '이용 상태',
     primary key(reserve_id),
     foreign key(user_no) references member(user_no)
 );
