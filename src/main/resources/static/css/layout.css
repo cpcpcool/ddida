@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+::selection {
+    background-color: #37745b;
+    color: #fff; 
+}
+
 @font-face {
 	font-family: 'SpoqaHanSansNeo';
 	src: url('/fonts/SpoqaHanSansNeo-Thin.woff') format('woff');
