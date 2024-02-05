@@ -60,11 +60,13 @@ public class QnaController {
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
-
+		int lastPage = qnaList.getTotalPages();
+		
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
+		model.addAttribute("lastPage", lastPage);
 
 		return "user/qna/qnaList";
 	}

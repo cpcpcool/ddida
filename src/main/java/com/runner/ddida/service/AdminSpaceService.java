@@ -24,10 +24,12 @@ import com.runner.ddida.vo.SpaceMetaVo;
 import com.runner.ddida.vo.SpaceVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminSpaceService {
 
 	class HttpGetEntity extends HttpEntityEnclosingRequestBase {
@@ -45,6 +47,7 @@ public class AdminSpaceService {
 	@Value("${api.key}")
 	private String clientSecretKey;
 	
+	@SuppressWarnings("unchecked")
 	public List<String> getRsrcNoList() {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
@@ -52,7 +55,7 @@ public class AdminSpaceService {
 		
 		try {
 			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 98);
+			obj.put("numOfRows", 100);
 			obj.put("ctpvCd", "11");
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -86,16 +89,17 @@ public class AdminSpaceService {
 				for(int i=0; i<filteredData.size(); i++) {
 					rsrcNoList.add(i, filteredData.get(i).getRsrcNo());
 				}
-				
+			}else {
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode()); 
 			}
 			
 		} catch (Exception e) {
-//			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
-		System.out.println("getRsrcNoList() 실행 - rsrcNoList.size() : " + rsrcNoList.size());
 		return rsrcNoList;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> show(List<String> rsrcNoGroup, int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -105,7 +109,6 @@ public class AdminSpaceService {
 		try {
 			JSONObject obj = new JSONObject(); // Request parameter
 			
-			ArrayList<String> rsrcNoList = new ArrayList<String>();
 			obj.put("rsrcNoList", rsrcNoGroup);
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -129,21 +132,9 @@ public class AdminSpaceService {
 				// 주소필터링 없이 데이터저장
 				data = spaceDetaiMetaVo.getData();
 				
-//				List<SpaceDetailVo> each = spaceDetaiMetaVo.getData();
-//				for(int i=0; i<each.size(); i++) {
-//					if(each.get(i).getAddr() != null && !each.get(i).getAddr().isBlank()) {
-//						data.add(each.get(i));
-//					}
-//				}
-//				System.out.println("[show] 필터후 data.size() : " + data.size());
-				
 			} else {
-//				System.out.println("Response Error:");
-//				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
-//			System.out.println(result); // 결과 출력
-			
-//			System.out.println(data.isEmpty());
 			
 			int totaldata = data.size();
 			int totalPages = (int) Math.ceil((double) totaldata / pageSize);
@@ -157,13 +148,14 @@ public class AdminSpaceService {
 			spaceList.put("totalPages", totalPages);
 			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 		return spaceList;
 	}
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> showFilterdResult(List<String> rsrcNoGroup, String searchType, String searchWord, int page, int pageSize) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -173,7 +165,6 @@ public class AdminSpaceService {
 		try {
 			JSONObject obj = new JSONObject(); // Request parameter
 			
-			ArrayList<String> rsrcNoList = new ArrayList<String>();
 			obj.put("rsrcNoList", rsrcNoGroup);
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -195,8 +186,6 @@ public class AdminSpaceService {
 				}
 				
 				data = spaceDetaiMetaVo.getData();
-				
-				System.out.println("[showFilteredResult] 필터전 data.size() : " + data.size());
 				
 				List<SpaceDetailVo> filteredData = new ArrayList<>();
 
@@ -229,16 +218,10 @@ public class AdminSpaceService {
 				}
 
 				data = filteredData;
-
-				System.out.println("[showFilteredResult] 필터후 data.size() : " + data.size());
 				
 			} else {
-//				System.out.println("Response Error:");
-//				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());// 에러 발생
 			}
-//			System.out.println(result); // 결과 출력
-			
-//			System.out.println(data.isEmpty());
 			
 			int totaldata = data.size();
 			int totalPages = (int) Math.ceil((double) totaldata / pageSize);
@@ -252,12 +235,13 @@ public class AdminSpaceService {
 			spaceList.put("totalPages", totalPages);
 			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 		return spaceList;
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public List<SpaceDetailVo> findDetail(String spaceNo) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -289,15 +273,11 @@ public class AdminSpaceService {
 				}
 				data = spaceDetaiMetaVo.getData();
 			} else {
-				System.out.println("Response Error:");
-				System.out.println(response.getStatusLine().getStatusCode());
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());// 에러 발생
 			}
-//			System.out.println(result); // 결과 출력
-			
-//			System.out.println(data.isEmpty());
 			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 		return data;
 	}

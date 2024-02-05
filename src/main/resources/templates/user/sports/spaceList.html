@@ -171,8 +171,6 @@
 						</a></li>
 						<th:block
 							th:each="page : ${#numbers.sequence(startPage, endPage)}">
-
-
 							<li class="page-item"><a th:if="${page != nowPage}"
 								th:href="@{/sports/search(page = ${page - 1}, type = ${param.type}, pay = ${param.pay}, region= ${param.region}, spaceNm=${param.spaceNm})}"
 								th:text="${page}" id="pagination" class="page-link">1</a></li>
@@ -187,6 +185,7 @@
 					</ul>
 				</nav>
 			</div>
+			
 		</div>
 	</div>
 

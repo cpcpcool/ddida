@@ -92,11 +92,11 @@ public class QnaService {
 				Long longKeyword = Long.parseLong(searchKeyword);
 				return qnaRepository.findByQnaNoContaining(longKeyword, pageable);
 			case "title":
-				return qnaRepository.findByTitleContaining((String) searchKeyword, pageable);
-			case "userName":
-				return qnaRepository.findByUsernameContaining((String) searchKeyword, pageable);
+				return qnaRepository.findByTitleContaining((String)searchKeyword, pageable);
+			case "username":
+				return qnaRepository.findByUsernameContaining((String)searchKeyword, pageable);
 			case "qnaDate":
-				return qnaRepository.findByQnaDateContaining((String) searchKeyword, pageable);
+				return qnaRepository.findByQnaDateContaining((String)searchKeyword, pageable);
 			default:
 				return qnaRepository.findAll(pageable);
 			}

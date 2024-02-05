@@ -1,76 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="UTF-8">
-<title>DDIDA</title>
+<link rel="icon" href="/img/favicon.png">
 <link href="/css/reset.css" rel="stylesheet">
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/layout.css" rel="stylesheet">
 <link href="/css/qna.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<title>문의 목록</title>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<title>뛰다</title>
 <style>
-thead tr th.th {background-color: lightgray; border-bottom: 1.5px dashed gray;}
-.searchTool {margin: 30px auto 15px auto;}
-.input-group {width: 43%;}
-.input-group .dropdown {margin-right: 10px; border: 1px solid #c1d2bf;}
-.input-group input {margin-right: 10px; border: 1px solid #c1d2bf;}
-.input-group button {background-color: #37745b; padding: 8px 16px;}
-tbody tr td {font-size: small;}
+thead tr th.th {
+	background-color: lightgray;
+	border-bottom: 1.5px dashed gray;
+}
 
+.searchTool {
+	margin: 30px auto 15px auto;
+}
 
-.paging-bar {margin-bottom: 100px; height: 0 !important;}
-.pagination {height: 0px;}
+.input-group {
+	width: 43%;
+}
 
-.custom-pagination {display: flex; justify-content: center; margin-bottom: 100px;}
-.page-item {list-style: none; margin: 0 5px;}
-.page-link {text-decoration: none; color: #37745b; background-color: transparent;
-    border: 1px solid #c1d2bf; border-radius: 5px; padding: 5px 10px;}
-.page-link:hover {background-color: #37745b; color: white;}
+.input-group .dropdown {
+	margin-right: 10px;
+	border: 1px solid #37745b;
+	color: #37745b;
+}
+
+.input-group input {
+	margin-right: 10px;
+	border: 1px solid #c1d2bf;
+}
+
+.input-group button {
+	background-color: #37745b;
+	padding: 8px 16px;
+}
+
+tbody tr td {
+	font-size: small;
+}
+.page-link {
+	color: #222222;
+	border-color: #D9D9D9;
+}
+
+.page-item.active .page-link {
+	z-index: 1;
+	color: white;
+	font-weight: bold;
+	background-color: #37745B;
+	border-color: #D9D9D9;
+}
+
+.page-link:focus, .page-link:hover {
+	color: white;
+	background-color: #37745B;
+	border-color: #D9D9D9;
+}
 </style>
 </head>
 <body>
 <body data-page="/admin/users">
 
-    <!-- Header -->
-    <div th:replace="~{component/admin/adminHeader}"></div>
-    <div class="wrap-content">
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="searchTool h-10">
-                        <div class="input-group">
-                            <select class="dropdown form-select form-select-sm" aria-label="Small select example" style="border-radius: 15px;"
-                            	name="searchType">
-                                <option value="username" selected>아이디</option>
-                                <option value="name" >이름</option>
-                                <option value="role">권한상태</option>
-                                <option value="signDate">가입일</option>
-                            </select>
-                             <input type="search" style="border-radius: 15px;" name="searchKeyword">
-                            <button type="submit" class="btn btn-primary" style="border-radius: 15px;">검색하기</button>
-                        </div>
-                       </form>
-                       
-                    <table class="table caption-top">
-                        <thead>
-                            <tr>
-                                <th th:each="columnName : ${array}" scope="col" class="head" th:text="${columnName}"></th>
-                                <th scope="col" class="th" style="width: 15%;">아이디</th>
-                                <th scope="col" class="th" style="width: 12%;">이름</th>
-                                <th scope="col" class="th" style="width: 15%;">작성 문의글 수</th>
-                                <th scope="col" class="th" style="width: 15%;">작성 후기 수</th>
-                                <th scope="col" class="th" style="width: 10%;">이용 횟수</th>
-                                <th scope="col" class="th" style="width: 10%;">권한상태</th>
-                                <th scope="col" class="th" style="width: 23%;">가입일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="user:${userList}">
-								<td>
-									<a th:href="@{/admin/users/{userNo}(userNo=${user.userNo})}" style="text-decoration: none; color: #222222; width: 10%">[[${user.username}]]</a>
+	<!-- Header -->
+	<div th:replace="~{component/admin/adminHeader}"></div>
+	<div class="wrap-content">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-12">
+					<form class="searchTool h-10" th:action="@{/admin/users}" method="get">
+						<div class="input-group row ps-3">
+							<select class="dropdown form-select form-select-sm category-btn col-2"
+								aria-label="Small select example" style="border-radius: 15px;"
+								name="searchType">
+								<option value="username" selected>아이디</option>
+								<option value="name">이름</option>
+								<option value="role">권한상태</option>
+								<option value="signDate">가입일</option>
+							</select> 
+							<input id="search-input" type="text" style="border-radius: 15px;  font-size: 15px;"
+								name="searchKeyword" class="col-6">
+							<button id="search-btn" type="submit" class="btn btn-primary col"
+								style="border-radius: 15px;">검색하기</button>
+						</div>
+					</form>
+
+					<table class="table caption-top">
+						<thead>
+							<tr>
+								<th th:each="columnName : ${array}" scope="col" class="head"
+									th:text="${columnName}"></th>
+								<th scope="col" class="th" style="width: 15%;">아이디</th>
+								<th scope="col" class="th" style="width: 12%;">이름</th>
+								<th scope="col" class="th" style="width: 15%;">작성 문의글 수</th>
+								<th scope="col" class="th" style="width: 15%;">작성 후기 수</th>
+								<th scope="col" class="th" style="width: 10%;">이용 횟수</th>
+								<th scope="col" class="th" style="width: 10%;">권한상태</th>
+								<th scope="col" class="th" style="width: 23%;">가입일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user:${userList}">
+								<td><a
+									th:href="@{/admin/users/{userNo}(userNo=${user.userNo})}"
+									style="text-decoration: none; color: #222222; width: 10%">[[${user.username}]]</a>
 								</td>
 								<td>[[${user.name}]]</td>
 								<td>11</td>
@@ -79,71 +117,46 @@ tbody tr td {font-size: small;}
 								<td>[[${user.role}]]</td>
 								<td>[[${user.signDate}]]</td>
 							</tr>
-                            
-                            
-                        </tbody>
-                    </table>
-                     
-                <!--      
-                <div class="custom-pagination">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                 -->
-                 
-                 
-                <div>
-					<nav aria-label="pagination">
-						<ul class="pagination justify-content-center">
-							<li class="page-item">
-								<a id="pagination" class="page-link"
+
+
+						</tbody>
+					</table>
+
+					<div>
+						<nav aria-label="pagination">
+							<ul class="pagination justify-content-center">
+								<li class="page-item"><a id="pagination" class="page-link"
 									href="" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-								</a>
-							</li>
-							<th:block
-								th:each="page : ${#numbers.sequence(startPage, endPage)}">
-								<li class="page-item"><a th:if="${page != nowPage}"
-									th:href="@{/admin/users(page = ${page - 1})}"
-									th:text="${page}" id="pagination" class="page-link">1</a></li>
-								<li class="page-item"><a th:if="${page == nowPage}"
-									th:text="${page}" id="pagination" class="page-link"
-									style="background-color: #37745B; color: #ffffff;">1</a></li>
-							</th:block>
-							<li class="page-item">
-								<a id="pagination" class="page-link"
+								</a></li>
+								<th:block
+									th:each="page : ${#numbers.sequence(startPage, endPage)}">
+									<li class="page-item"><a th:if="${page != nowPage}"
+										th:href="@{/admin/users(page = ${page - 1})}"
+										th:text="${page}" id="pagination" class="page-link">1</a></li>
+									<li class="page-item"><a th:if="${page == nowPage}"
+										th:text="${page}" id="pagination" class="page-link"
+										style="background-color: #37745B; color: #ffffff;">1</a></li>
+								</th:block>
+								<li class="page-item"><a id="pagination" class="page-link"
 									href="" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-								</a>
-							</li>
+								</a></li>
 							</ul>
 						</nav>
-					</div> 
-                 
-                 
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Footer -->
-    <div th:replace="~{component/admin/adminFooter}" class="footer"></div>
-<script>
-    function navigateToFacilityDetailPage(targetUrl) {
-        window.location.href = targetUrl;
-    }
-</script>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/admin/adminFooter}" class="footer"></div>
+	<script>
+		function navigateToFacilityDetailPage(targetUrl) {
+			window.location.href = targetUrl;
+		}
+	</script>
 </body>
 
 </html>

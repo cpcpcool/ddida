@@ -63,11 +63,14 @@ public class MypageController {
 		int nowPage = reserveList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, reserveList.getTotalPages());
-
-		model.addAttribute("reserveList", reserveList);
+		int lastPage = reserveList.getTotalPages();
+		
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
+		model.addAttribute("lastPage", lastPage);
+		
+		model.addAttribute("reserveList", reserveList);
 
 		return "user/mypage/reserveList";
 	}

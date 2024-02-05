@@ -34,9 +34,6 @@ public class AdminMemberController {
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
 		
-		System.out.println("분류 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
-		
 		// 검색
 		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);;
 		

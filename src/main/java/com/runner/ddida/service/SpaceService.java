@@ -33,6 +33,7 @@ import com.runner.ddida.vo.SpaceVo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 박재용
@@ -40,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SpaceService {
 
 	private final ReserveRepository reserveRepository;
@@ -65,7 +67,8 @@ public class SpaceService {
 	// 체육시설 기본 정보 api (서울 + 경기 + 인천)
 	public List<SpaceVo> findDefaultList() {
 		List<SpaceVo> spaceDefault = new ArrayList<>();
-
+		
+		// api 지역구분 분류 불가
 		List<SpaceVo> seoulList = getSpaceList("11");
 		List<SpaceVo> gyeonggiList = getSpaceList("41");
 		List<SpaceVo> incheonList = getSpaceList("28");
@@ -78,6 +81,7 @@ public class SpaceService {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<SpaceVo> getSpaceList(String ctpvCd) {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
@@ -118,17 +122,18 @@ public class SpaceService {
 						.filter(space -> !space.getRsrcNm().contains("아차산"))
 						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty()).collect(Collectors.toList());
 
-				int totaldata = spaceDefault.size();
-				System.out.println("totaldata : " + totaldata);
+				int loadData = spaceDefault.size();
+				log.info("loadData : {}", loadData);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 
 		return spaceDefault;
 	}
 
 	// 리스트 상세정보 리스트 호출
+	@SuppressWarnings("unchecked")
 	public List<SpaceDetailVo> findDetailList(List<SpaceVo> api) {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
@@ -165,12 +170,11 @@ public class SpaceService {
 				}
 				detailData = spaceDetaiMetaVo.getData();
 			} else {
-				System.out.println("Response Error:");
-				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
 
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 
 		return detailData;
@@ -184,10 +188,7 @@ public class SpaceService {
 				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
 				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
 				.limit(12).collect(Collectors.toList());
-
-		int totaldata = recmdSpaceList.size();
-		System.out.println("totaldata : " + totaldata);
-
+		
 		return recmdSpaceList;
 	}
 
@@ -240,8 +241,24 @@ public class SpaceService {
 		return filteredListPage;
 	}
 
-	// =======================================================================================================================
+	// 통합 검색예약 시설 리스트
+		public Page<SpaceVo> findSpaceList(Pageable pageable) {
+			List<SpaceVo> spaceList = findDefaultList();
+			
+			// List를 Page로 변환
+			int start = (int) pageable.getOffset();
+			int end = Math.min((start + pageable.getPageSize()), spaceList.size());
+			Page<SpaceVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
 
+			return spaceListPage;
+		}
+
+	
+	/**
+	 *  @author: 김부경 
+	 */ 
+
+	@SuppressWarnings("unchecked")
 	public List<String> findrsrcNoList() {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
 		String result = "";
@@ -282,30 +299,13 @@ public class SpaceService {
 			}
 
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 		return rsrcNoList;
 	}
 
-	// 통합 검색예약 시설 리스트
-	public Page<SpaceVo> findSpaceList(Pageable pageable) {
-		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/010500/" + clientSecretKey;
-		String result = "";
-
-		List<SpaceVo> spaceList = findDefaultList();
-
-		int totalData = spaceList.size();
-		System.out.println("totalData: " + totalData);
-
-		// List를 Page로 변환
-		int start = (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), spaceList.size());
-		Page<SpaceVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
-
-		return spaceListPage;
-	}
-
 	// 체육시설 세부정보 api
+	@SuppressWarnings("unchecked")
 	public List<SpaceDetailVo> findDetail(String spaceNo) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -338,17 +338,17 @@ public class SpaceService {
 				}
 				data = spaceDetaiMetaVo.getData();
 			} else {
-				System.out.println("Response Error:");
-				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
 
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 
 		return data;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<SpaceDetailVo> findSports(List<String> ApiVoIdList, String sportsNm) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
@@ -384,21 +384,21 @@ public class SpaceService {
 				}
 
 			} else {
-				System.out.println("Response Error:");
-				System.out.println(response.getStatusLine().getStatusCode());// 에러 발생
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
+			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			log.error("에러 발생: {}", e.getMessage(), e);
 		}
 		return data;
 	}
 
-	
+	// 예약 데이터 저장
 	@Transactional
 	public void saveReserve(Reserve reserve) {
 		reserveRepository.save(reserve);
 	}
-
+	
 	// 예약 중복 막기
 	@Transactional
 	public List<Reserve> findReserve() {
@@ -415,20 +415,15 @@ public class SpaceService {
         return reserveList;
     }
 	
+    // 예약 시간 호출
 	@Transactional
 	public List<ReserveTime> findReserveTime() {
 		return reserveTimeRepository.findAll();
     }
 	
+	// 예약 가능 시간
     public List<String> getAvailableTimes(String date, String rsrcNo) {
-		
-		List<String> useTime = reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
-
-		for(String use : useTime) {
-			System.out.println(use);
-		}
-		
-        return useTime;
+        return reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
     }
 	
 }
