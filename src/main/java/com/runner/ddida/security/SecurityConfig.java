@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
 
@@ -51,18 +52,23 @@ public class SecurityConfig {
 						.deleteCookies("JSESSIONID")) // 로그아웃 후  쿠키삭제
 				
 				.rememberMe(remember -> remember // 자동 로그인 
-						.key("ddida")
-						.tokenValiditySeconds(600)
+						.key("ddida")// 토큰생성키 
+						.tokenValiditySeconds(100)
 						.userDetailsService(ddidaUserDetailsService)
-						.rememberMeParameter("remember-me"));
+						.rememberMeServices(rememberMeServices())
+						.rememberMeParameter("remember-me"))
 					
-//				.sessionManagement(session -> session
-//						.maximumSessions(1) // 동일 계정 최대 세션 갯수 제한
-//						.maxSessionsPreventsLogin(false)
-//						.expiredUrl("/")); // 세션만료 이동url
-//								
-		
+				.sessionManagement(session -> session
+						.maximumSessions(1) // 동일 계정 최대 세션 갯수 제한
+						.maxSessionsPreventsLogin(false)
+						.expiredUrl("/")); // 세션만료 이동url
+
 		return http.build();
 	}
+	
+	@Bean
+    public TokenBasedRememberMeServices rememberMeServices() {
+        return new TokenBasedRememberMeServices("ddida", ddidaUserDetailsService);
+    }
 
 }

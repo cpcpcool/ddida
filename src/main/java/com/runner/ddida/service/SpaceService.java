@@ -66,18 +66,21 @@ public class SpaceService {
 
 	// 체육시설 기본 정보 api (서울 + 경기 + 인천)
 	public List<SpaceVo> findDefaultList() {
-		List<SpaceVo> spaceDefault = new ArrayList<>();
-		
+		List<SpaceVo> spaceDefaultList = new ArrayList<>();
+
 		// api 지역구분 분류 불가
 		List<SpaceVo> seoulList = getSpaceList("11");
 		List<SpaceVo> gyeonggiList = getSpaceList("41");
 		List<SpaceVo> incheonList = getSpaceList("28");
 
-		spaceDefault.addAll(seoulList);
-		spaceDefault.addAll(gyeonggiList);
-		spaceDefault.addAll(incheonList);
+		spaceDefaultList.addAll(seoulList);
+		spaceDefaultList.addAll(gyeonggiList);
+		spaceDefaultList.addAll(incheonList);
 
-		return spaceDefault;
+		int loadData = spaceDefaultList.size();
+		log.info("loadData : {}", loadData);
+
+		return spaceDefaultList;
 
 	}
 
@@ -116,14 +119,12 @@ public class SpaceService {
 				ObjectMapper objectMapper = new ObjectMapper();
 				SpaceMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 
-				spaceDefault = apiMetaVo.getData().stream()
-						.filter(space -> !space.getRsrcNm().contains("테스트"))
+				spaceDefault = apiMetaVo.getData().stream().filter(space -> !space.getRsrcNm().contains("테스트"))
 						.filter(space -> !space.getRsrcNm().contains("야외운동기구"))
 						.filter(space -> !space.getRsrcNm().contains("아차산"))
 						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty()).collect(Collectors.toList());
-
-				int loadData = spaceDefault.size();
-				log.info("loadData : {}", loadData);
+			} else {
+				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
 		} catch (Exception e) {
 			log.error("에러 발생: {}", e.getMessage(), e);
@@ -138,7 +139,7 @@ public class SpaceService {
 
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
-		
+
 		List<SpaceDetailVo> detailData = null;
 
 		try {
@@ -148,7 +149,7 @@ public class SpaceService {
 			for (int i = 0; i < api.size(); i++) {
 				rsrc.add(api.get(i).getRsrcNo());
 			}
-			
+
 			obj.put("rsrcNoList", rsrc);
 
 			CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -188,7 +189,7 @@ public class SpaceService {
 				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
 				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
 				.limit(12).collect(Collectors.toList());
-		
+
 		return recmdSpaceList;
 	}
 
@@ -215,7 +216,8 @@ public class SpaceService {
 	}
 
 	// 메인 검색 필터
-	public Page<SpaceVo> searchMainByCriteria(String type, String pay, String region, String spaceNm, Pageable pageable) {
+	public Page<SpaceVo> searchMainByCriteria(String type, String pay, String region, String spaceNm,
+			Pageable pageable) {
 		List<SpaceVo> allData = findDefaultList();
 
 		List<SpaceVo> filteredList = allData.stream()
@@ -228,35 +230,35 @@ public class SpaceService {
 			List<SpaceDetailVo> detailList = findDetailList(filteredList);
 
 			filteredList = filteredList.stream()
-					.filter(apiVo -> detailList.stream()
-					        .anyMatch(detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
+					.filter(apiVo -> detailList.stream().anyMatch(
+							detail -> apiVo.getRsrcNo().equals(detail.getRsrcNo()) && pay.equals(detail.getFreeYn())))
 					.collect(Collectors.toList());
 		}
 
 		// List를 Page로 변환
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), filteredList.size());
-		Page<SpaceVo> filteredListPage = new PageImpl<>(filteredList.subList(start, end), pageable, filteredList.size());
+		Page<SpaceVo> filteredListPage = new PageImpl<>(filteredList.subList(start, end), pageable,
+				filteredList.size());
 
 		return filteredListPage;
 	}
 
 	// 통합 검색예약 시설 리스트
-		public Page<SpaceVo> findSpaceList(Pageable pageable) {
-			List<SpaceVo> spaceList = findDefaultList();
-			
-			// List를 Page로 변환
-			int start = (int) pageable.getOffset();
-			int end = Math.min((start + pageable.getPageSize()), spaceList.size());
-			Page<SpaceVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
+	public Page<SpaceVo> findSpaceList(Pageable pageable) {
+		List<SpaceVo> spaceList = findDefaultList();
 
-			return spaceListPage;
-		}
+		// List를 Page로 변환
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), spaceList.size());
+		Page<SpaceVo> spaceListPage = new PageImpl<>(spaceList.subList(start, end), pageable, spaceList.size());
 
-	
+		return spaceListPage;
+	}
+
 	/**
-	 *  @author: 김부경 
-	 */ 
+	 * @author: 김부경
+	 */
 
 	@SuppressWarnings("unchecked")
 	public List<String> findrsrcNoList() {
@@ -309,7 +311,7 @@ public class SpaceService {
 	public List<SpaceDetailVo> findDetail(String spaceNo) {
 		String apiURI = "https://www.eshare.go.kr/eshare-openapi/rsrc/detail/" + clientSecretKey;
 		String result = "";
-		
+
 		List<SpaceDetailVo> data = null;
 
 		try {
@@ -386,7 +388,7 @@ public class SpaceService {
 			} else {
 				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
-			
+
 		} catch (Exception e) {
 			log.error("에러 발생: {}", e.getMessage(), e);
 		}
@@ -398,32 +400,32 @@ public class SpaceService {
 	public void saveReserve(Reserve reserve) {
 		reserveRepository.save(reserve);
 	}
-	
+
 	// 예약 중복 막기
 	@Transactional
 	public List<Reserve> findReserve() {
 		return reserveRepository.findAll();
 	}
 
-    public List<Reserve> findByRsrcNo(String rsrcNo) {
+	public List<Reserve> findByRsrcNo(String rsrcNo) {
 		Date today = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = dateFormat.format(today);
-		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = dateFormat.format(today);
+
 		List<Reserve> reserveList = reserveRepository.findByRsrcNoAndUseDateAfter(rsrcNo, dateString);
-	    
-        return reserveList;
-    }
-	
-    // 예약 시간 호출
+
+		return reserveList;
+	}
+
+	// 예약 시간 호출
 	@Transactional
 	public List<ReserveTime> findReserveTime() {
 		return reserveTimeRepository.findAll();
-    }
-	
+	}
+
 	// 예약 가능 시간
-    public List<String> getAvailableTimes(String date, String rsrcNo) {
-        return reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
-    }
-	
+	public List<String> getAvailableTimes(String date, String rsrcNo) {
+		return reserveRepository.findUseTimeByRsrcNoAndUseDate(rsrcNo, date);
+	}
+
 }
