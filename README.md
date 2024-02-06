@@ -14,7 +14,7 @@
 ----|----|
 **OS**|Windows 10|
 **IDE**|Spring Tool Suite 4 4.21.0.RELEASE|
-**Front-end**|HTML<br>CSS<br>JavaScript<br>JSP<br>XML<br>Bootstrap 5.3|
+**Front-end**|HTML<br>CSS<br>JavaScript<br>Bootstrap 5.3|
 **Back-end**|Java 17<br>Spring Framework 5.2.25.RELEASE<br>lombok 1.18.30|
 **Database**|MySQL 8.0.22|
 <br>
