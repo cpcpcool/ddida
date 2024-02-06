@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
 
@@ -68,6 +69,11 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+	
+	@Bean
+    public TokenBasedRememberMeServices rememberMeServices() {
+        return new TokenBasedRememberMeServices("ddida", ddidaUserDetailsService);
+    }
 
 //	 private CsrfTokenRepository csrfTokenRepository() {
 //	        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
