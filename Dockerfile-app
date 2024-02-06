@@ -1,0 +1,20 @@
+##app
+
+## Base img
+FROM openjdk:17-jdk-slim
+
+## HOME DIR
+WORKDIR /app
+
+## Copy files
+COPY build/libs/ddida-0.0.1-SNAPSHOT.jar ./ddida.jar
+
+
+
+## RUN 리눅스 명령어
+COPY ddida.sh ./ddida.sh
+## ddida.sh 파일에 실행 권한 추가 chmod(changemod)
+RUN chmod +x ./ddida.sh
+
+## /app에 ddida.sh를 실행하라
+ENTRYPOINT [ "sh", "./ddida.sh" ]
