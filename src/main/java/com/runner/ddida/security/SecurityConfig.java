@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
 
@@ -24,7 +26,9 @@ public class SecurityConfig {
 	
 	@Bean	
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf((csrf) -> csrf.disable())
+		http.csrf((csrf) -> csrf
+//				.csrfTokenRepository(csrfTokenRepository())) // 로그아웃 불가 보류
+				.disable())
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/", "/join/**", "/newAdmin", "/login/**", "/logout/**", "/success", "/sports", "/ddimap/**").permitAll()
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/slick/**").permitAll()
@@ -52,17 +56,23 @@ public class SecurityConfig {
 				
 				.rememberMe(remember -> remember // 자동 로그인 
 						.key("ddida")
-						.tokenValiditySeconds(600)
+						.tokenValiditySeconds(1000)
 						.userDetailsService(ddidaUserDetailsService)
-						.rememberMeParameter("remember-me"));
+						.rememberMeParameter("remember-me"))
 					
-//				.sessionManagement(session -> session
-//						.maximumSessions(1) // 동일 계정 최대 세션 갯수 제한
-//						.maxSessionsPreventsLogin(false)
-//						.expiredUrl("/")); // 세션만료 이동url
-//								
+				.sessionManagement(session -> session
+						.maximumSessions(1) // 동일 계정 최대 세션갯수제한 
+						.maxSessionsPreventsLogin(false)
+						.expiredUrl("/")); // 세션만료 이동url
+								
 		
 		return http.build();
 	}
 
+//	 private CsrfTokenRepository csrfTokenRepository() {
+//	        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+//	        repository.setSessionAttributeName("_csrf");
+//	        return repository;
+//	    }
+	
 }
