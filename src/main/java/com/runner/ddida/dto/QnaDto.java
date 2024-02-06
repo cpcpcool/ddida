@@ -30,7 +30,7 @@ public class QnaDto {
 	
 	public Qna toEntity() {
 		return Qna.builder()
-				.qnaNo(this.qnaNo)
+				.qnaNo(qnaNo)
 				.username(username)
 				.name(name)
 				.title(title)

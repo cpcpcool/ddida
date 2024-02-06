@@ -97,7 +97,7 @@ public class SpaceService {
 			JSONObject obj = new JSONObject();
 			obj.put("numOfRows", 100);
 			obj.put("ctpvCd", ctpvCd);
-
+			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
 
 			// api-uri로 get요청 생성
@@ -117,6 +117,7 @@ public class SpaceService {
 
 				// jackson 라이브러리 사용 JSON데이터 자바객체로
 				ObjectMapper objectMapper = new ObjectMapper();
+				
 				SpaceMetaVo apiMetaVo = objectMapper.readValue(result.getBytes(), SpaceMetaVo.class);
 
 				spaceDefault = apiMetaVo.getData().stream().filter(space -> !space.getRsrcNm().contains("테스트"))

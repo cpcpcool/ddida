@@ -23,7 +23,7 @@ public class MemberDto {
 		
 	private String role;
 	
-	private  String name;
+	private String name;
 	
 	private String phone;
 	
