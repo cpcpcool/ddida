@@ -1,6 +1,8 @@
 <img src="https://github.com/cpcpcool/ddida/assets/143718896/ac22e037-bd62-413e-a0be-bf23d7954282" width="450" >
 <br><br>
 
+### 배포 주소 : http://3.34.49.62:9999
+
 # 뛰다(多)
 ### 스프링부트와 JPA를 활용한 RestAPI(OpenAPI 포함) 서버 개발 및 배포
 ### 주제 : 시설물 관리 및 대여 시스템
