@@ -19,10 +19,43 @@
 <style type="text/css">
 .fc-toolbar-title {
 	font-size: .4em;
+	color: #37745b;
 }
 
 .fc {
 	font-size: .6em;
+	color: #37745b;
+}
+
+.fc-daygrid-day-number {
+	color: #37745b;
+}
+
+.fc-col-header-cell-cushion {
+	color: #37745b;
+}
+
+.fc-highlight {
+	background-color: #37745b;
+}
+
+:root {
+	--fc-button-bg-color: #37745b;
+	--fc-button-border-color: #37745b;
+	--fc-button-hover-bg-color: #37745b;
+	--fc-button-hover-border-color: #37745b;
+	--fc-button-active-bg-color: #C1D2BF;
+	--fc-button-active-border-color: #C1D2BF;
+	--fc-non-business-color: rgba(215, 215, 215, 0.9);
+	--fc-bg-event-color: rgba(55, 116, 91, 0.3);
+	--fc-bg-event-opacity: 0.3;
+	--fc-highlight-color: rgba(55, 116, 91, 0.3);
+	--fc-today-bg-color: rgba(55, 116, 91, 0.65);
+	--fc-now-indicator-color: red;
+}
+
+.fc-event-past {
+	background-color: #d4d4d4;
 }
 
 label {
@@ -73,14 +106,12 @@ label {
 }
 
 .table .selected {
-	background-color: #BCE8F14D;
+	background-color: rgba(55, 116, 91, 0.3);
 }
 
 .table .deadline {
 	background-color: #d6d4d4;
 }
-
-
 </style>
 </head>
 
@@ -94,21 +125,7 @@ label {
 			<div style="text-align: left;">
 				<h4>예약 진행 중</h4>
 			</div>
-			<div class="my-5">
-			<!-- 
-				<div class="row row-cols-2">
-					<div class="col">
-						<div style="border: 3px solid #37745B; border-radius: 100px; width: 364.74px; height: 102px; background-color: #C1D2BF; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
-							예약</div>
-					</div>
-					<div class="col">
-						<div
-							style="border: 3px dotted #37745B; border-radius: 100px; width: 364.74px; height: 102px; color: #FFF; font-size: 40px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-shadow: -2px -2px 0 #37745B, 2px -2px 0 #37745B, -2px 2px 0 #37745B, 2px 2px 0 #37745B;">
-							완료</div>
-					</div>
-				</div>
-				 -->
-			</div>
+			<div class="my-5"></div>
 			<div class="row grid column-gap-2">
 				<div class="col" style="background-color: #F7F7F7">
 					<div class="my-2" style="background-color: #FFFFFF; height: 445px;">
@@ -120,16 +137,16 @@ label {
 						<table class="table my-3" id="reserveTime">
 							<tbody th:each="row : ${timeSlots}">
 								<tr>
-								    <td th:each="timeSlot : ${row}">
-								        <span th:text="${timeSlot}"></span>
-								    </td>
+									<td th:each="timeSlot : ${row}" class="time-td"><span
+										th:text="${timeSlot}"></span></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			<form th:action="@{/sports/complete}" method="post" th:object="${ReserveDto}" id="reserveForm">
+			<form th:action="@{/sports/complete}" method="post"
+				th:object="${ReserveDto}" id="reserveForm">
 				<div style="text-align: left;" class="reserveO">
 					<div class="row grid column-gap-2 my-3">
 						<div class="col" style="display: flex; align-items: center;">
@@ -149,8 +166,8 @@ label {
 						</div>
 
 						<div class="col">
-							<label for="reserveFee">이용 요금</label> 
-							<input type="text" name="reserveFee" id="reserveFee" value="개별 문의" readonly>
+							<label for="reserveFee">이용 요금</label> <input type="text"
+								name="reserveFee" id="reserveFee" value="개별 문의" readonly>
 						</div>
 					</div>
 				</div>
@@ -159,20 +176,20 @@ label {
 					<h4>예약자 정보</h4>
 					<div class="row grid column-gap-2 my-3">
 						<div class="col info">
-							<label for="userName">예약자 명</label> 
-							<input type="text" name="name" id="userName" th:value="${user.name}" required>
+							<label for="userName">예약자 명</label> <input type="text"
+								name="name" id="userName" th:value="${user.name}" required>
 						</div>
 					</div>
 					<div class="row grid column-gap-3 my-3">
 						<div class="col info">
-							<label for="userPhone">연락처</label> 
-							<input type="text" name="phone" id="userPhone" th:value="${user.phone}" required>
+							<label for="userPhone">연락처</label> <input type="text"
+								name="phone" id="userPhone" th:value="${user.phone}" required>
 						</div>
-					</div>	
+					</div>
 					<div class="row grid column-gap-3 my-3">
 						<div class="col info">
-							<label for="userEmail">이메일</label> 
-							<input type="text" name="email" id="userEmail" th:value="${user.email}" required>
+							<label for="userEmail">이메일</label> <input type="text"
+								name="email" id="userEmail" th:value="${user.email}" required>
 						</div>
 					</div>
 				</div>
@@ -183,8 +200,7 @@ label {
 				<div class="mb-5" style="text-align: right;">
 					<button type="button" onclick="submitForm()"
 						style="background-color: #37745B; width: 100px; height: 40px; color: #FFF; border-radius: 8px;">
-						예약하기
-					</button>
+						예약하기</button>
 				</div>
 			</form>
 
@@ -201,7 +217,7 @@ label {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
 		crossorigin="anonymous"></script>
-    <script>
+	<script>
     function loadAvailableTimes(startDate) {
         // 서버에 해당 날짜의 예약 가능한 시간을 요청
         var rsrcNum = "[[${rsrcNo}]]";
@@ -226,7 +242,7 @@ label {
             .catch(error => console.error('Error:', error));
     }
     </script>
-		
+
 </body>
 
 </html>

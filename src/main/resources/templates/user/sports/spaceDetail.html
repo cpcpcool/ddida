@@ -52,10 +52,35 @@
 
 .fc-toolbar-title {
 	font-size: .4em;
+	color: #37745b;
 }
 
 .fc {
 	font-size: .6em;
+	color: #37745b;
+}
+
+:root {
+	--fc-button-bg-color: #37745b;
+	--fc-button-border-color: #37745b;
+	--fc-button-hover-bg-color: #37745b;
+	--fc-button-hover-border-color: #37745b;
+	--fc-button-active-bg-color: #C1D2BF;
+	--fc-button-active-border-color: #C1D2BF;
+	--fc-non-business-color: rgba(215, 215, 215, 0.9);
+	--fc-bg-event-color: rgba(55, 116, 91, 0.3);
+	--fc-bg-event-opacity: 0.3;
+	--fc-highlight-color: rgba(55, 116, 91, 0.3);
+	--fc-today-bg-color: rgba(55, 116, 91, 0.65);
+	--fc-now-indicator-color: red;
+}
+
+.fc-daygrid-day-number {
+	color: #37745b;
+}
+
+.fc-col-header-cell-cushion {
+	color: #37745b;
 }
 
 .center-align {
@@ -69,7 +94,8 @@
 .center-vertical-align {
 	vertical-align: middle;
 }
-#cal-box{
+
+#cal-box {
 	height: 600px;
 }
 </style>
@@ -135,14 +161,14 @@
 					</div>
 				</div>
 				<div class="col"
-					style="background-color: #F7F7F7; border-radius: 8px; ">
+					style="background-color: #F7F7F7; border-radius: 8px;">
 					<div class="mt-2"
 						style="background-color: #FFFFFF; height: 445px; border-radius: 8px">
 						<div id="calendar" class="py-2 px-2"></div>
 						<div class="my-4 d-grid">
 							<a th:href="@{/sports/{rsrcNo}/reserve(rsrcNo=${data.rsrcNo})}">
 								<button type="button" class="btn btn-lg"
-									style="background-color: #C1D2BF; width: 100%;">예약하기</button>
+									style="background-color: #37745b; width: 100%; color: #fff;">예약하기</button>
 							</a>
 						</div>
 					</div>
@@ -155,11 +181,10 @@
 				<thead>
 					<tr class="line">
 						<th scope="col" class="center-align" style="width: 17%">시설 분류</th>
-						<th scope="col" >[[${data.rsrcClsNm}]]</th>
+						<th scope="col">[[${data.rsrcClsNm}]]</th>
 						<th scope="col" class="center-align" style="width: 17%">요금구분</th>
-						<th scope="col" ><span
-							th:if="${data.freeYn eq 'Y'}">무료</span> <span
-							th:unless="${data.freeYn eq 'Y'}">유료</span></th>
+						<th scope="col"><span th:if="${data.freeYn eq 'Y'}">무료</span>
+							<span th:unless="${data.freeYn eq 'Y'}">유료</span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -175,8 +200,9 @@
 						<td colspan="3">[[${data.addr}]] [[${data.daddr}]]</td>
 					</tr>
 					<tr class="line">
-						<th scope="row" class="center-align center-vertical-align">시설 소개</th>
-						<td th:utext="${data.rsrcIntr}" scope="row" ></td>
+						<th scope="row" class="center-align center-vertical-align">시설
+							소개</th>
+						<td th:utext="${data.rsrcIntr}" scope="row"></td>
 					</tr>
 				</tbody>
 			</table>
