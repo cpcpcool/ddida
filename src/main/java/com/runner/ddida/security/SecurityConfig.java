@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import com.runner.ddida.service.DdidaUserDetailsService;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author 박재용
  */
-// ddddddddddddddddddddddddddddddddddddd
 
 @Configuration
 @EnableWebSecurity

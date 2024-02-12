@@ -80,6 +80,11 @@ a.back-button:before {
 	background-size: cover;
 }
 
+#qnaSecret:checked {
+	background-color: #37745b;
+	border-color: #aaa;	
+}
+
 a.secret-icon {
 	position: relative;
 }
