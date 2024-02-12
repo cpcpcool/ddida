@@ -79,7 +79,9 @@
 						<td th:text="${qna.qnaNo}">번호</td>
 						<td><a th:if="${qna.qnaSecret} == false" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a>
-								<a th:if="${qna.qnaSecret} == true" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="비밀글입니다"
+								<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username != qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="비밀글입니다"
+								style="color: #000000;">제목</a>
+									<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username == qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a></td>
 						<td th:text="${qna.username}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>
@@ -87,7 +89,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<img src="/img/secret.png" class="img" style="width: 15px; height: 15px;">
 
 			<div class="d-flex justify-content-end mt-1">
 				<button id="add-btn" type="button" class="btn btn-outline-secondary"

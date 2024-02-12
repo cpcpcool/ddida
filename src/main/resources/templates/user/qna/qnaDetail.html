@@ -67,12 +67,17 @@
 			</th:block>
 
 			<th:block th:if="${qna.qnaSecret == true} and ${user.username != qna.username}">
-				<div>비밀글 입니다.</div>
+				<hr>
+				<div> <img src="/img/secret.png" class="img" style="width: 20px; height: 20px;">비밀글 입니다.</div>
+				<hr>
 			</th:block>
 
 			<th:block th:if="${qna.qnaSecret == true} and ${user.username == qna.username}">
-								<div class="qnaDescription">
-					<h3 style="text-align: center" th:text="${qna.title}">문의 제목</h3>
+				<div class="qnaDescription">
+					<div style="font-size: xx-large;">
+						<img src="/img/secret.png" class="img" style="width: 25px; height: 25px;">
+						[[${qna.title}]]
+					</div>
 					<div class="d-flex mt-2">
 						<div class="ms-2 me-3">작성일 : [[${qna.qnaDate}]]</div>
 						<div class="ms-auto me-3">작성자 : [[${qna.username}]]</div>
@@ -84,7 +89,7 @@
 					</div>
 					<hr>
 					<div class="d-flex justify-content-end mt-1">
-						<button id="edit-btn" type="button"	class="btn btn-outline-secondary"
+						<button id="edit-btn" type="button" class="btn btn-outline-secondary"
 							th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">수정</button>
 						<form id="delete-form" th:action="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post">
 							<input type="hidden" name="_method" value="delete" />
@@ -108,16 +113,15 @@
 				<a th:href="${next == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${next.qnaNo})}" class="list-group-item">
 					<span id="prevNext">다음글 : </span>
 					<span id="prevNextTitle" th:if="${next == null}"> 다음글이 없습니다.</span>
-					<span id="prevNextTitle" th:unless="${next == null}"
-						th:text="${next.qnaSecret} == true ? '비밀글입니다' : ${next.title}"> 다음글 제목</span>
-
+					<span id="prevNextTitle" th:if="${next != null}"
+						th:text="${next.qnaSecret == true} and ${next.username != user.username} ? '비밀글입니다' : ${next.title}"> 다음글 제목</span>
 				</a>
 				<a th:href="${prev == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${prev.qnaNo})}"
 					class="list-group-item mb-3">
 					<span id="prevNext">이전글 : </span>
 					<span id="prevNextTitle" th:if="${prev == null}">이전글이 없습니다.</span>
 					<span id="prevNextTitle" th:unless="${prev == null}"
-						th:text="${prev.qnaSecret} == true? '비밀글입니다' : ${prev.title}">이전글 제목</span>
+						th:text="${prev.qnaSecret == true } and ${prev.username != user.username}? '비밀글입니다' : ${prev.title}">이전글 제목</span>
 
 				</a>
 			</div>
