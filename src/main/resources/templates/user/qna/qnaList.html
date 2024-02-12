@@ -77,7 +77,11 @@
 				<tbody class="table-group-divider" style="font-weight: 300; font-size: 20px;">
 					<tr class="table" th:each="qna : ${qnaList}">
 						<td th:text="${qna.qnaNo}">번호</td>
-						<td><a th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
+						<td><a th:if="${qna.qnaSecret} == false" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
+								style="color: #000000;">제목</a>
+								<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username != qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="비밀글입니다"
+								style="color: #000000;">제목</a>
+									<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username == qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a></td>
 						<td th:text="${qna.username}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>

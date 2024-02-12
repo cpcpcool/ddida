@@ -39,6 +39,7 @@ public class QnaDto {
 				.qnaView(0)
 				.answer(answer)
 				.answerTime(answerTime)
+				.qnaSecret(qnaSecret)
 				.build();
 	}
 

@@ -80,6 +80,38 @@ a.back-button:before {
 	background-size: cover;
 }
 
+a.secret-icon {
+	position: relative;
+}
+
+a.secret-icon::before{
+	content: "";
+	position: absolute;
+	top: 8px;
+	left: -20px;
+	display: block;
+	width: 15px;
+	height: 15px;
+	background-image: url("/img/secret.png");
+	background-size: cover;
+}
+
+h3.secret-title {
+	position: relative;
+}
+
+h3.secret-title::before {
+	content: "";
+	position: absolute;
+	top: 8px;
+	left: 300px;
+	display: block;
+	width: 25px;
+	height: 25px;
+	background-image: url("/img/secret.png");
+	background-size: cover;
+}
+
 #title {
 	border-color: #37745B;
 	border-radius: 0.9rem;

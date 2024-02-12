@@ -45,7 +45,7 @@ public class QnaController {
 	public String qnaList(
 			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
+			@RequestParam(name = "searchType", required = false) String searchType, @AuthenticationPrincipal Member user, Model model) {
 
 		Page<Qna> qnaList = null;
 
@@ -67,6 +67,7 @@ public class QnaController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("user", user);
 
 		return "user/qna/qnaList";
 	}
