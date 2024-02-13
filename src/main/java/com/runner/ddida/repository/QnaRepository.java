@@ -70,8 +70,8 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 	Page<Qna> findByQnaDateContaining(String searchKeyword, Pageable pageable);
  
 	// [관리자] userNoList를 받아 문의글 수 카운팅 - 노윤건 24.02.11
-	@Query(value = "SELECT q.username, COUNT(q.qna_no) AS qnaCount "
-			+ "FROM Qna q WHERE q.username in "
-			+ "(SELECT m.username FROM Member m WHERE m.user_no in :userNos) GROUP BY q.username", nativeQuery = true)
+	@Query(value = "select q.username, count(q.qna_no) as qnaCount "
+			+ "from qna q where q.username in "
+			+ "(select m.username from member m where m.user_no in :userNos) group by q.username", nativeQuery = true)
 	List<Object[]> count(@Param("userNos") List<Long> userNos);
 }
