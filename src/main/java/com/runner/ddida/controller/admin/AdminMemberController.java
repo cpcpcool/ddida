@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runner.ddida.model.Member;
 import com.runner.ddida.model.Qna;
-import com.runner.ddida.repository.MemberRepository;
 import com.runner.ddida.service.MemberService;
 import com.runner.ddida.service.QnaService;
 
@@ -36,21 +35,6 @@ public class AdminMemberController {
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
 		
-		// 검색
-//		Page<Member> userList = memberService.searchUsers(searchKeyword, searchType, pageable);
-//		// 페이징
-//		// page index 0부터 시작
-//		int nowPage = userList.getPageable().getPageNumber() + 1;
-//		// 페이지 버튼 최대 10개, -4해서 음수가 나오면 첫 페이지 1
-//		int startPage = Math.max(nowPage - 4, 1);
-//		// 마지막 게시글이 존재하는 페이지를 endPage로
-//		int endPage = Math.min(nowPage + 5, userList.getTotalPages());
-//
-//		model.addAttribute("userList", userList);
-//		model.addAttribute("nowPage", nowPage);
-//		model.addAttribute("startPage", startPage);
-//		model.addAttribute("endPage", endPage);
-
 		Map<String, Object> result = memberService.searchUsers(searchKeyword, searchType, pageable);
 		int nowPage = ((Page<Member>)result.get("result")).getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);

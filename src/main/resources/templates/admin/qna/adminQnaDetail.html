@@ -26,10 +26,8 @@ h4 {float: left; margin-top: 20px;}
 .backward {float: right; border-radius: 20px; margin-top: 23px;  margin-bottom: 9px; padding: 5px;
  width: 100px; background-color: #37745b; color: #fff; border-color: unset; border-style: none;}
  .replySection {height: 150px; resize: none; font-size: medium;}
- .answerSpan {float: left; margin-left: 20px; margin-bottom: 10px;}
  .answerDiv {margin-top: 35px; height: 100px; text-align: left; font-size: medium; overflow-wrap: break-word;
- padding-left: -20px; margin-left: 0; background-color: #f2f2f2;}
- 
+ padding-left: 20px; margin-left: 0; background-color: #f2f2f2;}
 </style>
 </head>
 <body data-page="/admin/qna/1">
@@ -86,64 +84,10 @@ h4 {float: left; margin-top: 20px;}
 		</div>
 	</div>
 	<div id="qnaDetail" th:attr="data-qna-no=${qnaDetail.qnaNo}"></div>
+	<div id="answer" th:attr="data-qna-answer=${qnaDetail.answer}"></div>
 
 	<!-- Footer -->
 	<div th:replace="~{component/admin/adminFooter}"></div>
-<script>
-var reply = document.querySelector('.answer-btn');
-var ansArea = document.querySelector('.ans-area');
-var innerContainer = document.querySelector('.inner-container');
-var saveBtn = document.querySelector('.save');
-
-reply.addEventListener('click', function() {
-    console.log('클릭됨');
-    const replySection = document.createElement('textarea');
-    replySection.className = 'replySection';
-    replySection.rows = 3;
-    replySection.maxLength = 250;
-    
-    // inner-container의 너비를 replySection에 적용
-    replySection.style.width = innerContainer.clientWidth + 'px';
-
-    ansArea.appendChild(replySection);
-    ansArea.style.width = innerContainer.clientWidth + 'px'; // ansArea의 너비도 inner-container에 맞춰줘
-    reply.style.display = "none";
-    saveBtn.style.display = "block";
-});
-
-var qnaNo = document.getElementById('qnaDetail').getAttribute('data-qna-no');
-saveBtn.addEventListener('click', function() {
-    // 입력된 답변 내용 가져오기
-    var answerText = document.querySelector('.ans-area textarea').value;
-
-    // Ajax를 사용하여 서버로 데이터 전송
-    $.ajax({
-        type: 'POST',
-        url: '/admin/qna/' + qnaNo, // 서버의 저장 엔드포인트 경로
-        data: { answer: answerText }, // 전송할 데이터
-        success: function(response) {
-            console.log('저장 성공', response);
-            // 저장에 성공하면 추가적인 작업 수행
-            ansArea.style.display = "none";
-            const answerSpan = document.createElement('span');
-            answerSpan.className = 'answerSpan';
-            answerSpan.innerHTML = '답변'
-            innerContainer.appendChild(answerSpan);
-            
-            const answerDiv = document.createElement('div');
-            answerDiv.className = 'answerDiv';
-		    answerDiv.innerHTML = answerText;
-		    innerContainer.appendChild(answerDiv);
-		    
-        },
-        error: function(error) {
-            console.error('저장 실패', error);
-            // 저장에 실패하면 예외 처리
-        }
-    });
-    
-    saveBtn.style.display = "none";
-});
-</script>
+<script src="/js/admin/adminQnaDetail.js"></script>
 </body>
 </html>

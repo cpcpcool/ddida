@@ -211,18 +211,25 @@
 			<table class="table table-borderless table-review center mb-5">
 				<thead>
 					<tr class="line">
-						<th scope="col" style="width: 17%">번호</th>
+						<th scope="col" style="width: 17%">예약 번호</th>
 						<th scope="col">내용</th>
 						<th scope="col" style="width: 17%">작성자</th>
-						<th scope="col" style="width: 17%">등록일</th>
+						<th scope="col" style="width: 17%">이용일</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="bottom-line">
+					<tr class="bottom-line" th:if="${review.isEmpty()}">
 						<th colspan="4" rowspan="2">
 							<div class="my-4">후기가 없습니다.</div>
 						</th>
 					</tr>
+					<tr class="bottom-line" th:each="review : ${review}">
+						<td scope="col" th:text="${review.reserveId}"></td>
+						<td scope="col" th:text="${review.review}"></td>
+						<td scope="col" th:text="${review.name}">작성자</td>
+						<td scope="col" th:text="${review.useDate}">이용일</td>
+					</tr>
+					</th:block>
 				</tbody>
 			</table>
 		</div>

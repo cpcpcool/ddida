@@ -56,4 +56,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
             "FROM member m " +
             "WHERE m.user_no IN :userNoList", nativeQuery = true)
     List<Long[]> getUserStatistics(@Param("userNoList") List<Long> userNoList);
+    
 }
