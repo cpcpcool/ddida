@@ -53,25 +53,25 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
     		+ "WHERE q.qnaNo = :qnaNo", nativeQuery = true)
     Optional<Object[]> findQnaAndUsernameByQnaNo(@Param("qnaNo") Long qnaNo);
 
-//  @Query("SELECT q, m.name AS user_name FROM Qna q JOIN Member m ON q.username = m.username WHERE q.username = :username")
-//  List<Object[]> findQnaAndUserName(@Param("username") String username);
-  
     // [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
     @Transactional
     @Modifying
     @Query("UPDATE Qna q SET q.answer = :answer WHERE q.qnaNo = :qnaNo")
     void saveAnswer(@Param("qnaNo") Long qnaNo, @Param("answer") String answer);
     
-	// 문의글번호로 검색된 문의 목록 - 노윤건 24.02.04
+	// [관리자] 문의글번호로 검색된 문의 목록 - 노윤건 24.02.04
 	@Query(value = "select * from qna where qna_no = :searchKeyword", nativeQuery = true)
 	Page<Qna> findByQnaNoContaining(@Param("searchKeyword") Long searchKeyword, Pageable pageable);	
 	
-	// 아이디로 검색된 문의 목록 - 노윤건 24.02.04
+	// [관리자] 아이디로 검색된 문의 목록 - 노윤건 24.02.04
 	Page<Qna> findByUsernameContaining(String searchKeyword, Pageable pageable);
 	
-	// 작성일자로 검색된 문의 목록 - 노윤건 24.02.04
+	// [관리자] 작성일자로 검색된 문의 목록 - 노윤건 24.02.04
 	Page<Qna> findByQnaDateContaining(String searchKeyword, Pageable pageable);
  
-	
-
+	// [관리자] userNoList를 받아 문의글 수 카운팅 - 노윤건 24.02.11
+	@Query(value = "SELECT q.username, COUNT(q.qna_no) AS qnaCount "
+			+ "FROM Qna q WHERE q.username in "
+			+ "(SELECT m.username FROM Member m WHERE m.user_no in :userNos) GROUP BY q.username", nativeQuery = true)
+	List<Object[]> count(@Param("userNos") List<Long> userNos);
 }

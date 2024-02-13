@@ -105,20 +105,28 @@ tbody tr td {
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="user:${userList}">
-								<td><a
-									th:href="@{/admin/users/{userNo}(userNo=${user.userNo})}"
-									style="text-decoration: none; color: #222222; width: 10%">[[${user.username}]]</a>
-								</td>
-								<td>[[${user.name}]]</td>
-								<td>11</td>
-								<td>11</td>
-								<td>11</td>
-								<td>[[${user.role}]]</td>
-								<td>[[${user.signDate}]]</td>
-							</tr>
-
-
+						    <tr th:each="user:${userList}">
+						        <td><a th:href="@{/admin/users/{userNo}(userNo=${user.userNo})}" style="text-decoration: none; color: #222222; width: 10%">[[${user.username}]]</a></td>
+						        <td>[[${user.name}]]</td>
+        
+						        <th:block th:each="e:${qnaCounts}">
+						        	<td th:if="${e[0] == user.username}" th:text="${e[1]}"></td>
+								</th:block>
+								
+						        <th:block th:each="e:${userStats}">
+						        	<th:block th:if="${e[0] == user.userNo}">
+						        		<td th:text="${e[2]}"></td>
+						        	</th:block>
+								</th:block>
+								
+						        <th:block th:each="e:${userStats}">
+						        	<th:block th:if="${e[0] == user.userNo}">
+						        		<td th:text="${e[1]}"></td>
+						        	</th:block>
+								</th:block>
+						        <td>[[${user.role}]]</td>
+						        <td>[[${user.signDate}]]</td>
+						    </tr>
 						</tbody>
 					</table>
 
