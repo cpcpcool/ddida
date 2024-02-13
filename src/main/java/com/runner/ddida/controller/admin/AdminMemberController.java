@@ -29,7 +29,6 @@ public class AdminMemberController {
 
 	private final MemberService memberService;
 	private final QnaService qnaService;
-	private final MemberRepository repo;
 
 	@GetMapping("/users")
 	public String userList(

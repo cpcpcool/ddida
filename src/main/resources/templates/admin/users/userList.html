@@ -97,7 +97,6 @@ tbody tr td {
 									th:text="${columnName}"></th>
 								<th scope="col" class="th" style="width: 15%;">아이디</th>
 								<th scope="col" class="th" style="width: 12%;">이름</th>
-								<th scope="col" class="th" style="width: 15%;">작성 문의글 수</th>
 								<th scope="col" class="th" style="width: 15%;">작성 후기 수</th>
 								<th scope="col" class="th" style="width: 10%;">이용 횟수</th>
 								<th scope="col" class="th" style="width: 10%;">권한상태</th>
@@ -108,11 +107,6 @@ tbody tr td {
 						    <tr th:each="user:${userList}">
 						        <td><a th:href="@{/admin/users/{userNo}(userNo=${user.userNo})}" style="text-decoration: none; color: #222222; width: 10%">[[${user.username}]]</a></td>
 						        <td>[[${user.name}]]</td>
-        
-						        <th:block th:each="e:${qnaCounts}">
-						        	<td th:if="${e[0] == user.username}" th:text="${e[1]}"></td>
-								</th:block>
-								
 						        <th:block th:each="e:${userStats}">
 						        	<th:block th:if="${e[0] == user.userNo}">
 						        		<td th:text="${e[2]}"></td>
