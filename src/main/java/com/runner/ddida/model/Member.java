@@ -46,7 +46,6 @@ public class Member implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_no")
@@ -61,25 +60,6 @@ public class Member implements UserDetails {
 	@Column(name = "role", nullable = true)
 	private String role;
 
-	// enum 관련
-//	@Builder.Default
-//	@Enumerated(EnumType.STRING)
-//	@CollectionTable(name = "role")
-//	@ElementCollection(fetch = FetchType.EAGER)
-//	private Set<MemberRole> role = new HashSet<>();
-//	public Member addRole(MemberRole memberRole) {
-//		role.add(memberRole);
-//		return this;
-//	}
-//	
-//	public String getRoleName() {
-//		String roleName = null;
-//		for(MemberRole memberRole : role) {
-//			roleName = memberRole.roleName();
-//		}
-//		return roleName; 
-//	}
-//	
 	@Column(name = "name", nullable = true)
 	private String name;
 

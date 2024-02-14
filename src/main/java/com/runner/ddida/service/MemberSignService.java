@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberSignService {
 
 	private final MemberRepository memberRepository;
-
 	private final PasswordEncoder passwordEncoder;
 
 	// 중복검사 메서드
@@ -62,7 +61,7 @@ public class MemberSignService {
 		memberFormDto.setName("-");
 		memberFormDto.setPhone("-");
 		memberFormDto.setEmail("-");
-		Member member = memberFormDto.toEntity(); // 이것만으로 엔티티 객체 생성
+		Member member = memberFormDto.toEntity();
 		Member savedAdminMember = memberRepository.save(member);
 
 		return savedAdminMember.toMemberFormDto();

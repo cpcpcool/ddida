@@ -56,7 +56,7 @@
 					</div>
 					<div class="mb-2">
 						<input type="tel" class="form-control search-input focus-ring" name="phone"
-							style="border-color: #aaa;" id="phone" placeholder="휴대폰 번호"
+							style="border-color: #aaa;" id="phone" placeholder="휴대폰 번호 (숫자만 입력)" maxlength="11"
 							th:value="${memberFormDto.phone}">
 					</div>
 					<div class="mb-2">
@@ -227,7 +227,6 @@
 							}
 						}
 					});
-
 		});
 	</script>
 
