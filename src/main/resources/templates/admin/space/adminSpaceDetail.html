@@ -26,6 +26,7 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 #map {width: 200px; height: 150px;}
 .backward {float: right; border-radius: 20px; margin-top: 20px; margin-bottom: 10px; padding: 5px;
  width: 100px; background-color: #37745b; color: #fff; border-color: unset; border-style: none;}
+#admin-space-table > td.scroll-td { overflow-y: auto !important; max-height: 150px !important;}
 </style>
 </head>
 <body data-page="/admin/space/detail">
@@ -40,7 +41,7 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 					<h4>시설물 정보 상세</h4>
 					<div class=inner-container style="border: solid 5px #37745b;">
 						<div>
-							<table>
+							<table id="admin-space-table">
 								<thead>
 									<tr>
 										<th class="prop"></th>
@@ -67,7 +68,7 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 									</tr>
 									<tr>
 										<td class="td prop">시설 개요</td>
-										<td class="td desc" th:utext="${result.rsrcIntr}" style="text-align: left !important;"></td>
+										<td id="scrolltd" class="td desc scroll-td" th:utext="${result.rsrcIntr}" style="text-align: left !important;"></td>
 									</tr>
 									<tr>
 										<td class="td prop">관리주체</td>
@@ -83,7 +84,7 @@ th.desc, .td.desc {padding: 0px 30px 8px; min-width: 400px; text-align: left; ve
 									</tr>
 									<tr>
 										<td class="td prop">특이사항</td>
-										<td class="td desc" th:utext="${result.atpn}"></td>
+										<td class="td desc scroll-td" th:utext="${result.atpn}"></td>
 									</tr>
 								</tbody>
 							</table>

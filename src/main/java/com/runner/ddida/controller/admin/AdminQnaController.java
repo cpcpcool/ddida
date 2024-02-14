@@ -45,7 +45,7 @@ public class AdminQnaController {
 		model.addAttribute("list", qnaList);
 		return "admin/qna/adminQnaList";
 	}
-
+	
 	@GetMapping("/qna/{qnaNo}")
 	public String adminQnaDetail(@PathVariable("qnaNo") Long qnaNo, Model model) {
 		Optional<Qna> qnaDetail = qnaService.findByQnaNo(qnaNo);

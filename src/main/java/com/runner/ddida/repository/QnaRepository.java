@@ -57,7 +57,7 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
     // 코드 추가 - 답변한 시각 저장 24.02.14
     @Transactional
     @Modifying
-    @Query(value = "update Qna q set q.answer = :answer, q.answer_time = :answerTime "
+    @Query(value = "update qna q set q.answer = :answer, q.answer_time = :answerTime "
     		+ "where q.qna_no = :qnaNo", nativeQuery = true)
     void saveAnswer(@Param("qnaNo") Long qnaNo, @Param("answer") 
     String answer, @Param("answerTime") String answerTime);
