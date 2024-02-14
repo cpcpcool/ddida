@@ -2,17 +2,22 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link href="/css/reset.css" rel="stylesheet">
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/layout.css" rel="stylesheet">
-	<link href="/css/qna.css" rel="stylesheet">
-	<link rel="icon" href="/img/favicon.png">
-	<title>뛰다</title>
-	<script src="https://code.jquery.com/jquery-3.5.1.js"
-		integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/qna.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+	crossorigin="anonymous"></script>
 </head>
-
+<style>
+textarea {
+	resize: none !important;
+}
+</style>
 <body>
 	<!-- Header -->
 	<div th:replace="~{component/user/userHeader}"></div>
@@ -24,23 +29,29 @@
 				<a href="/qna" class="back-button"> </a> 문의 내역
 			</h4>
 			<hr class="titleUnder my-2">
-			<form id="qnaAddForm" th:action="@{/qna/add}" method="post" enctype="multipart/form-data" class="mt-5">
+			<form id="qnaAddForm" th:action="@{/qna/add}" method="post"
+				enctype="multipart/form-data" class="mt-5">
 				<div class="row">
-					<label class="col-2 mt-2">제목</label>
-					<input id="title" name="title" type="text" class="form-control mt-1 mb-2 col"
+					<label class="col-2 mt-2">제목</label> <input id="title" name="title"
+						type="text" class="form-control mt-1 mb-2 col"
 						placeholder="제목을 입력해주세요.(100자 이내)" required>
 					<div id="titleCnt" class="col-2 mt-2">(0/100)</div>
 				</div>
 				<div class="form-group row mb-2">
 					<label class="col-2">내용</label>
-					<textarea id="description" name="description" class="description form-control col" rows="10"
-						maxlength="1000" placeholder="내용을 입력해주세요.(1000자 이내)" required></textarea>
+					<textarea id="description" name="description"
+						class="description form-control col" rows="10" maxlength="1000"
+						placeholder="내용을 입력해주세요.(1000자 이내)" required></textarea>
 					<div id="descCnt" class="col-2">(0/1000)</div>
 				</div>
-				<div class="form-group row" style="text-align: left; align-items: center;">
-					<label for="secret" class="col-2" style="font-size: 16px; line-height: 16px; text-align: center;">비밀글 설정</label>
+				<div class="form-group row"
+					style="text-align: left; align-items: center;">
+					<label for="secret" class="col-2"
+						style="font-size: 16px; line-height: 16px; text-align: center;">비밀글
+						설정</label>
 					<div class="col-1 p-0">
-						<input type="checkbox" class="form-check-input focus-ring" th:value="*{true}" id="qnaSecret" name="qnaSecret" >
+						<input type="checkbox" class="form-check-input focus-ring"
+							th:value="*{true}" id="qnaSecret" name="qnaSecret">
 					</div>
 				</div>
 				<div class="d-flex justify-content-end mt-1">
@@ -60,8 +71,8 @@
 	<div th:replace="~{component/user/userFooter}"></div>
 
 	<script>
-		$(document).ready(function () {
-			$('#title').on('keyup', function () {
+		$(document).ready(function() {
+			$('#title').on('keyup', function() {
 				$('#titleCnt').html("(" + $(this).val().length + " / 100)");
 
 				if ($(this).val().length > 100) {
@@ -71,8 +82,8 @@
 				}
 			});
 		});
-		$(document).ready(function () {
-			$('#description').on('keyup', function () {
+		$(document).ready(function() {
+			$('#description').on('keyup', function() {
 				$('#descCnt').html("(" + $(this).val().length + " / 1000)");
 
 				if ($(this).val().length > 1000) {

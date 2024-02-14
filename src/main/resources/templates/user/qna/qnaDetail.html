@@ -13,7 +13,7 @@
 	<title>뛰다</title>
 	<style>
 		textarea {
-			resize: none;
+			resize: none !important;
 		}
 	</style>
 </head>
@@ -39,8 +39,8 @@
 						<div class="me-2">조회수 : [[${qna.qnaView}]]</div>
 					</div>
 					<hr>
-					<div>
-						<div th:text="${qna.description}">문의 내용</div>
+					<div style="max-width: 80%; margin: 0 auto;">
+						<div th:text="${qna.description}" style="overflow-wrap: break-word;">문의 내용</div>
 					</div>
 					<hr>
 					<div class="d-flex justify-content-end mt-1">
