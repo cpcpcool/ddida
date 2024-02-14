@@ -1,5 +1,7 @@
 package com.runner.ddida.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,35 +84,35 @@ public class QnaService {
 	}
 
 	// [관리자] 검색 페이징
-	public Page<Qna> searchQna(String searchKeyword, String searchType, Pageable pageable) {
-		if (searchKeyword == null || searchType == null) {
-			return qnaRepository.findAll(pageable);
-		} else {
-
-			switch (searchType) {
-			case "qnaNo":
-				Long longKeyword = Long.parseLong(searchKeyword);
-				return qnaRepository.findByQnaNoContaining(longKeyword, pageable);
-			case "title":
-				return qnaRepository.findByTitleContaining((String)searchKeyword, pageable);
-			case "username":
-				return qnaRepository.findByUsernameContaining((String)searchKeyword, pageable);
-			case "qnaDate":
-				return qnaRepository.findByQnaDateContaining((String)searchKeyword, pageable);
-			default:
+		public Page<Qna> searchQna(String searchKeyword, String searchType, Pageable pageable) {
+			if (searchKeyword == null || searchType == null) {
 				return qnaRepository.findAll(pageable);
+			} else {
+
+				switch (searchType) {
+				case "title":
+					return qnaRepository.findByTitleContaining(searchKeyword, pageable);
+				case "username":
+					return qnaRepository.findByUsernameContaining(searchKeyword, pageable);
+				case "qnaDate":
+					return qnaRepository.findByQnaDateContaining(searchKeyword, pageable);
+				default:
+					return qnaRepository.findAll(pageable);
+				}
 			}
 		}
-	}
-	
-	// [관리자] 회원 상세페이지 오른쪽 표에 정보 표시
-	public List<Qna> findByUserNo(Long userNo) {
-		return qnaRepository.findByUserNo(userNo);
-	}
-	
-	// [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
-    public void saveAnswer(Long qnaNo, String answer) {
-        qnaRepository.saveAnswer(qnaNo, answer);
-    }
+		
+		// [관리자] 회원 상세페이지 오른쪽 표에 정보 표시
+		public List<Qna> findByUserNo(Long userNo) {
+			return qnaRepository.findByUserNo(userNo);
+		}
+		
+		// [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
+	    public void saveAnswer(Long qnaNo, String answer) {
+	    	LocalDateTime currentDateTime = LocalDateTime.now();
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    	String formattedDateTime = currentDateTime.format(formatter);
+	        qnaRepository.saveAnswer(qnaNo, answer, formattedDateTime);
+	    }
 
 }

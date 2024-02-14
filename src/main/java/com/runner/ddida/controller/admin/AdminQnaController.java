@@ -31,8 +31,8 @@ public class AdminQnaController {
 			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
+		
 		Page<Qna> qnaList = qnaService.searchQna(searchKeyword, searchType, pageable);
-
 		int nowPage = qnaList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
@@ -42,9 +42,7 @@ public class AdminQnaController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("lastPage", lastPage);
-		
 		model.addAttribute("list", qnaList);
-
 		return "admin/qna/adminQnaList";
 	}
 
@@ -52,14 +50,12 @@ public class AdminQnaController {
 	public String adminQnaDetail(@PathVariable("qnaNo") Long qnaNo, Model model) {
 		Optional<Qna> qnaDetail = qnaService.findByQnaNo(qnaNo);
 		model.addAttribute("qnaDetail", qnaDetail.get());
-
 		return "admin/qna/adminQnaDetail";
 	}
 
 	@PostMapping("/qna/{qnaNo}")
 	public String adminQnaDetailPost(@PathVariable("qnaNo") Long qnaNo, @RequestParam("answer") String answer) {
 		qnaService.saveAnswer(qnaNo, answer);
-
 		return "redirect:/admin/qna/" + qnaNo;
 	}
 

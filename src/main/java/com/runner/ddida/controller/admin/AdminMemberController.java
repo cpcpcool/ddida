@@ -29,12 +29,13 @@ public class AdminMemberController {
 	private final MemberService memberService;
 	private final QnaService qnaService;
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/users")
 	public String userList(
 			@PageableDefault(page = 0, size = 10, sort = "userNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
 			@RequestParam(name = "searchType", required = false) String searchType, Model model) {
-		
+
 		Map<String, Object> result = memberService.searchUsers(searchKeyword, searchType, pageable);
 		int nowPage = ((Page<Member>)result.get("result")).getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
@@ -44,7 +45,6 @@ public class AdminMemberController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("userList", ((Page<Member>)result.get("result")));
-		model.addAttribute("qnaCounts", result.get("qnaCounts"));
 		model.addAttribute("userStats", result.get("userStats"));
 		return "admin/users/userList";
 	}

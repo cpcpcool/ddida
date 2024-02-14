@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.runner.ddida.model.Member;
 import com.runner.ddida.repository.MemberRepository;
-import com.runner.ddida.repository.QnaRepository;
 import com.runner.ddida.repository.ReserveRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-	private final QnaRepository qnaRepository;
 	private final ReserveRepository reserveRepository;
 	
 	// 전체 페이징
@@ -34,33 +32,37 @@ public class MemberService {
 	}
 
 	// 상세
-	public Optional<Member> findByUserNo(Long userNo) {
-		return memberRepository.findByUserNo(userNo);
-	}
-
-	public Map<String, Object> searchUsers(String searchKeyword, String searchType, Pageable pageable) {
-		Map<String, Object> result = new HashMap<>();
-		List<Long> userNoList = memberRepository.getUserNoList();
-		List<Object[]> qnaCounts = qnaRepository.count(userNoList);
-		result.put("qnaCounts", qnaCounts);
-		
-		List<Long[]> userStatistics = reserveRepository.getUserStatistics(userNoList);
-		result.put("userStats", userStatistics);
-		if (searchKeyword == null || searchType == null) {
-			result.put("result", memberRepository.findAll(pageable));
-		} else {
-			switch (searchType) {
-			case "userName":
-				result.put("result", memberRepository.findByUsernameContaining((String)searchKeyword, pageable));
-			case "role":
-				result.put("result", memberRepository.findByRoleContaining((String)searchKeyword, pageable));
-			case "signDate":
-				result.put("result", memberRepository.findBySignDateContaining((String)searchKeyword, pageable));
-			default:
-				result.put("result", memberRepository.findAll(pageable));
-			}
+		public Optional<Member> findByUserNo(Long userNo) {
+			return memberRepository.findByUserNo(userNo);
 		}
-		return result;
-	}
-	
+
+		public Map<String, Object> searchUsers(String searchKeyword, String searchType, Pageable pageable) {
+			Map<String, Object> result = new HashMap<>();
+			List<Long> userNoList = memberRepository.getUserNoList();
+			List<Long[]> userStatistics = reserveRepository.getUserStatistics(userNoList);
+			result.put("userStats", userStatistics);
+			
+			if (searchKeyword == null || searchType == null) {
+				result.put("result", memberRepository.findAll(pageable));
+			} else {
+				switch(searchType) {
+				case "username":
+					result.put("result", memberRepository.findByUsernameContaining(searchKeyword, pageable));
+					break;
+				case "name":
+					result.put("result", memberRepository.findByNameContaining(searchKeyword, pageable));
+					break;
+				case "role":
+					result.put("result", memberRepository.findByRoleContaining(searchKeyword, pageable));
+					break;
+				case "signDate":
+					result.put("result", memberRepository.findBySignDateContaining(searchKeyword, pageable));
+					break;
+				default:
+					result.put("result", memberRepository.findAll(pageable));
+				}
+			}
+			return result;
+		}
+		
 }
