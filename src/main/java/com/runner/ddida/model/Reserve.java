@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.runner.ddida.dto.ReserveDto;
 
 import jakarta.persistence.CascadeType;
@@ -45,6 +46,7 @@ public class Reserve {
 	private Long reserveId;
 	
 	@Column(name = "user_no")
+	@JsonIgnore
 	private Long userNo;
 	
 	@Column(name = "rsrc_no")

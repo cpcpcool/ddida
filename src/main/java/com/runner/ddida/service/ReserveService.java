@@ -31,20 +31,7 @@ public class ReserveService {
 	/* 예약 목록 */
 	@Transactional
 	public Page<Reserve> findAllByUsername(Long userNo, Pageable pageable) {
-
-		Page<Reserve> reserveList = reserveRepository.findAllByUserNo(userNo, pageable);
-		
-		for (Reserve reserve : reserveList) {
-			LocalDate now = LocalDate.now();
-			LocalDate useDate = LocalDate.parse(reserve.getUseDate());
-			if (now.isAfter(useDate)) {
-				reserveRepository.checkout(reserve.getReserveId());
-			}
-		}
-
-		entityManager.flush();
-		
-		return reserveList; 
+		return reserveRepository.findAllByUserNo(userNo, pageable); 
 	}
 
 	/* 시설 이름으로 검색된 예약 목록 */

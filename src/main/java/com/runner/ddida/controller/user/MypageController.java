@@ -1,10 +1,12 @@
 package com.runner.ddida.controller.user;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -41,8 +43,9 @@ public class MypageController {
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
 	}
-	
+
 	// 예약 내역
+
 	@GetMapping("/mypage/reservation")
 	public String reserveList(
 			@PageableDefault(page = 0, size = 10, sort = "reserveId", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
@@ -60,20 +63,68 @@ public class MypageController {
 			reserveList = reserveService.findByUseDateContaining(user.getUserNo(), searchKeyword, pageable);
 		}
 
+		for (Reserve reserve : reserveList) {
+			LocalDate now = LocalDate.now();
+			LocalDate useDate = LocalDate.parse(reserve.getUseDate());
+			if (now.isAfter(useDate)) {
+				reserveService.checkout(reserve.getReserveId());
+			}
+		}
+
 		int nowPage = reserveList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, reserveList.getTotalPages());
 		int lastPage = reserveList.getTotalPages();
-		
+
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("lastPage", lastPage);
-		
+
 		model.addAttribute("reserveList", reserveList);
 
 		return "user/mypage/reserveList";
 	}
+
+	/*
+	 * @GetMapping("/mypage/reservation/list") public ResponseEntity<Page<Reserve>>
+	 * getReservationList(
+	 * 
+	 * @PageableDefault(page = 0, size = 10, sort = "reserveId", direction =
+	 * org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+	 * 
+	 * @RequestParam(name = "searchKeyword", required = false) String searchKeyword,
+	 * 
+	 * @RequestParam(name = "searchType", required = false) String searchType,
+	 * 
+	 * @AuthenticationPrincipal Member user, Model model) {
+	 * 
+	 * Page<Reserve> reserveList = null;
+	 * 
+	 * if (searchKeyword == null || searchType.isEmpty()) { reserveList =
+	 * reserveService.findAllByUsername(user.getUserNo(), pageable); } else if
+	 * (searchKeyword != null && searchType.equals("rsrcNm")) { reserveList =
+	 * reserveService.findByRsrcNmContaining(user.getUserNo(), searchKeyword,
+	 * pageable); } else if (searchKeyword != null && searchType.equals("useDate"))
+	 * { reserveList = reserveService.findByUseDateContaining(user.getUserNo(),
+	 * searchKeyword, pageable); }
+	 * 
+	 * for (Reserve reserve : reserveList) { LocalDate now = LocalDate.now();
+	 * LocalDate useDate = LocalDate.parse(reserve.getUseDate()); if
+	 * (now.isAfter(useDate)) { reserveService.checkout(reserve.getReserveId()); } }
+	 * 
+	 * int nowPage = reserveList.getPageable().getPageNumber() + 1; int startPage =
+	 * Math.max(nowPage - 4, 1); int endPage = Math.min(nowPage + 5,
+	 * reserveList.getTotalPages()); int lastPage = reserveList.getTotalPages();
+	 * 
+	 * model.addAttribute("nowPage", nowPage); model.addAttribute("startPage",
+	 * startPage); model.addAttribute("endPage", endPage);
+	 * model.addAttribute("lastPage", lastPage);
+	 * 
+	 * model.addAttribute("reserveList", reserveList);
+	 * 
+	 * return ResponseEntity.ok().body(reserveList); }
+	 */
 
 	// 예약 상세
 	@GetMapping("/mypage/reservation/{reserveId}")

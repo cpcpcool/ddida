@@ -30,10 +30,10 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 	/*예약 목록*/
 	Page<Reserve> findAllByUserNo(@Param("userNo") Long userNo, Pageable pageable);
 	
-	/* 시설 이름으로 검색된 글 목록 */
+	/* 시설 이름으로 검색된 예약 목록 */
 	Page<Reserve> findAllByUserNoAndRsrcNmContaining(@Param("userNo") Long userNo, @Param("searchKeyword") String rsrcNm, Pageable pageable);
 	
-	/* 예약 날짜로 검색된 글 목록 */
+	/* 예약 날짜로 검색된 예약 목록 */
 	Page<Reserve> findAllByUserNoAndUseDateContaining(@Param("userNo") Long userNo, @Param("searchType") String searchKeyword, Pageable pageable);
 	
 	/* 예약 상세 */
