@@ -128,9 +128,6 @@ public class MypageController {
 			@RequestParam(name = "password") String currentPassword,
 			@RequestParam(name = "new-password") String newPassword, RedirectAttributes redirectAttributes) {
 
-		log.info(": {}", currentPassword);
-		log.info(": {}", newPassword);
-
 		if (!memberSignService.checkPassword(member.getUsername(), currentPassword)) {
 			redirectAttributes.addFlashAttribute("passwordError", "현재 비밀번호가 일치하지 않습니다!");
 			return "redirect:/mypage/userInfo/edit";
