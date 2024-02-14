@@ -81,6 +81,7 @@ public class SpaceController {
 		Page<SpaceVo> searchSpaceList = spaceService.searchMainByCriteria(type, pay, region, spaceNm, pageable);
 		model.addAttribute("type", type);
 		model.addAttribute("pay", pay);
+		model.addAttribute("region", region);
 		model.addAttribute("spaceNm", spaceNm);
 
 		int nowPage = searchSpaceList.getPageable().getPageNumber() + 1;

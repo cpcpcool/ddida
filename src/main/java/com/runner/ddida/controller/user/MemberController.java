@@ -71,19 +71,18 @@ public class MemberController {
 
 	}
 	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
 	@GetMapping("/success")
 	public String success(Model model) {
 		return "pop/success";
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
-
 	@GetMapping("/access/denied")
 	public String loginFail() {
-		
 		return "pop/administrator";
 	}
 	

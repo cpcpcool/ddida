@@ -24,9 +24,8 @@ public class DdidaUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Member member = memberRepository.findByUsername(username).orElseThrow(()-> 
-				new UsernameNotFoundException(username + "없는 회원입니다.")); // 로깅 따로 처리필요 
-				
-
+				new UsernameNotFoundException(username + "없는 회원입니다."));
+		
 		// DB에서 찾아온 정보 담기
 		return Member.builder()
 					.userNo(member.getUserNo())
@@ -41,3 +40,4 @@ public class DdidaUserDetailsService implements UserDetailsService {
 	}
 
 }
+

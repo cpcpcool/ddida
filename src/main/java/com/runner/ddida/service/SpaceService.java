@@ -60,7 +60,6 @@ public class SpaceService {
 			return HTTP_METHOD_GET;
 		}
 	}
-
 	@Value("${api.key}")
 	private String clientSecretKey;
 

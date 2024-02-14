@@ -89,11 +89,11 @@
 								aria-label="Default select example"
 								style="--bs-focus-ring-color: rgba(var(--bs-success-rgb), .25)">
 								<option value=""
-									th:selected="${param.region == null or param.region == ''}"
+									th:selected="${region == null or region == ''}"
 									th:text="'수도권 전체'"></option>
-								<option th:value="서울" th:selected="${param.region == '서울'}">서울</option>
-								<option th:value="인천" th:selected="${param.region == '인천'}">인천</option>
-								<option th:value="경기" th:selected="${param.region == '경기'}">경기</option>
+								<option th:value="서울" th:selected="${region == '서울'}">서울</option>
+								<option th:value="인천" th:selected="${region == '인천'}">인천</option>
+								<option th:value="경기" th:selected="${region == '경기'}">경기</option>
 							</select>
 						</div>
 					</div>
