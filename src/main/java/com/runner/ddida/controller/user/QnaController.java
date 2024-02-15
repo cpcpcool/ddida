@@ -32,20 +32,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @ControllerAdvice(annotations = Controller.class)
 public class QnaController {
-	
+
 	@ModelAttribute("user")
 	public UserDetails getCurrentUser(@AuthenticationPrincipal Member member) {
 		return member;
 	}
 
 	private final QnaService qnaService;
-	
+
 	// 문의 목록
 	@GetMapping("/qna")
 	public String qnaList(
 			@PageableDefault(page = 0, size = 10, sort = "qnaNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(name = "searchType", required = false) String searchType, @AuthenticationPrincipal Member user, Model model) {
+			@RequestParam(name = "searchType", required = false) String searchType,
+			@AuthenticationPrincipal Member user, Model model) {
 
 		Page<Qna> qnaList = null;
 
@@ -61,7 +62,7 @@ public class QnaController {
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, qnaList.getTotalPages());
 		int lastPage = qnaList.getTotalPages();
-		
+
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
@@ -98,7 +99,7 @@ public class QnaController {
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member user, Model model) {
 		qnaDto.setUsername(user.getUsername());
 		qnaDto.setName(user.getName());
-		
+
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
 
@@ -117,10 +118,11 @@ public class QnaController {
 
 	// 문의 수정
 	@PutMapping("/qna/edit/{qnaNo}")
-	public String update(QnaDto qnaDto, @AuthenticationPrincipal Member user) {
+	public String update(QnaDto qnaDto, @PathVariable(name = "qnaNo") Long qnaNo,
+			@AuthenticationPrincipal Member user) {
+
 		qnaDto.setUsername(user.getUsername());
-		qnaDto.setQnaView(qnaDto.getQnaView());
-		qnaService.save(qnaDto);
+		qnaService.update(qnaNo, qnaDto);
 		return "redirect:/qna";
 	}
 
@@ -130,5 +132,5 @@ public class QnaController {
 		qnaService.deleteQna(qnaNo);
 		return "redirect:/qna";
 	}
-	
+
 }

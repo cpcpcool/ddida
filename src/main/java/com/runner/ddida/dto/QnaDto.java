@@ -16,31 +16,31 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QnaDto {
-	
-	private Long qnaNo;
-	private String username;
-	private String name;
-	private String title;
-	private String description;
-	private LocalDate qnaDate;
-	private Integer qnaView;
-	private boolean qnaSecret;
-	private String answer;
-	private String answerTime;
-	
-	public Qna toEntity() {
-		return Qna.builder()
-				.qnaNo(qnaNo)
-				.username(username)
-				.name(name)
-				.title(title)
-				.description(description)
-				.qnaDate(LocalDate.now())
-				.qnaView(0)
-				.answer(answer)
-				.answerTime(answerTime)
-				.qnaSecret(qnaSecret)
-				.build();
-	}
+   
+   private Long qnaNo;
+   private String username;
+   private String name;
+   private String title;
+   private String description;
+   private LocalDate qnaDate;
+   private Integer qnaView;
+   private boolean qnaSecret;
+   private String answer;
+   private String answerTime;
+   
+   public Qna toEntity() {
+      return Qna.builder()
+            .qnaNo(qnaNo)
+            .username(username)
+            .name(name)
+            .title(title)
+            .description(description)
+            .qnaDate(LocalDate.now())
+            .qnaView(qnaView)
+            .answer(answer)
+            .answerTime(answerTime)
+            .qnaSecret(qnaSecret)
+            .build();
+   }
 
 }
