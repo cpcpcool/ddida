@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.runner.ddida.dto.QnaDto;
 import com.runner.ddida.model.Qna;
@@ -47,6 +48,11 @@ public class QnaService {
 
 	// 문의 등록 - 김민혜
 	public QnaDto save(QnaDto qnaDto) {
+		
+		if(qnaDto.getQnaView() == null) {
+			qnaDto.setQnaView(0);
+		}
+
 		Qna qna = qnaDto.toEntity();
 
 		Qna savedQna = qnaRepository.save(qna);
@@ -54,13 +60,21 @@ public class QnaService {
 		return savedQna.toQnaDto();
 	}
 
-	// 문의 수정 - 김민혜
+	// 문의 수정 폼- 김민혜
 	public QnaDto getQna(Long qnaNo) {
 		Qna qna = qnaRepository.findByQnaNo(qnaNo).get();
 
 		QnaDto qnaDto = QnaDto.builder().qnaNo(qna.getQnaNo()).title(qna.getTitle()).description(qna.getDescription())
-				.build();
+				.qnaView(qna.getQnaView()).build();
 		return qnaDto;
+	}
+	
+	// 문의 수정 - 김민혜
+	@Transactional
+	public Long update(Long qnaNo, QnaDto qnaDto) {
+		Qna qna = qnaRepository.findByQnaNo(qnaNo).orElseThrow(()->new IllegalArgumentException("해당 문의글이 없습니다. qnaNo = "+qnaNo));
+		qna.update(qnaDto.getTitle(), qnaDto.getDescription());
+		return qnaNo;
 	}
 
 	// 문의 삭제 - 김민혜
@@ -84,35 +98,35 @@ public class QnaService {
 	}
 
 	// [관리자] 검색 페이징
-		public Page<Qna> searchQna(String searchKeyword, String searchType, Pageable pageable) {
-			if (searchKeyword == null || searchType == null) {
-				return qnaRepository.findAll(pageable);
-			} else {
+	public Page<Qna> searchQna(String searchKeyword, String searchType, Pageable pageable) {
+		if (searchKeyword == null || searchType == null) {
+			return qnaRepository.findAll(pageable);
+		} else {
 
-				switch (searchType) {
-				case "title":
-					return qnaRepository.findByTitleContaining(searchKeyword, pageable);
-				case "username":
-					return qnaRepository.findByUsernameContaining(searchKeyword, pageable);
-				case "qnaDate":
-					return qnaRepository.findByQnaDateContaining(searchKeyword, pageable);
-				default:
-					return qnaRepository.findAll(pageable);
-				}
+			switch (searchType) {
+			case "title":
+				return qnaRepository.findByTitleContaining(searchKeyword, pageable);
+			case "username":
+				return qnaRepository.findByUsernameContaining(searchKeyword, pageable);
+			case "qnaDate":
+				return qnaRepository.findByQnaDateContaining(searchKeyword, pageable);
+			default:
+				return qnaRepository.findAll(pageable);
 			}
 		}
-		
-		// [관리자] 회원 상세페이지 오른쪽 표에 정보 표시
-		public List<Qna> findByUserNo(Long userNo) {
-			return qnaRepository.findByUserNo(userNo);
-		}
-		
-		// [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
-	    public void saveAnswer(Long qnaNo, String answer) {
-	    	LocalDateTime currentDateTime = LocalDateTime.now();
-	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	    	String formattedDateTime = currentDateTime.format(formatter);
-	        qnaRepository.saveAnswer(qnaNo, answer, formattedDateTime);
-	    }
+	}
+
+	// [관리자] 회원 상세페이지 오른쪽 표에 정보 표시
+	public List<Qna> findByUserNo(Long userNo) {
+		return qnaRepository.findByUserNo(userNo);
+	}
+
+	// [관리자] 답변내용 qna테이블로 저장 24.02.04 노윤건
+	public void saveAnswer(Long qnaNo, String answer) {
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String formattedDateTime = currentDateTime.format(formatter);
+		qnaRepository.saveAnswer(qnaNo, answer, formattedDateTime);
+	}
 
 }

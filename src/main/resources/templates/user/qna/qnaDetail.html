@@ -44,31 +44,27 @@
 					</div>
 					<hr>
 					<div class="d-flex justify-content-end mt-1">
-						<button th:if="${user.username == qna.username}" id="edit-btn" type="button"
-							class="btn btn-outline-secondary"
+						<button th:if="${user.username == qna.username}" id="edit-btn" type="button" class="btn btn-outline-secondary"
 							th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|" style="border-radius: 6px;">수정</button>
 						<form id="delete-form" th:action="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post">
 							<input type="hidden" name="_method" value="delete" />
-							<button th:if="${user.username == qna.username}" id="delete-btn" type="submit"
-								class="btn btn-outline-secondary ms-1">삭제</button>
+							<button th:if="${user.username == qna.username}" id="delete-btn" type="submit" class="btn btn-outline-secondary ms-1">삭제</button>
 						</form>
 					</div>
 					<h4 style="width: fit-content">답변</h4>
 					<hr class="titleUnder my-2" style="width: 45px;">
 					<th:block th:if="${qna.answer} == null">
-						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
-							class="description form-control" rows="10" disabled="disabled">등록된 답변이 없습니다.</textarea>
+						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;" class="description form-control" rows="10" disabled="disabled">등록된 답변이 없습니다.</textarea>
 					</th:block>
 					<th:block th:if="${qna.answer} != null">
-						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
-							class="description form-control" rows="10" disabled="disabled">[[${qna.answer}]]</textarea>
+						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;" class="description form-control" rows="10" disabled="disabled">[[${qna.answer}]]</textarea>
 					</th:block>
 				</div>
 			</th:block>
 
 			<th:block th:if="${qna.qnaSecret == true} and ${user.username != qna.username}">
 				<hr>
-				<div> <img src="/img/secret.png" class="img" style="width: 20px; height: 20px;">비밀글 입니다.</div>
+				<div><img src="/img/secret.png" class="img" style="width: 20px; height: 20px;">비밀글 입니다.</div>
 				<hr>
 			</th:block>
 
@@ -89,8 +85,7 @@
 					</div>
 					<hr>
 					<div class="d-flex justify-content-end mt-1">
-						<button id="edit-btn" type="button" class="btn btn-outline-secondary"
-							th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">수정</button>
+						<button id="edit-btn" type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/qna/editForm/{qnaNo}(qnaNo=${qna.qnaNo})}'|">수정</button>
 						<form id="delete-form" th:action="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" method="post">
 							<input type="hidden" name="_method" value="delete" />
 							<button id="delete-btn" type="submit" class="btn btn-outline-secondary ms-1">삭제</button>
@@ -99,12 +94,10 @@
 					<h4 style="width: fit-content">답변</h4>
 					<hr class="titleUnder my-2" style="width: 45px;">
 					<th:block th:if="${qna.answer} == null">
-						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
-							class="description form-control" rows="10" disabled="disabled">등록된 답변이 없습니다.</textarea>
+						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;" class="description form-control" rows="10" disabled="disabled">등록된 답변이 없습니다.</textarea>
 					</th:block>
 					<th:block th:if="${qna.answer} != null">
-						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;"
-							class="description form-control" rows="10" disabled="disabled">[[${qna.answer}]]</textarea>
+						<textarea id="description" name="description" style="margin-bottom: 10px; margin-top: 10px;" class="description form-control" rows="10" disabled="disabled">[[${qna.answer}]]</textarea>
 					</th:block>
 				</div>
 			</th:block>
@@ -113,16 +106,13 @@
 				<a th:href="${next == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${next.qnaNo})}" class="list-group-item">
 					<span id="prevNext">다음글 : </span>
 					<span id="prevNextTitle" th:if="${next == null}"> 다음글이 없습니다.</span>
-					<span id="prevNextTitle" th:if="${next != null}"
-						th:text="${next.qnaSecret == true} and ${next.username != user.username} ? '비밀글입니다' : ${next.title}"> 다음글 제목</span>
+					<span id="prevNextTitle" th:if="${next != null}" th:text="${next.qnaSecret == true} and ${next.username != user.username} ? '비밀글입니다' : ${next.title}"> 다음글 제목</span>
 				</a>
 				<a th:href="${prev == null} ? @{/qna} : @{/qna/{qnaNo}(qnaNo=${prev.qnaNo})}"
 					class="list-group-item mb-3">
 					<span id="prevNext">이전글 : </span>
 					<span id="prevNextTitle" th:if="${prev == null}">이전글이 없습니다.</span>
-					<span id="prevNextTitle" th:unless="${prev == null}"
-						th:text="${prev.qnaSecret == true } and ${prev.username != user.username}? '비밀글입니다' : ${prev.title}">이전글 제목</span>
-
+					<span id="prevNextTitle" th:unless="${prev == null}" th:text="${prev.qnaSecret == true } and ${prev.username != user.username}? '비밀글입니다' : ${prev.title}">이전글 제목</span>
 				</a>
 			</div>
 		</div>

@@ -32,33 +32,23 @@ textarea {
 			<form id="qnaAddForm" th:action="@{/qna/add}" method="post"
 				enctype="multipart/form-data" class="mt-5">
 				<div class="row">
-					<label class="col-2 mt-2">제목</label> <input id="title" name="title"
-						type="text" class="form-control mt-1 mb-2 col"
-						placeholder="제목을 입력해주세요.(100자 이내)" required>
+					<label class="col-2 mt-2">제목</label> <input id="title" name="title" type="text" class="form-control mt-1 mb-2 col" placeholder="제목을 입력해주세요.(100자 이내)" required>
 					<div id="titleCnt" class="col-2 mt-2">(0/100)</div>
 				</div>
 				<div class="form-group row mb-2">
 					<label class="col-2">내용</label>
-					<textarea id="description" name="description"
-						class="description form-control col" rows="10" maxlength="1000"
-						placeholder="내용을 입력해주세요.(1000자 이내)" required></textarea>
+					<textarea id="description" name="description"class="description form-control col" rows="10" maxlength="1000" placeholder="내용을 입력해주세요.(1000자 이내)" required></textarea>
 					<div id="descCnt" class="col-2">(0/1000)</div>
 				</div>
-				<div class="form-group row"
-					style="text-align: left; align-items: center;">
-					<label for="secret" class="col-2"
-						style="font-size: 16px; line-height: 16px; text-align: center;">비밀글
-						설정</label>
+				<div class="form-group row" style="text-align: left; align-items: center;">
+					<label for="secret" class="col-2" style="font-size: 16px; line-height: 16px; text-align: center;">비밀글 설정</label>
 					<div class="col-1 p-0">
-						<input type="checkbox" class="form-check-input focus-ring"
-							th:value="*{true}" id="qnaSecret" name="qnaSecret">
+						<input type="checkbox" class="form-check-input focus-ring" th:value="*{true}" id="qnaSecret" name="qnaSecret">
 					</div>
 				</div>
 				<div class="d-flex justify-content-end mt-1">
-					<button id="add-btn" type="submit" class="btn btn-primary me-1"
-						onclick="qna/qnaDetail">등록하기</button>
-					<button id="add-btn" type="button" onclick="location.href='/qna'"
-						class="btn btn-primary">취소</button>
+					<button id="add-btn" type="submit" class="btn btn-primary me-1"	onclick="qna/qnaDetail">등록하기</button>
+					<button id="add-btn" type="button" onclick="location.href='/qna'" class="btn btn-primary">취소</button>
 				</div>
 			</form>
 		</div>

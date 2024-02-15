@@ -50,9 +50,8 @@
 				<form th:action="@{/qna}" method="get">
 					<div id="search-group" class="row d-flex mt-3" style="width: 40%;">
 						<div class="btn-group col-3 " role="group">
-							<select id="category-btn" name="searchType"
-								class="form-select dropdown-toggle" data-bs-toggle="dropdown"
-								style="border-radius: 0.9rem;">
+							<select id="category-btn" name="searchType" class="form-select dropdown-toggle"
+								data-bs-toggle="dropdown" style="border-radius: 0.9rem;">
 								<option value="title" selected>제목</option>
 								<option value="description">내용</option>
 							</select>
@@ -77,12 +76,15 @@
 				<tbody class="table-group-divider" style="font-weight: 300; font-size: 20px;">
 					<tr class="table" th:each="qna : ${qnaList}">
 						<td th:text="${qna.qnaNo}">번호</td>
-						<td><a th:if="${qna.qnaSecret} == false" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
+						<td><a th:if="${qna.qnaSecret} == false" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}"
+								th:text="${qna.title}" style="color: #000000;">제목</a>
+							<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username != qna.username}"
+								th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="비밀글입니다"
 								style="color: #000000;">제목</a>
-								<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username != qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="비밀글입니다"
+							<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username == qna.username}"
+								th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
 								style="color: #000000;">제목</a>
-									<a class="secret-icon" th:if="${qna.qnaSecret == true} and ${user.username == qna.username}" th:href="@{/qna/{qnaNo}(qnaNo=${qna.qnaNo})}" th:text="${qna.title}"
-								style="color: #000000;">제목</a></td>
+						</td>
 						<td th:text="${qna.username}">작성자</td>
 						<td th:text="${qna.qnaDate}">작성일</td>
 						<td th:text="${qna.qnaView}">조회수</td>
@@ -98,16 +100,20 @@
 			<div>
 				<nav aria-label="pagination" class="mb-5">
 					<ul class="pagination justify-content-center">
-						<li class="page-item"><a id="pagination" class="page-link" th:href="@{/qna(page = ${nowPage - 1} - 1, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}" aria-label="Previous"> <span
-									aria-hidden="true">&laquo;</span>
+						<li class="page-item"><a id="pagination" class="page-link"
+								th:href="@{/qna(page = ${nowPage - 1} - 1, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
-							
-						<li th:each="page : ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == nowPage} ? 'active'" class="page-item">
-							<a th:text="${page}" id="pagination" class="page-link" th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}">1</a>
+
+						<li th:each="page : ${#numbers.sequence(startPage, endPage)}"
+							th:classappend="${page == nowPage} ? 'active'" class="page-item">
+							<a th:text="${page}" id="pagination" class="page-link"
+								th:href="@{/qna(page = ${page - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}">1</a>
 						</li>
-						
-						<li class="page-item"><a id="pagination" class="page-link" th:href="@{/qna(page = ${lastPage - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}" aria-label="Next"> <span
-									aria-hidden="true">&raquo;</span>
+
+						<li class="page-item"><a id="pagination" class="page-link"
+								th:href="@{/qna(page = ${lastPage - 1}, searchKeyword = ${param.searchKeyword}, searchType = ${param.searchType})}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 							</a></li>
 					</ul>
 				</nav>

@@ -36,7 +36,7 @@ public class QnaDto {
 				.title(title)
 				.description(description)
 				.qnaDate(LocalDate.now())
-				.qnaView(0)
+				.qnaView(qnaView)
 				.answer(answer)
 				.answerTime(answerTime)
 				.qnaSecret(qnaSecret)
@@ -44,3 +44,4 @@ public class QnaDto {
 	}
 
 }
+

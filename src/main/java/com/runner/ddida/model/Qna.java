@@ -63,11 +63,16 @@ public class Qna {
 				.title(title)
 				.description(description)
 				.qnaDate(LocalDate.now())
-				.qnaView(0)
+				.qnaView(qnaView)
 				.answer(answer)
 				.answerTime(answerTime)
 				.qnaSecret(qnaSecret)
 				.build();
+	}
+	
+	public void update(String title, String description) {
+		this.title = title;
+		this.description = description;
 	}
 
 }

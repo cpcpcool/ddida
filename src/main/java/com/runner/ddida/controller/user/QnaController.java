@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -98,7 +99,7 @@ public class QnaController {
 	public String addQna(QnaDto qnaDto, @AuthenticationPrincipal Member user, Model model) {
 		qnaDto.setUsername(user.getUsername());
 		qnaDto.setName(user.getName());
-		
+				
 		QnaDto qna = qnaService.save(qnaDto);
 		model.addAttribute("qna", qna);
 
@@ -117,10 +118,10 @@ public class QnaController {
 
 	// 문의 수정
 	@PutMapping("/qna/edit/{qnaNo}")
-	public String update(QnaDto qnaDto, @AuthenticationPrincipal Member user) {
+	public String update(QnaDto qnaDto,@PathVariable(name = "qnaNo") Long qnaNo, @AuthenticationPrincipal Member user) {
+		
 		qnaDto.setUsername(user.getUsername());
-		qnaDto.setQnaView(qnaDto.getQnaView());
-		qnaService.save(qnaDto);
+		qnaService.update(qnaNo, qnaDto);
 		return "redirect:/qna";
 	}
 
