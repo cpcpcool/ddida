@@ -94,7 +94,7 @@ public class SpaceService {
 		try {
 			// req
 			JSONObject obj = new JSONObject();
-			obj.put("numOfRows", 50);
+			obj.put("numOfRows", 80);
 			obj.put("ctpvCd", ctpvCd);
 			
 			CloseableHttpClient client = HttpClientBuilder.create().build();
