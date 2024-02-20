@@ -63,6 +63,10 @@ public class SpaceController {
 		int nowPage = spaceList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, spaceList.getTotalPages());
+		
+		if (spaceList.getTotalPages() == 0) {
+			endPage = 1;
+		}
 
 		model.addAttribute("data", spaceList);
 		model.addAttribute("nowPage", nowPage);
@@ -87,6 +91,10 @@ public class SpaceController {
 		int nowPage = searchSpaceList.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, searchSpaceList.getTotalPages());
+		
+		if (searchSpaceList.getTotalPages() == 0) {
+			endPage = 1;
+		}
 
 		model.addAttribute("data", searchSpaceList);
 		model.addAttribute("nowPage", nowPage);
