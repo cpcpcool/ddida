@@ -43,7 +43,7 @@
 **IDE**|Spring Tool Suite 4 4.21.0.RELEASE|
 **Front-end**|HTML<br>CSS<br>JavaScript<br>Bootstrap 5.3|
 **Back-end**|Java 17<br>Spring Boot 3.2.2<br>Spring Security 6<br>Spring data JPA 3.2.2<br>lombok 1.18.30|
-**Database**|MySQL 8.0.23|
+**Database**|MySQL 8.0.32|
 
 <br><br>
 
