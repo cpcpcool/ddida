@@ -194,13 +194,13 @@ var geocoder = new kakao.maps.services.Geocoder();
 data.forEach(function(item) {
     var addr = item.addr;
 
-    // 주소로 좌표를 검색합니다
+    // 주소로 좌표를 검색
     geocoder.addressSearch(addr, function(result, status) {
-        // 정상적으로 검색이 완료됐으면
+        // 정상적으로 검색이 완료 시시
         if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-            // 결과값으로 받은 위치를 마커로 표시합니다
+            // 결과값으로 받은 위치를 마커로 표시
             var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords
