@@ -122,7 +122,8 @@ public class SpaceService {
 				spaceDefault = apiMetaVo.getData().stream().filter(space -> !space.getRsrcNm().contains("테스트"))
 						.filter(space -> !space.getRsrcNm().contains("야외운동기구"))
 						.filter(space -> !space.getRsrcNm().contains("아차산"))
-						.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty()).collect(Collectors.toList());
+						.filter(apiVO -> apiVO.getImgFileUrlAddr() != null && !apiVO.getImgFileUrlAddr().isEmpty())
+						.collect(Collectors.toList());
 			} else {
 				log.error("Response Error : {}", response.getStatusLine().getStatusCode());
 			}
@@ -186,7 +187,7 @@ public class SpaceService {
 
 		// 데이터 필터링
 		List<SpaceVo> recmdSpaceList = findDefaultList().stream().filter(apiVO -> !apiVO.getRsrcNm().contains("테스트"))
-				.filter(apiVO -> !apiVO.getImgFileUrlAddr().isEmpty())
+				.filter(apiVO -> apiVO.getImgFileUrlAddr() != null && !apiVO.getImgFileUrlAddr().isEmpty())
 				.filter(apiVO -> !apiVO.getInstUrlAddr().isEmpty()).filter(apiVO -> apiVO.getRsrcNm().length() <= 13)
 				.limit(12).collect(Collectors.toList());
 
